@@ -1,0 +1,16 @@
+Skenario:
+1. Enter game
+c: enter nickname -> s: enter successful/unsuccessful; if successful, send list<roominfo> to c -> c: enter mainmenu, show list<roominfo>
+2. Add room
+c: addroom roomname -> s: add room successful/unsuccessful; if successful, send new roominfo to all c -> c:add roominfo to list<roominfo>
+3. Watch in room
+c: watch pname roomname -> s: send new spectator to all c in room, send roommodel to c -> c: enter room, show list of players + icon, list of spectators, current board, back to menu button
+4. Play in room
+c: play pname roomname -> s: play successful/unsuccessful; if successful: send new roominfo to all c, send roommodel to c, send new player to all c in room -> c: enter room, show list of players + icon, list of spectators, current board, start game button, back to menu button
+5. Start game in room
+c: start roomname -> s: send start game to all c players in room (board clickable), send updated roominfo to all c -> c: board clickable
+6. Place pawn on board
+c: place pname on x,y in roomname -> s: send pname on x,y to all c in room -> c: change turn & change icon on x,y
+7. End game
+s: update score, send roomname win pname to all c in room, send updated roominfo to all c -> c: show dialogbox (play again/menu), etc.
+8. back to menu

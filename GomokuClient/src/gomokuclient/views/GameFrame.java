@@ -84,7 +84,7 @@ public class GameFrame extends javax.swing.JFrame {
         loginPanelLayout.setHorizontalGroup(
             loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loginPanelLayout.createSequentialGroup()
-                .addContainerGap(331, Short.MAX_VALUE)
+                .addContainerGap(428, Short.MAX_VALUE)
                 .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
                     .addGroup(loginPanelLayout.createSequentialGroup()
@@ -96,7 +96,7 @@ public class GameFrame extends javax.swing.JFrame {
         loginPanelLayout.setVerticalGroup(
             loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loginPanelLayout.createSequentialGroup()
-                .addContainerGap(461, Short.MAX_VALUE)
+                .addContainerGap(533, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -111,6 +111,11 @@ public class GameFrame extends javax.swing.JFrame {
         roomsLabel.setText("Rooms");
 
         addRoomButton.setText("Add New Room");
+        addRoomButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                addRoomButtonMouseClicked(evt);
+            }
+        });
         addRoomButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addRoomButtonActionPerformed(evt);
@@ -164,7 +169,7 @@ public class GameFrame extends javax.swing.JFrame {
         );
         roomsListPanelLayout.setVerticalGroup(
             roomsListPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(roomTable, javax.swing.GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)
+            .addComponent(roomTable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(roomsListPanelLayout.createSequentialGroup()
                 .addGroup(roomsListPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(playButtonsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -203,9 +208,9 @@ public class GameFrame extends javax.swing.JFrame {
                         .addComponent(roomNameLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(noOfPlayersLabel1)
-                        .addGap(31, 31, 31)
+                        .addGap(58, 58, 58)
                         .addComponent(gameStatusLabel)
-                        .addGap(363, 363, 363))
+                        .addGap(379, 379, 379))
                     .addGroup(mainMenuPanelLayout.createSequentialGroup()
                         .addGroup(mainMenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(exitButton)
@@ -216,7 +221,7 @@ public class GameFrame extends javax.swing.JFrame {
                                 .addComponent(addRoomButton)
                                 .addGap(61, 61, 61)
                                 .addComponent(jButton1)))
-                        .addContainerGap(59, Short.MAX_VALUE))))
+                        .addContainerGap(156, Short.MAX_VALUE))))
         );
         mainMenuPanelLayout.setVerticalGroup(
             mainMenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -235,22 +240,37 @@ public class GameFrame extends javax.swing.JFrame {
                     .addComponent(roomNameLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(roomsScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 416, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(82, Short.MAX_VALUE))
+                .addContainerGap(154, Short.MAX_VALUE))
         );
 
         exitButton.getAccessibleContext().setAccessibleDescription("");
 
         mainPanel.add(mainMenuPanel, "MainMenu");
 
-        boardPanel.setMinimumSize(new java.awt.Dimension(500, 500));
-        boardPanel.setPreferredSize(new java.awt.Dimension(500, 500));
+        boardPanel.setAlignmentX(0.0F);
+        boardPanel.setAlignmentY(0.0F);
+        boardPanel.setMinimumSize(new java.awt.Dimension(700, 700));
+        boardPanel.setPreferredSize(new java.awt.Dimension(700, 700));
 
-        boardTable.setAlignmentX(0.0F);
-        boardTable.setAlignmentY(0.0F);
-        boardTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        boardTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        boardTable.setMinimumSize(new java.awt.Dimension(700, 700));
+        boardTable.setPreferredSize(new java.awt.Dimension(700, 700));
+        boardTable.setRowHeight(35);
         boardTable.setRowSelectionAllowed(false);
         boardTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        boardPanel.add(boardTable);
+
+        javax.swing.GroupLayout boardPanelLayout = new javax.swing.GroupLayout(boardPanel);
+        boardPanel.setLayout(boardPanelLayout);
+        boardPanelLayout.setHorizontalGroup(
+            boardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, boardPanelLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(boardTable, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        boardPanelLayout.setVerticalGroup(
+            boardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(boardTable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
 
         playerTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -301,27 +321,21 @@ public class GameFrame extends javax.swing.JFrame {
             roomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(roomPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(boardPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 3, Short.MAX_VALUE)
+                .addComponent(boardPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                 .addGroup(roomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(roomPanelLayout.createSequentialGroup()
-                        .addGap(38, 38, 38)
-                        .addGroup(roomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(spectatorsLabel)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 466, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(roomPanelLayout.createSequentialGroup()
-                        .addGap(40, 40, 40)
-                        .addGroup(roomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(playersLabel)
-                            .addGroup(roomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(roomPanelLayout.createSequentialGroup()
-                                    .addComponent(startGameButton)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(turnLabel)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(mainMenuButton))
-                                .addComponent(playerScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 464, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGap(24, 24, 24))
+                    .addComponent(playersLabel)
+                    .addGroup(roomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(roomPanelLayout.createSequentialGroup()
+                            .addComponent(startGameButton)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(turnLabel)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(mainMenuButton))
+                        .addComponent(playerScrollPane, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 464, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(spectatorsLabel)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 466, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(22, 22, 22))
         );
         roomPanelLayout.setVerticalGroup(
             roomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -335,16 +349,14 @@ public class GameFrame extends javax.swing.JFrame {
                             .addComponent(mainMenuButton))
                         .addGap(18, 18, 18)
                         .addComponent(playersLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(playerScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(spectatorsLabel)
-                        .addGap(5, 5, 5)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(29, 29, 29))
-                    .addGroup(roomPanelLayout.createSequentialGroup()
-                        .addComponent(boardPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())))
+                        .addGap(44, 44, 44)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(boardPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         mainPanel.add(roomPanel, "Room");
@@ -372,7 +384,7 @@ public class GameFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_enterButtonMouseClicked
 
     private void exitButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exitButtonMouseClicked
-        mainMenuController.test();
+        changeScreen("Login");
     }//GEN-LAST:event_exitButtonMouseClicked
 
     private void mainMenuButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mainMenuButtonActionPerformed
@@ -382,6 +394,11 @@ public class GameFrame extends javax.swing.JFrame {
     private void mainMenuButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainMenuButtonMouseClicked
        
     }//GEN-LAST:event_mainMenuButtonMouseClicked
+
+    private void addRoomButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addRoomButtonMouseClicked
+        String roomName = javax.swing.JOptionPane.showInputDialog(this, "Enter room name");
+        mainMenuController.test(roomName);
+    }//GEN-LAST:event_addRoomButtonMouseClicked
 
     /**
      * @param args the command line arguments
@@ -470,9 +487,11 @@ public class GameFrame extends javax.swing.JFrame {
     
     public void initBoard(DefaultTableModel model) {
         boardTable.setModel(model);
-        /*for (int i=0;i<19;i++) {
+        boardTable.setPreferredSize(new java.awt.Dimension(600,600));
+        for (int i=0;i<20;i++) {
+            boardTable.getColumnModel().getColumn(i).setPreferredWidth(35);
             boardTable.getColumnModel().getColumn(i).setCellRenderer(new IconRenderer());
-        }*/
+        }
     }
     
     public void test() {

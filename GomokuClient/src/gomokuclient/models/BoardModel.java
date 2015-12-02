@@ -23,12 +23,17 @@ public class BoardModel {
    }
    
    public BoardModel(int test) {
-       for (int i=0;i<19;i++) {
+       /*for (int i=0;i<19;i++) {
             Object[] o = new Object[20];
            for (int j=0;j<19;j++) {
                 o[j] = -1;
            }
            boardTableModel.addRow(o);
+       }*/
+        for (int i=0;i<20;i++) {
+           for (int j=0;j<20;j++) {
+                   boardTableModel.setValueAt(1, i, j);
+           }
        }
    }
    

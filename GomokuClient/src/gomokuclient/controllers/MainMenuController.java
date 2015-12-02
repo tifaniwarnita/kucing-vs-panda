@@ -31,9 +31,9 @@ public class MainMenuController {
         frame.changeScreen("MainMenu");
     }
     
-    public void test() {
-        RoomInfo ri3 = new RoomInfo("Test3","Waiting",2);
-        addRoom(ri3);
+    public void test(String roomName) {
+        RoomInfo ri = new RoomInfo(roomName,"Waiting",0);
+        addRoom(ri);
     }
     
     public void play(int roomNo) {
