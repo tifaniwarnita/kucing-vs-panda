@@ -14,4 +14,6 @@ package kucingvspanda.server;
 public interface Opcode {
     int CLIENT_CONNECTEING = 1;
     int CLIENT_CONNECTED = 2;
+    int CLIENT_MESSAGE = 3;
+    int CLIENT_BROADCAST = 4;
 }

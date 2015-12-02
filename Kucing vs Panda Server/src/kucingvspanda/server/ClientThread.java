@@ -51,7 +51,27 @@ public class ClientThread implements Runnable {
             System.out.println(e);
         }
     }
+    public void sendListClient(){
+        // tell other users about new added user and update their online users list
+            for (ClientThread client : clientInfo.values()) {
+                client.out.println(Opcode.CLIENT_CONNECTED);
+                client.out.println(clientInfo.size());
 
+                for (ClientThread client1 : clientInfo.values()) {
+                    client.out.println(client1.Name);
+                }
+            }
+    }
+    public void sendBroadcastMessage(String name, String message){
+        // tell other users about new added user and update their online users list
+            for (ClientThread client : clientInfo.values()) {
+                if(!client.Name.equalsIgnoreCase(name)){
+                    client.out.println(Opcode.CLIENT_BROADCAST);
+                    client.out.println(message);
+                    System.out.println("kirim pesan ke "+ client.Name + " : "+message);
+                }
+            }
+    }
     public void run() {
         try {
             while (isRunning) {
@@ -60,6 +80,12 @@ public class ClientThread implements Runnable {
 
                 opcode = Integer.parseInt(in.readLine());// getting opcode first from client
                 switch (opcode) {
+                    case Opcode.CLIENT_MESSAGE:
+                        String name = in.readLine();
+                        String Message = in.readLine();
+                        sendBroadcastMessage(name,Message);
+                        break;
+                        
                     case Opcode.CLIENT_CONNECTEING:
                         Name = in.readLine();
 
@@ -86,15 +112,7 @@ public class ClientThread implements Runnable {
                             i++;
                         }
 
-                        // tell other users about new added user and update their online users list
-                        for (ClientThread client : clientInfo.values()) {
-                            client.out.println(Opcode.CLIENT_CONNECTED);
-                            client.out.println(clientInfo.size());
-
-                            for (ClientThread client1 : clientInfo.values()) {
-                                client.out.println(client1.Name);
-                            }
-                        }
+                        sendListClient();
 
                         break;
                 }
