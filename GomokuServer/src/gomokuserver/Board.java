@@ -11,7 +11,8 @@ package gomokuserver;
  */
 public class Board {
    private String[][] board = new String[20][20];
-    
+   int emptySquares = 400;
+   
    public String getPlayerAtCoordinate(int x, int y) {
        return board[x][y];
    }
@@ -22,6 +23,7 @@ public class Board {
    
    public boolean checkWin(int x, int y, String name) {
        setPlayerAtCoordinate(x,y,name);
+       emptySquares--;
        if (!checkHorizontal(x,y)) {
            if (!checkVertical(x,y)) {
                if (!checkDiagonal(x,y)) {
@@ -75,6 +77,10 @@ public class Board {
        }
        if (counter==5) return true;
        else return false;
+   }
+   
+   public boolean boardFull() {
+       return (emptySquares==0);
    }
    
 }
