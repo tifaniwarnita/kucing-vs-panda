@@ -12,6 +12,8 @@ package kucingvspanda.client;
 /**************** an interface to define different operation code **************/
 
 public interface Opcode {
-    int CLIENT_CONNECTEING = 1;
+    int CLIENT_CONNECTING = 1;
     int CLIENT_CONNECTED = 2;
+    int CLIENT_MESSAGE = 3;
+    int CLIENT_BROADCAST = 4;
 }

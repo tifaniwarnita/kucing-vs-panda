@@ -118,22 +118,65 @@ public class TCPClient {
                     + name.substring(1, 10).toLowerCase();
 
         // sending opcode first then sending chatName to the server
-        out.println(Opcode.CLIENT_CONNECTEING);
+        out.println(Opcode.CLIENT_CONNECTING);
         out.println(Name);
     }
+    
+    /*public void clientListener(int opcode){
+        switch (opcode) {
+                        //a new broadcast message
+                    case Opcode.CLIENT_BROADCAST:
+                        String name = in.readLine();
+                        String message = in.readLine();
+                        System.out.println("Pesan dari "+name+" : " + message);
+                        break;
+                        
+                    case Opcode.CLIENT_CONNECTING:
+                        // this client is connecting
+                        boolean result = Boolean.valueOf(in.readLine());
+                        if (result) {
+                            System.out.println(Name + " is already present. Try different one.");
+                            runClient();
+                        }
+
+                        break;
+
+                    case Opcode.CLIENT_CONNECTED:
+                        // a new client is connected
+                        Integer totalClient = Integer.valueOf(in.readLine());
+                        System.out.println("Total Client:" + totalClient);
+
+                        for (int i = 0; i < totalClient; i++) {
+                            String client = in.readLine();
+                            System.out.println((i + 1) + ":" + client);
+                        }
+                        
+                        break;
+
+                }
+    }*/
 
     public void runClient() {
         try {
             sendChatName();
+            new ClientSenderThread(socket,Name);
             while (true) {
                 int opcode = Integer.parseInt(in.readLine());
+                //clientListener(opcode);
+                System.out.println("opcode : "+opcode);
                 switch (opcode) {
-                    case Opcode.CLIENT_CONNECTEING:
+                        //a new broadcast message
+                    case Opcode.CLIENT_BROADCAST:
+                        String name = in.readLine();
+                        String message = in.readLine();
+                        System.out.println("Pesan dari "+name+" : " + message);
+                        break;
+                        
+                    case Opcode.CLIENT_CONNECTING:
                         // this client is connecting
                         boolean result = Boolean.valueOf(in.readLine());
                         if (result) {
-                            System.out
-                                    .println(Name + " is already present. Try different one.");
+                            System.out.println(Name + " is already present. Try different one.");
                             runClient();
                         }
 
