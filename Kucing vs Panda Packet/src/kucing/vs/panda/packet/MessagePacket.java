@@ -13,7 +13,7 @@ public class MessagePacket implements Packet {
     private static final int identifier = Identifier.CHAT;
     private String message;
     
-     public MessagePacket() {
+    public MessagePacket() {
         message = "";
     }
     

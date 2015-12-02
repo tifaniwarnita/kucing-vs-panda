@@ -9,16 +9,14 @@ package kucing.vs.panda.packet;
  *
  * @author Tifani
  */
-public class LoginPacket implements Packet {
-    private static final int identifier = Identifier.LOGIN;
-    private String message;
+public class ActionPacket implements Packet {
+    private final int identifier;
+    private String payload;
     
-    public LoginPacket() {
-        message = "";
-    }
-    
-    public LoginPacket(String message) {
-        this.message = message;
+      
+    public ActionPacket(int identifier, String payload) {
+        this.identifier = identifier;
+        this.payload = payload;
     }
 
     @Override
@@ -28,7 +26,7 @@ public class LoginPacket implements Packet {
 
     @Override
     public Object getMessage() {
-        return message;
+        return payload;
     }
     
 }
