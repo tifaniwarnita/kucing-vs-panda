@@ -1,0 +1,40 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package gomokuclient.models;
+
+/**
+ *
+ * @author ASUS X202E
+ */
+public class BoardModel {
+   private javax.swing.table.DefaultTableModel boardTableModel = new javax.swing.table.DefaultTableModel(20,20);
+   
+   public BoardModel(String[][] board, java.util.List<String> players) {
+       for (int i=0;i<19;i++) {
+           for (int j=0;j<19;j++) {
+               if (board[i][j]!=null) {
+                   boardTableModel.setValueAt(players.indexOf(board[i][j]), i, j);
+               }
+           }
+       }
+   }
+   
+   public BoardModel(int test) {
+       for (int i=0;i<19;i++) {
+            Object[] o = new Object[20];
+           for (int j=0;j<19;j++) {
+                o[j] = -1;
+           }
+           boardTableModel.addRow(o);
+       }
+   }
+   
+   public javax.swing.table.DefaultTableModel getTableModel() {
+       return boardTableModel;
+   }
+   
+   
+}
