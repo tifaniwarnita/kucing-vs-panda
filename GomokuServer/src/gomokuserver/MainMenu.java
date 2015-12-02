@@ -13,7 +13,7 @@ import java.util.ArrayList;
  *
  * @author ASUS X202E
  */
-public class Game {
+public class MainMenu {
     private Map<String,Room> rooms = new HashMap<>();
     private Map<String,Player> allPlayers = new HashMap<>();
     private List<String> playersInGame = new ArrayList<>();
@@ -38,8 +38,7 @@ public class Game {
         }
     }
     
-    public int enterRoom(String roomName, String playerName) {
-        int noOfPlayers = rooms.get(roomName).addPlayer(allPlayers.get(playerName));
-        return noOfPlayers;
+    public void enterRoom(String roomName, String playerName) {
+        rooms.get(roomName).addPlayer(playerName);
     }    
 }
