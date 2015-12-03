@@ -19,7 +19,7 @@ public class RoomModel {
     private List<String> players = new ArrayList<>();
     private List<String> spectators = new ArrayList<>();
     private DefaultTableModel playersTableModel = new DefaultTableModel(new Object[]{"Name", "Icon"},0);
-    private BoardModel board;
+    private String role;
 
     public RoomModel() {
         
@@ -32,11 +32,24 @@ public class RoomModel {
         this.info = info;
         this.players = players;
         this.spectators = spectators;
+        initPlayersTableModel();
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+    
+    public boolean isPlayer() {
+        return role.equals("Player");
     }
     
     public void addPlayer(String name) {
         players.add(name);
-        info.setPlayerSize(info.getPlayerSize()+1);
+        info.setPlayerCount(getPlayerCount()+1);
         Object[] o = new Object[2];
         o[0] = name;
         o[1] = players.size()-1;
@@ -44,8 +57,9 @@ public class RoomModel {
     }
     
     public void removePlayer(String name) {
+        playersTableModel.removeRow(players.indexOf(name));
         players.remove(name);
-        info.setPlayerSize(info.getPlayerSize()-1);
+        info.setPlayerCount(getPlayerCount()-1);
     }
     
     public void addSpectator(String name) {
@@ -54,14 +68,6 @@ public class RoomModel {
     
     public void removeSpectator(String name) {
         spectators.remove(name);
-    }
-
-    public BoardModel getBoard() {
-        return board;
-    }
-
-    public void setBoard(String[][] board) {
-        this.board = new BoardModel(board,players);
     }
 
     public DefaultTableModel getPlayersTableModel() {
@@ -76,7 +82,13 @@ public class RoomModel {
         return players;
     }
     
+    public void setPlayerList(List<String> players) {
+        this.players = players;
+        initPlayersTableModel();
+    }
+    
     public void initPlayersTableModel() {
+        playersTableModel.setRowCount(0);
         for (int i=0;i<players.size();i++) {
             Object[] o = new Object[2];
             o[0] = players.get(i);
@@ -84,4 +96,21 @@ public class RoomModel {
             playersTableModel.addRow(o);
         }
     }
+    
+    public int getPlayerCount() {
+        return info.getPlayerCount();
+    }
+    
+    public String getStatus() {
+        return info.getStatus();
+    }
+    
+    public void setStatus(String status) {
+        info.setStatus(status);
+    }
+    
+    public String getName() {
+        return info.getName();
+    }
+    
 }

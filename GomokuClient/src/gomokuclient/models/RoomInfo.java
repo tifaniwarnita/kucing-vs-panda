@@ -11,8 +11,8 @@ package gomokuclient.models;
  */
 public class RoomInfo {
     private String name;
-    private String status;
-    private int playerSize;
+    private String status="Waiting";
+    private int playerCount=0;
 
     public String getName() {
         return name;
@@ -22,10 +22,13 @@ public class RoomInfo {
         this.name = name;
     }
 
-    public RoomInfo(String name, int playerSize, String status) {
+    public RoomInfo(String name) {
+        this.name = name;
+    }
+    public RoomInfo(String name, int playerCount, String status) {
         this.name = name;
         this.status = status;
-        this.playerSize = playerSize;
+        this.playerCount = playerCount;
     }
 
     public String getStatus() {
@@ -36,12 +39,12 @@ public class RoomInfo {
         this.status = status;
     }
 
-    public int getPlayerSize() {
-        return playerSize;
+    public int getPlayerCount() {
+        return playerCount;
     }
 
-    public void setPlayerSize(int playerSize) {
-        this.playerSize = playerSize;
+    public void setPlayerCount(int playerCount) {
+        this.playerCount = playerCount;
     }
     
     

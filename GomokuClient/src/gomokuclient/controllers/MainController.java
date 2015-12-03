@@ -12,7 +12,7 @@ import gomokuclient.models.*;
  * @author ASUS X202E
  */
 public class MainController {
-    private static GameFrame frame = new GameFrame();
+    private static final GameFrame frame = new GameFrame();
     
     public static void main(String args[]) {
         try {

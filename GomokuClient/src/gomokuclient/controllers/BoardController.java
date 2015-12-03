@@ -13,8 +13,9 @@ import gomokuclient.views.GameFrame;
  * @author ASUS X202E
  */
 public class BoardController {
-    private GameFrame frame;
+    private final GameFrame frame;
     private BoardModel model;
+    
     
     public BoardController(GameFrame frame) {
         this.frame = frame;
@@ -26,18 +27,25 @@ public class BoardController {
 
     public void setModel(BoardModel model) {
         this.model = model;
+    }
+    
+    /* REQUESTS */
+    
+    public void sendMove(int x, int y) {
+        if (model.isEmpty(x,y)) {
+            //kirim pesan x,y ke server
+            frame.disableBoard();
+        }
+        else frame.errorMessage("Please select an empty square!");
+    }
+    
+    /* RECEIVED */
+    
+    public void buildModel(BoardModel model) {
+        setModel(model);
         frame.initBoard(model.getTableModel());
     }
-    
-    public void selectBoardCoordinate(int x, int y) {
-        //if (model.getTableModel().getValueAt(x,y) == -1) kirim pesan ke server
-        // else frame.errorMessage("Please select an empty square.");
-    }
-    
-    public void updateBoardCoordinate(int x, int y, String name) {
-        model.setBoardCoordinate(x,y,name);
-    }
-    
+
     public void showWinner(int x, int y, String wintype) {
         /*if (wintype.equals("Horizontal")) {
             
@@ -46,8 +54,17 @@ public class BoardController {
         } else {
             
         }
-        frame.disableBoard();
-        frame.showWinnerPopup();
+        frame.showWinner();
+        endGame();
         */
     }
+    
+    public void boardFull() {
+        //open dialog "GAME OVER. Board is full. Restart game in this room?"
+    }
+    
+    public void clearBoard() {
+        model.getTableModel().setRowCount(0);
+    }
+    
 }

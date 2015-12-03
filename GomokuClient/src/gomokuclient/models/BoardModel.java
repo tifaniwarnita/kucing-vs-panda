@@ -13,6 +13,9 @@ public class BoardModel {
    private javax.swing.table.DefaultTableModel boardTableModel = new javax.swing.table.DefaultTableModel(20,20);
    private java.util.List<String> players;
    
+   public BoardModel() {
+       
+   }
    public BoardModel(String[][] board, java.util.List<String> players) {
        this.players = players;
        for (int i=0;i<20;i++) {
@@ -32,4 +35,7 @@ public class BoardModel {
        boardTableModel.setValueAt(players.indexOf(name), x, y);
    }
    
+    public boolean isEmpty(int x, int y) {
+        return (getTableModel().getValueAt(x,y) == null);
+    }
 }
