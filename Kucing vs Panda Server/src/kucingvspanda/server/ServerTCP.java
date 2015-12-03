@@ -9,27 +9,47 @@ package kucingvspanda.server;
  *
  * @author FiqieUlya
  */
+import gomokuserver.*;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+
 
 public class ServerTCP {
 
     // Connection state info
     private static LinkedHashMap<String, ClientThread> clientInfo = new LinkedHashMap<String, ClientThread>();
-
+    
     // TCP Components
     private ServerSocket serverSocket;
 
+    private static ArrayList<Room> rooms;
     // Main Constructor
     public ServerTCP() {
 
         startServer();// start the server
     }
-
+    public static void addRoom(Room room){
+        rooms.add(room);
+    }
+    public static void createRoom(String name){
+        Room room = new Room(name);
+        addRoom(room);
+    }
+    public static ArrayList<Room> getRooms(){
+        return rooms;
+    } 
+    public Room getRoom(String name){
+        for(Room r : rooms){
+            if(r.getName().equalsIgnoreCase(name))
+                return r;
+        }
+        return null;
+    }
     public void startServer() {
         String port = "1234";
 
