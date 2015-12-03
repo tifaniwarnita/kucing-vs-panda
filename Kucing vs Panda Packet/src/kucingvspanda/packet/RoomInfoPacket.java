@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package kucing.vs.panda.packet;
+package kucingvspanda.packet;
 
 import java.util.ArrayList;
-import kucing.vs.panda.packet.model.RoomInfo;
+import kucingvspanda.packet.model.RoomInfo;
 
 /**
  *

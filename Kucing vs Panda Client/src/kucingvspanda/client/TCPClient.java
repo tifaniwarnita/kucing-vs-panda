@@ -9,8 +9,8 @@ import java.net.*; //for socket
 import java.io.*; //for IOException and Input/OutputStream
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import kucing.vs.panda.packet.*;
-import static kucing.vs.panda.packet.Identifier.*;
+import kucingvspanda.packet.*;
+
 /**
  *
  * @author FiqieUlya
@@ -112,7 +112,7 @@ public class TCPClient {
             sendChatName();
             return;
         }
-        actionPacket= new ActionPacket(LOGIN,name);
+        actionPacket= new ActionPacket(Identifier.LOGIN,name);
         // sending login packet to the server
         outputStream.writeObject(actionPacket);                
     }

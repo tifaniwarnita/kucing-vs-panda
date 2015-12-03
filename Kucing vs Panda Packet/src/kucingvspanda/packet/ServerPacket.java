@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package kucing.vs.panda.packet;
+package kucingvspanda.packet;
 
 import java.util.ArrayList;
 import jdk.nashorn.internal.ir.IdentNode;
-import kucing.vs.panda.packet.model.RoomInfo;
-import kucing.vs.panda.packet.model.RoomModel;
+import kucingvspanda.packet.model.RoomInfo;
+import kucingvspanda.packet.model.RoomModel;
 
 /**
  *

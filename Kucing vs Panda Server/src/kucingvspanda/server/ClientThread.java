@@ -21,8 +21,7 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static kucing.vs.panda.packet.Identifier.*;
-import kucing.vs.panda.packet.*;
+import kucingvspanda.packet.*;
 
 
         
@@ -95,30 +94,30 @@ public class ClientThread implements Runnable {
 //                        String Message = in.readLine();
 //                        //sendBroadcastMessage(name,Message);
 //                        break;
-                    case LOGIN:
+                    case Identifier.LOGIN:
                         //ngirim list
                         action = (ActionPacket) packet;
                         out.writeObject(ServerTCP.getRooms());
                         break;
-                    case ADD_ROOM: //roomname
+                    case Identifier.ADD_ROOM: //roomname
                         room = (RoomInfoPacket) packet;
                         //ServerTCP.addRoom(room); //HARUSNYA ROOM yang dikirim
                         break;
-                    case PLAY: //roomname + player
+                    case Identifier.PLAY: //roomname + player
                         break;
-                    case WATCH: //roomname + player
-                        break;
-    
-                    case START_GAME: //roomname
-                        break;
-                    case ADD_PAWN: //player + x + y + roomname
-                        break;
-                    case EXIT_GAME: //roomname + player
+                    case Identifier.WATCH: //roomname + player
                         break;
     
-                    case END_GAME: //roomname + 
+                    case Identifier.START_GAME: //roomname
                         break;
-                    case CHAT:
+                    case Identifier.ADD_PAWN: //player + x + y + roomname
+                        break;
+                    case Identifier.EXIT_GAME: //roomname + player
+                        break;
+    
+                    case Identifier.END_GAME: //roomname + 
+                        break;
+                    case Identifier.CHAT:
                         break;
 //                        loginPacket= (LoginPacket) packet;
 //

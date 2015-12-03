@@ -3,24 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package kucing.vs.panda.packet;
+package kucingvspanda.packet;
 
 /**
  *
  * @author Tifani
  */
-public class MessagePacket implements Packet {
-    private static final int identifier = Identifier.CHAT;
-    private String message;
+public class ActionPacket implements Packet {
+    private final int identifier;
+    private String payload;
     
-    public MessagePacket() {
-        message = "";
+      
+    public ActionPacket(int identifier, String payload) {
+        this.identifier = identifier;
+        this.payload = payload;
     }
-    
-    public MessagePacket(String message) {
-        this.message = message;
-    }
-    
+
     @Override
     public int getIdentifier() {
         return identifier;
@@ -28,7 +26,7 @@ public class MessagePacket implements Packet {
 
     @Override
     public Object getMessage() {
-        return message;
+        return payload;
     }
     
 }

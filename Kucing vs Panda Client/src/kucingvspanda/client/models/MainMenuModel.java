@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package kucingvspanda.client.model;
+package kucingvspanda.client.models;
 import java.util.List;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 import java.util.Map;
 import java.util.HashMap;
-import kucing.vs.panda.packet.model.RoomInfo;
+import kucingvspanda.packet.model.RoomInfo;
 
 /**
  *
