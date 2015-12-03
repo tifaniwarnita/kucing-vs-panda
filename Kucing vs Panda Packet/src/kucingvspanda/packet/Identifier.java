@@ -48,9 +48,12 @@ public class Identifier {
     // Array list index
     public static final int NICKNAME = 0;
     public static final int ROOM_NAME = 0;
-    public static final int PLAYER = 1;
+    public static final int X = 0;
+    public static final int Y = 1;
+    public static final int MESSAGE = 1;
+    
+    
+    
+    
     public static final int WINNER = 1;
-    public static final int X = 2;
-    public static final int Y = 3;
-    public static final int MESSAGE = 2;
 }

@@ -31,7 +31,7 @@ public class ClientPacket implements Packet{
     }
     
     // Add Room Packet
-    public void buildAddRoomPacket (String roomName) {
+    public void buildAddRoomPacket(String roomName) {
         identifier = Identifier.ADD_ROOM;
         payload.add(roomName);
     }
@@ -41,34 +41,25 @@ public class ClientPacket implements Packet{
     }
     
     // Play Packet
-    public void buildPlayPacket (String roomName, String player) {
+    public void buildPlayPacket(String roomName) {
         identifier = Identifier.PLAY;
         payload.add(roomName);
-        payload.add(player);
-    }
-    
-    public String getPlayer() {
-        return payload.get(Identifier.PLAYER);
     }
     
     // Spectator Packet
-    public void buildSpectatorPacket (String roomName, String player) {
+    public void buildSpectatorPacket(String roomName) {
         identifier = Identifier.WATCH;
         payload.add(roomName);
-        payload.add(player);
     }
     
     // Start Game Packet
-    public void buildStartGamePacket (String roomName) {
+    public void buildStartGamePacket() {
         identifier = Identifier.START_GAME;
-        payload.add(roomName);
     }
     
     // Add Pawn Packet
-    public void buildAddPawnPacket (String roomName, String player, int x, int y) {
+    public void buildAddPawnPacket(int x, int y) {
         identifier = Identifier.ADD_PAWN;
-        payload.add(roomName);
-        payload.add(player);
         payload.add(String.valueOf(x));
         payload.add(String.valueOf(y));
     }
@@ -82,10 +73,8 @@ public class ClientPacket implements Packet{
     }
 
     // Exit Game Packet
-    public void buildExitGamePacket (String roomName, String player) {
+    public void buildExitGamePacket() {
         identifier = Identifier.EXIT_GAME;
-        payload.add(roomName);
-        payload.add(player);
     }
     
     // View Highscore Packet
@@ -94,10 +83,8 @@ public class ClientPacket implements Packet{
     }
     
     // Chat Packet
-    public void buildChatPacket(String roomName, String player, String message) {
+    public void buildChatPacket(String message) {
         identifier = Identifier.CHAT;
-        payload.add(roomName);
-        payload.add(player);
         payload.add(message);
     }
     
