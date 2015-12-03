@@ -33,7 +33,9 @@ public class MainController {
         }
         
         frame.setVisible(true);
-        
+            
     }
+    
+    
     
 }

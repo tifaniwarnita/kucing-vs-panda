@@ -11,28 +11,15 @@ package gomokuclient.models;
  */
 public class BoardModel {
    private javax.swing.table.DefaultTableModel boardTableModel = new javax.swing.table.DefaultTableModel(20,20);
+   private java.util.List<String> players;
    
    public BoardModel(String[][] board, java.util.List<String> players) {
-       for (int i=0;i<19;i++) {
-           for (int j=0;j<19;j++) {
+       this.players = players;
+       for (int i=0;i<20;i++) {
+           for (int j=0;j<20;j++) {
                if (board[i][j]!=null) {
                    boardTableModel.setValueAt(players.indexOf(board[i][j]), i, j);
                }
-           }
-       }
-   }
-   
-   public BoardModel(int test) {
-       /*for (int i=0;i<19;i++) {
-            Object[] o = new Object[20];
-           for (int j=0;j<19;j++) {
-                o[j] = -1;
-           }
-           boardTableModel.addRow(o);
-       }*/
-        for (int i=0;i<20;i++) {
-           for (int j=0;j<20;j++) {
-                   boardTableModel.setValueAt(1, i, j);
            }
        }
    }
@@ -41,5 +28,8 @@ public class BoardModel {
        return boardTableModel;
    }
    
+   public void setBoardCoordinate(int x, int y, String name) {
+       boardTableModel.setValueAt(players.indexOf(name), x, y);
+   }
    
 }

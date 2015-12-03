@@ -22,7 +22,7 @@ public class RoomInfo {
         this.name = name;
     }
 
-    public RoomInfo(String name, String status, int playerSize) {
+    public RoomInfo(String name, int playerSize, String status) {
         this.name = name;
         this.status = status;
         this.playerSize = playerSize;

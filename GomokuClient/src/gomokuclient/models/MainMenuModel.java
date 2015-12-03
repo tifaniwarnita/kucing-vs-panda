@@ -16,7 +16,7 @@ import java.util.HashMap;
  */
 public class MainMenuModel {
     private DefaultTableModel roomTableModel = new DefaultTableModel(new Object[]{"Name", "Players", "Status"},0);
-    //private List<RoomInfo> rooms = new ArrayList<>();
+    private List<RoomInfo> rooms = new ArrayList<>();
     private Map<String,Integer> roomNumber = new HashMap<>();
 
     public MainMenuModel() {
@@ -69,5 +69,12 @@ public class MainMenuModel {
         o[1] = room.getPlayerSize();
         o[2] = room.getStatus();
         return o;
+    }
+    
+    public RoomInfo getRoomInfo(int i) {
+        String name = (String)roomTableModel.getValueAt(i, 0);
+        int players = (int)roomTableModel.getValueAt(i,1);
+        String status = (String)roomTableModel.getValueAt(i,2);
+        return (new RoomInfo(name,players,status));
     }
 }
