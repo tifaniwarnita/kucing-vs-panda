@@ -14,36 +14,47 @@ import gomokuclient.models.*;
 public class MainMenuController {
     private GameFrame frame;
     private MainMenuModel model = new MainMenuModel();
+    private final RoomController roomController;
     
     public MainMenuController(GameFrame frame) {
         this.frame = frame;
+        roomController = new RoomController(frame);
     }
     
     public void setModel(MainMenuModel model) {
         this.model = model;
     }
+    public void init() {
+        frame.initRoomTable(model.getTableModel());
+    }
+    
     public void enterGame() {
-        RoomInfo ri = new RoomInfo("Test","Waiting",3);
-        RoomInfo ri2 = new RoomInfo("Test2","Playing",5);
+        RoomInfo ri = new RoomInfo("Test",3,"Waiting");
+        RoomInfo ri2 = new RoomInfo("Test2",5,"Playing");
         model.addRoom(ri);
         model.addRoom(ri2);
-        frame.initRoomTable(model.getTableModel());
+        frame.updateRoomButtons();
         frame.changeScreen("MainMenu");
     }
     
     public void test(String roomName) {
-        RoomInfo ri = new RoomInfo(roomName,"Waiting",0);
+        RoomInfo ri = new RoomInfo(roomName,0,"Waiting");
         addRoom(ri);
     }
     
     public void play(int roomNo) {
         /* request RoomModel */
+        roomController.setRoomModel(new RoomModel(model.getRoomInfo(roomNo)));
+        roomController.buildRoomPageFromModel();
         frame.changeScreen("Room");
-        frame.test();
+        
     }
     
     public void watch(int roomNo) {
         /* request RoomModel */
+        roomController.setRoomModel(new RoomModel(model.getRoomInfo(roomNo)));
+        roomController.getRoomModel().addSpectator("test");
+        roomController.buildRoomPageFromModel();
         frame.changeScreen("Room");
     }
     
@@ -58,6 +69,10 @@ public class MainMenuController {
     public void addRoom(RoomInfo room) {
         model.addRoom(room);
         frame.createRoomTableButtons(model.getTableModel().getRowCount());
+    }
+
+    public RoomController getRoomController() {
+        return roomController;
     }
     
 }

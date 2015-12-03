@@ -14,9 +14,11 @@ import gomokuclient.models.*;
 public class RoomController {
     private RoomModel roomModel;
     private GameFrame frame;
+    private BoardController boardController;
     
     public RoomController(GameFrame frame) {
         this.frame = frame;
+        boardController = new BoardController(frame);
     }
 
     public RoomModel getRoomModel() {
@@ -28,11 +30,38 @@ public class RoomController {
     }
     
     public void buildRoomPageFromModel() {
-        
+        String[][] test = new String[20][20];
+        for (int i=0;i<20;i++) {
+            for (int j=0;j<20;j++) {
+                if (i==j) test[i][j] = "Tifa";
+                else test[i][j] = "Nilta";
+            }
+        }
+        roomModel.addPlayer("Nilta");
+        roomModel.addPlayer("Tifa");
+        frame.initPlayerTable(roomModel.getPlayersTableModel());
+        frame.initSpectatorList(roomModel.getSpectatorList());
+        boardController.setModel(new BoardModel(test,roomModel.getPlayerList()));
     }
     
-    public void exit() {
+    public void exitGame() {
         frame.changeScreen("MainMenu");
+    }
+    
+    public void requestStartGame() {
+        //send message start game
+    }
+    
+    public void startGame() {
+        frame.enableBoard();
+    }
+    
+    public void endGame() {
+        frame.disableBoard();
+    }
+
+    public BoardController getBoardController() {
+        return boardController;
     }
     
     

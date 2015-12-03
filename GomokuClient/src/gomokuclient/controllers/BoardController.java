@@ -14,14 +14,40 @@ import gomokuclient.views.GameFrame;
  */
 public class BoardController {
     private GameFrame frame;
-    private BoardModel model = new BoardModel(1);
+    private BoardModel model;
     
     public BoardController(GameFrame frame) {
         this.frame = frame;
     }
-    
-    public void test() {
+
+    public BoardModel getModel() {
+        return model;
+    }
+
+    public void setModel(BoardModel model) {
+        this.model = model;
         frame.initBoard(model.getTableModel());
     }
     
+    public void selectBoardCoordinate(int x, int y) {
+        //if (model.getTableModel().getValueAt(x,y) == -1) kirim pesan ke server
+        // else frame.errorMessage("Please select an empty square.");
+    }
+    
+    public void updateBoardCoordinate(int x, int y, String name) {
+        model.setBoardCoordinate(x,y,name);
+    }
+    
+    public void showWinner(int x, int y, String wintype) {
+        /*if (wintype.equals("Horizontal")) {
+            
+        } else if (wintype.equals("Vertical")) {
+            
+        } else {
+            
+        }
+        frame.disableBoard();
+        frame.showWinnerPopup();
+        */
+    }
 }
