@@ -17,6 +17,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 
 public class ServerTCP {
@@ -26,29 +27,21 @@ public class ServerTCP {
     
     // TCP Components
     private ServerSocket serverSocket;
-
-    private static ArrayList<Room> rooms;
+    private static Map<String,Room> rooms = new HashMap<>();
+    //private static ArrayList<Room> rooms;
     // Main Constructor
     public ServerTCP() {
 
         startServer();// start the server
     }
-    public static void addRoom(Room room){
-        rooms.add(room);
+    public static void createRoom(String roomName){
+        rooms.put(roomName, new Room(roomName));
     }
-    public static void createRoom(String name){
-        Room room = new Room(name);
-        addRoom(room);
-    }
-    public static ArrayList<Room> getRooms(){
+    public static Map<String,Room> getRooms(){
         return rooms;
     } 
-    public Room getRoom(String name){
-        for(Room r : rooms){
-            if(r.getName().equalsIgnoreCase(name))
-                return r;
-        }
-        return null;
+    public static Room getRoom(String roomName){
+        return rooms.get(roomName);
     }
     public void startServer() {
         String port = "1234";

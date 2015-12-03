@@ -30,11 +30,11 @@ public class ClientThread implements Runnable {
     private Socket socket;
     private ObjectInputStream in;
     private ObjectOutputStream out;
-    private String Name;
-    private ActionPacket action;
+    private String name;
+    private ClientPacket clientPacket;
     private MessagePacket message;
     private RoomInfoPacket room;
-    
+    private String roomName;
     // seperate thread
     private Thread thread;
 
@@ -44,7 +44,9 @@ public class ClientThread implements Runnable {
     // opcode
     private int opcode;
     private HashMap<String, ClientThread> clientInfo = new HashMap<String, ClientThread>();
-
+    public void setName(String name){
+        this.name=name;
+    }
     public ClientThread(Socket socket) {
         try {
             this.socket = socket;
@@ -86,8 +88,8 @@ public class ClientThread implements Runnable {
     public void run() {
         try {
             while (isRunning) {
-                Packet packet= (Packet) in.readObject();
-                opcode = packet.getIdentifier();// getting opcode first from client
+                clientPacket= (ClientPacket) in.readObject();
+                opcode = clientPacket.getIdentifier();// getting opcode first from client
                 switch (opcode) {
 //                    case Opcode.CLIENT_MESSAGE:
 //                        String name = in.readLine();
@@ -96,28 +98,57 @@ public class ClientThread implements Runnable {
 //                        break;
                     case Identifier.LOGIN:
                         //ngirim list
-                        action = (ActionPacket) packet;
-                        out.writeObject(ServerTCP.getRooms());
+                        //put new entry in clientInfo hashmap
+
+                        setName(clientPacket.getNickname());
+                        clientInfo.put(name, this);
+                        //sending room list
+                        
+                        
+                        //out.writeObject(ServerTCP.getRooms());
                         break;
                     case Identifier.ADD_ROOM: //roomname
-                        room = (RoomInfoPacket) packet;
+                        ServerTCP.createRoom(clientPacket.getRoomName());
+                        //broadcast room info list
+                        
                         //ServerTCP.addRoom(room); //HARUSNYA ROOM yang dikirim
                         break;
                     case Identifier.PLAY: //roomname + player
+                        roomName= clientPacket.getRoomName();
+                        
+                        //sending room
+                        //out.writeObject(ServerTCP.getRoom(roomName));
                         break;
                     case Identifier.WATCH: //roomname + player
+                        roomName = clientPacket.getRoomName();
+                        
+                        //sending room
+                        //out.writeObject(ServerTCP.getRoom(roomName));
                         break;
     
                     case Identifier.START_GAME: //roomname
+                        roomName = clientPacket.getRoomName();
+                        
+                        //sending room
+                        
                         break;
                     case Identifier.ADD_PAWN: //player + x + y + roomname
+                        int x,y; 
+                        x = clientPacket.getX();
+                        y = clientPacket.getY();
+                        
+                        // broadcast ke semua (nama, x, y)
+                        
                         break;
-                    case Identifier.EXIT_GAME: //roomname + player
+                    case Identifier.LEAVE_GAME: //roomname + player
+                        
                         break;
     
-                    case Identifier.END_GAME: //roomname + 
+                    case Identifier.VIEW_HIGHSCORE: //roomname + 
+                        
                         break;
                     case Identifier.CHAT:
+                        
                         break;
 //                        loginPacket= (LoginPacket) packet;
 //
