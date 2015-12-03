@@ -30,11 +30,11 @@ public class Identifier {
     public static final int LOGIN_FAILED = 11; //message
     public static final int ADD_ROOM_SUCCESS = 12; //roominfo
     public static final int ADD_ROOM_FAILED = 13; //message
-    public static final int ROOM_MODEL = 14; //room model
-    public static final int NEW_PLAYER = 15; //roomname + playername
-    public static final int NEW_SPECTATOR = 16; //roomname + playername
-    public static final int PLAY_SUCCESS = 17; //roomname + player -> plus room model packet u selain c
-    public static final int PLAY_FAILED = 18; //message
+    public static final int PLAY_SUCCESS = 14; //roomname + players + spectators
+    public static final int NEW_PLAYER = 15; //playername
+    public static final int UPDATE_PLAYER_COUNT = 16; //roomname 
+    public static final int PLAY_FAILED = 17; //message
+    public static final int NEW_SPECTATOR = 18; //playername
     public static final int BEGIN_GAME = 19; //roomname
     public static final int PAWN_PLACED = 20; //roomname + player + x + y
     public static final int PLAYER_LEAVE = 21; //roomname + player
@@ -51,6 +51,8 @@ public class Identifier {
     public static final int PLAYER = 0;
     public static final int X = 0;
     public static final int Y = 1;
+    public static final int PLAYER_LIST = 1;
+    public static final int SPECTATOR_LIST = 2;
     public static final int MESSAGE = 1;
     
     

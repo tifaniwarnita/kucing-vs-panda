@@ -13,7 +13,7 @@ import kucingvspanda.packet.model.RoomModel;
  *
  * @author Tifani
  */
-public class ServerPacket {
+public class ServerPacket implements Packet {
     private int identifier;
     private Object payload;
     
@@ -51,36 +51,58 @@ public class ServerPacket {
     }
     
     // Add Room Failed Packet
-    public void buildAddRoomFailedPacket(String errorMessage) {
+    public void buildAddRoomFailedPacket() {
         identifier = Identifier.ADD_ROOM_FAILED;
-        payload = errorMessage;
     }
     
-    // Room Model Packet
-    public void buildRoomModelPacket(RoomModel roomModel) {
-        identifier = Identifier.ROOM_MODEL;
-        payload = roomModel;
+    // Play Success Packet
+    public void buildPlaySuccessPacket(String roomName, ArrayList<String> players, ArrayList<String> spectators) {
+        identifier = Identifier.PLAY_SUCCESS;
+        ArrayList<String> info = new ArrayList<>();
+        info.add(roomName);
+        ArrayList< ArrayList<String> > listInfo = new ArrayList<>();
+        listInfo.add(info);
+        listInfo.add(players);
+        listInfo.add(spectators);
+        payload = listInfo;
     }
     
-    public RoomModel getRoomModel() {
-        return (RoomModel) payload;
+    public String getActiveRoomName() {
+        return (String) ((ArrayList< ArrayList<String> >) payload).get(0).get(Identifier.ROOM_NAME);
+    }
+    
+    public ArrayList<String> getPlayerList() {
+        return (ArrayList<String>) ((ArrayList< ArrayList<String> >) payload).get(Identifier.PLAYER_LIST);
+    }
+    
+    public ArrayList<String> getSpectatorList() {
+        return (ArrayList<String>) ((ArrayList< ArrayList<String> >) payload).get(Identifier.SPECTATOR_LIST);
     }
     
     // New Player Packet
-    public void buildNewPlayerPacket(String roomName, String player) {
+    public void buildNewPlayerPacket(String player) {
         identifier = Identifier.NEW_PLAYER;
-        ArrayList<String> info = new ArrayList<>();
-        info.add(roomName);
-        info.add(player);
-        payload = info;
-    }
-    
-    public String getRoomName() {
-        return (String) ((ArrayList<String>)payload).get(Identifier.ROOM_NAME);
+        payload = player;
     }
     
     public String getNewPlayerName() {
         return (String) ((ArrayList<String>)payload).get(Identifier.PLAYER);
+    }
+    
+    // Update Player Count Packet
+    public void buildUpdatePlayerCountPacket(String roomName) {
+        identifier = Identifier.UPDATE_PLAYER_COUNT;
+        payload = roomName;
+    }
+    
+    public String getUpdatedRoomName() {
+        return (String) payload;
+    }
+    
+    // Play Failed Packet
+    public void buildPlayFailedPacket(String errorMessage) {
+        identifier = Identifier.PLAY_FAILED;
+        payload = errorMessage;
     }
     
     // New Spectator Packet
@@ -96,20 +118,6 @@ public class ServerPacket {
         return (String) ((ArrayList<String>)payload).get(Identifier.PLAYER);
     }
     
-    // Play Success Packet
-    public void buildPlaySuccessPacket(String roomName, String player) {
-        identifier = Identifier.PLAY_SUCCESS;
-        ArrayList<String> info = new ArrayList<>();
-        info.add(roomName);
-        info.add(player);
-        payload = info;
-    }
-    
-    // Play Failed Packet
-    public void buildPlayFailedPacket(String errorMessage) {
-        identifier = Identifier.PLAY_FAILED;
-        payload = errorMessage;
-    }
     
     // Begin Game Packet
     public void buildBeginGamePacket(String roomName) {
@@ -166,6 +174,16 @@ public class ServerPacket {
     
     public ArrayList< ArrayList<String> > getHighscore() {
         return (ArrayList< ArrayList<String> >) payload;
+    }
+
+    @Override
+    public int getIdentifier() {
+        return identifier;
+    }
+
+    @Override
+    public Object getMessage() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }
