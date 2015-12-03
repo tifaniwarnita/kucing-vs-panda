@@ -9,8 +9,8 @@ package kucingvspanda.server;
  *
  * @author FiqieUlya
  */
-import gomokuserver.*;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import kucingvspanda.packet.ClientPacket;
 
 
 public class ServerTCP {
@@ -57,23 +58,22 @@ public class ServerTCP {
             serverSocket = new ServerSocket(portNo, 0, InetAddress.getLocalHost());
             System.out.println(serverSocket);
 
+            Socket socket = serverSocket.accept();
             System.out.println(serverSocket.getInetAddress().getHostName() + ":"
                     + serverSocket.getLocalPort());
+            ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
 
             while (true) {
-                Socket socket = serverSocket.accept();
-                new ClientThread(socket);
-                
-                //Receive until client closes connection, indicated by -1 return
+              //  new ClientThread(socket);
+                ClientPacket cp = (ClientPacket) in.readObject();
+                System.out.println(cp.getIdentifier());
                 
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             System.out.println("IO Exception:" + e);
             System.exit(1);
-        } catch (NumberFormatException e) {
-            System.out.println("Number Format Exception:" + e);
-            System.exit(1);
         }
+        
     }
 
     public static HashMap<String, ClientThread> getClientInfo() {

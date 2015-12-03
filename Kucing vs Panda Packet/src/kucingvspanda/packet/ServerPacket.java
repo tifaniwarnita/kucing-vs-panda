@@ -6,8 +6,7 @@
 package kucingvspanda.packet;
 
 import java.util.ArrayList;
-import kucingvspanda.packet.model.RoomInfo;
-import kucingvspanda.packet.model.RoomModel;
+import kucingvspanda.packet.models.RoomInfo;
 
 /**
  *

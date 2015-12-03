@@ -9,7 +9,7 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import kucingvspanda.packet.ClientPacket;
 import kucingvspanda.packet.ServerPacket;
-import kucingvspanda.packet.model.RoomInfo;
+import kucingvspanda.packet.models.RoomInfo;
 
 /**
  *

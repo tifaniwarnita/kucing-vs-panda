@@ -13,37 +13,20 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import kucingvspanda.packet.Identifier;
 import kucingvspanda.packet.ServerPacket;
-import kucingvspanda.packet.model.RoomInfo;
+import kucingvspanda.packet.models.RoomInfo;
 
 /**
  *
  * @author FiqieUlya
  */
 public class TCPClient implements Observer {
-
-    /**
-     * @return the roomsInfo
-     */
-    public static RoomInfo getRoomsInfo() {
-        return roomsInfo;
-    }
-
-    /**
-     * @param aRoomsInfo the roomsInfo to set
-     */
-    public static void setRoomsInfo(RoomInfo aRoomsInfo) {
-        roomsInfo = aRoomsInfo;
-    }
-
-
-
     private String Name;
     //private ActionPacket actionPacket;
     private String serverAddress;
     private ServerPacket packet;
     // TCP Components
     private Socket socket;
-    //private ObjectInputStream inputStream = null;
+    private ObjectInputStream inputStream = null;
     private ObjectOutputStream outputStream = null;
     private static RoomInfo roomsInfo;
 
@@ -111,6 +94,28 @@ public class TCPClient implements Observer {
             initPortNo(portNo);
             return;
         }
+    }
+    
+    public ObjectInputStream getInputStream() {
+        return inputStream;
+    }
+
+    public ObjectOutputStream getOutputStream() {
+        return outputStream;
+    }
+    
+    /**
+     * @return the roomsInfo
+     */
+    public static RoomInfo getRoomsInfo() {
+        return roomsInfo;
+    }
+
+    /**
+     * @param aRoomsInfo the roomsInfo to set
+     */
+    public static void setRoomsInfo(RoomInfo aRoomsInfo) {
+        roomsInfo = aRoomsInfo;
     }
 
    /* public void sendChatName() throws IOException {
@@ -334,4 +339,6 @@ public void runClient(){
     public void setPacket(ServerPacket packet) {
         this.packet = packet;
     }
+
+    
 }

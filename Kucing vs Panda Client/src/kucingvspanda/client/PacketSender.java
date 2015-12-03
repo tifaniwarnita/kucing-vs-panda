@@ -1,6 +1,6 @@
 package kucingvspanda.client;
 
-import com.sun.security.ntlm.Client;
+//import com.sun.security.ntlm.Client;
 import java.io.ObjectOutputStream;
 import kucingvspanda.packet.ClientPacket;
 

@@ -3,16 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package kucingvspanda.packet.model;
+package kucingvspanda.packet.models;
+
+import java.io.Serializable;
 
 /**
  *
  * @author ASUS X202E
  */
-public class RoomInfo {
+public class RoomInfo implements Serializable {
     private String name;
-    private String status;
-    private int playerSize;
+    private String status="Waiting";
+    private int playerCount=0;
 
     public String getName() {
         return name;
@@ -22,10 +24,13 @@ public class RoomInfo {
         this.name = name;
     }
 
-    public RoomInfo(String name, String status, int playerSize) {
+    public RoomInfo(String name) {
+        this.name = name;
+    }
+    public RoomInfo(String name, int playerCount, String status) {
         this.name = name;
         this.status = status;
-        this.playerSize = playerSize;
+        this.playerCount = playerCount;
     }
 
     public String getStatus() {
@@ -36,12 +41,12 @@ public class RoomInfo {
         this.status = status;
     }
 
-    public int getPlayerSize() {
-        return playerSize;
+    public int getPlayerCount() {
+        return playerCount;
     }
 
-    public void setPlayerSize(int playerSize) {
-        this.playerSize = playerSize;
+    public void setPlayerCount(int playerCount) {
+        this.playerCount = playerCount;
     }
     
     

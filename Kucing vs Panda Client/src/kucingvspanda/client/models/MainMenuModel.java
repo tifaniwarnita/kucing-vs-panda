@@ -7,9 +7,7 @@ package kucingvspanda.client.models;
 import java.util.List;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
-import java.util.Map;
-import java.util.HashMap;
-import kucingvspanda.packet.model.RoomInfo;
+import kucingvspanda.packet.models.RoomInfo;
 
 /**
  *
@@ -17,58 +15,77 @@ import kucingvspanda.packet.model.RoomInfo;
  */
 public class MainMenuModel {
     private DefaultTableModel roomTableModel = new DefaultTableModel(new Object[]{"Name", "Players", "Status"},0);
-    //private List<RoomInfo> rooms = new ArrayList<>();
-    private Map<String,Integer> roomNumber = new HashMap<>();
+    private List<String> rooms = new ArrayList<>();
+    private static String currentPlayer;
 
     public MainMenuModel() {
         
     }
     
-    public MainMenuModel(List<RoomInfo> rooms) {
-        initModel(rooms);
+    public MainMenuModel(List<RoomInfo> roomInfoList) {
+        initModel(roomInfoList);
     }
     
     public DefaultTableModel getTableModel() {
         return roomTableModel;
     }
-    public void initModel(List<RoomInfo> rooms) {
+    public void initModel(List<RoomInfo> roomInfoList) {
         roomTableModel.setRowCount(0);
-        int i = 0;
-        for (RoomInfo room : rooms) {
+        rooms.clear();
+        for (RoomInfo room : roomInfoList) {
+            rooms.add(room.getName());
             roomTableModel.addRow(buildObject(room));
-            roomNumber.put(room.getName(),i);
-            i++;
         }
     }
     
     public void addRoom(RoomInfo room) {
-        int i = roomTableModel.getRowCount();
         roomTableModel.addRow(buildObject(room));
-        roomNumber.put(room.getName(),i);
+        rooms.add(room.getName());
     }
     
-    public void updateRoom(RoomInfo room) {
-        updateRoomPlayerSize(room.getName(),room.getPlayerSize());
-        updateRoomStatus(room.getName(),room.getStatus());
+    public void delRoom(String roomName) {
+        roomTableModel.removeRow(getRoomNumber(roomName));
+        rooms.remove(roomName);
     }
     
-    public void updateRoomPlayerSize(String roomName, int playerSize) {
-        roomTableModel.setValueAt(playerSize,roomNumber.get(roomName),1);
+    public void incRoomPlayerCount(String roomName) {
+        roomTableModel.setValueAt(getRoomPlayerCount(roomName)+1,getRoomNumber(roomName),1);
+    }
+    
+    public void decRoomPlayerCount(String roomName) {
+        roomTableModel.setValueAt(getRoomPlayerCount(roomName)-1,getRoomNumber(roomName),1);
     }
     
     public void updateRoomStatus(String roomName, String status) {
-        roomTableModel.setValueAt(status,roomNumber.get(roomName),2);
-    }
-    
-    public boolean roomExists(RoomInfo room) {
-        return roomNumber.containsKey(room.getName());
+        roomTableModel.setValueAt(status,getRoomNumber(roomName),2);
     }
     
     public Object[] buildObject(RoomInfo room) {
         Object[] o = new Object[3];
         o[0] = room.getName();
-        o[1] = room.getPlayerSize();
+        o[1] = room.getPlayerCount();
         o[2] = room.getStatus();
         return o;
+    }
+    
+    public int getRoomPlayerCount(String name) {
+        return ((int)roomTableModel.getValueAt(getRoomNumber(name),1));
+    }
+
+    public int getRoomNumber(String roomName) {
+        return rooms.indexOf(roomName);
+    }
+    
+    
+    public List<String> getRooms() {
+        return rooms;
+    }
+    
+    public static String getCurrentPlayer() {
+        return currentPlayer;
+    }
+    
+    public static void setCurrentPlayer(String name) {
+        currentPlayer = name;
     }
 }

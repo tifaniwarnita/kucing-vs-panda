@@ -3,27 +3,28 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package kucingvspanda.client;
-
+package kucingvspanda.client.controllers;
 import java.io.IOException;
-import kucingvspanda.client.views.GameFrame;
+import kucingvspanda.client.TCPClient;
+import kucingvspanda.client.views.*;
+import kucingvspanda.client.models.*;
 
 /**
  *
- * @author Tifani
+ * @author ASUS X202E
  */
-public class KucingVsPandaClient {
-    private static final GameFrame frame = new GameFrame(); 
-    private static TCPClient tcp;
-
+public class MainController {
+    private static final GameFrame frame = new GameFrame();
+    
     public static void main(String[] args) throws IOException{
         if((args.length< 2)||(args.length>3))
             throw new IllegalArgumentException("Parameter(s): <Server> [<Port>] ");
         String server = args[0]; //IP address
         String port = args[1];
         
-        tcp = new TCPClient(server, port);
-        frame.setSocketInputOutput(tcp.getInputStream(), tcp.getOutputStream());
+        TCPClient tcp = new TCPClient(server, port);
+        
+        
         
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {

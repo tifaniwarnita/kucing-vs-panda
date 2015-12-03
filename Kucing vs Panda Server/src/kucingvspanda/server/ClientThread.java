@@ -32,26 +32,24 @@ public class ClientThread implements Runnable {
     private ObjectOutputStream out;
     private String name;
     private ClientPacket clientPacket;
-    private MessagePacket message;
-    private RoomInfoPacket room;
+    ///////////////private MessagePacket message;
+    ///////////////private RoomInfoPacket room;
     private String roomName;
     // seperate thread
     private Thread thread;
+    
+    ////////////private HashMap<String, ClientThread> clientInfo = new HashMap<String, ClientThread>();
 
     // boolean variable to check that client is running or not
     private volatile boolean isRunning = true;
 
     // opcode
     private int opcode;
-    private HashMap<String, ClientThread> clientInfo = new HashMap<String, ClientThread>();
-    public void setName(String name){
-        this.name=name;
-    }
+    
     public ClientThread(Socket socket) {
         try {
             this.socket = socket;
-            this.clientInfo = ServerTCP.getClientInfo();
-            
+            ////////////this.clientInfo = ServerTCP.getClientInfo();
             
             in = new ObjectInputStream(socket.getInputStream());
             out = new ObjectOutputStream(socket.getOutputStream());
@@ -63,6 +61,12 @@ public class ClientThread implements Runnable {
             System.out.println(e);
         }
     }
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    
     /*public void sendListClient(){
         // tell other users about new added user and update their online users list
             for (ClientThread client : clientInfo.values()) {
@@ -101,7 +105,7 @@ public class ClientThread implements Runnable {
                         //put new entry in clientInfo hashmap
 
                         setName(clientPacket.getNickname());
-                        clientInfo.put(name, this);
+                        //////////////////////clientInfo.put(name, this);
                         //sending room list
                         
                         

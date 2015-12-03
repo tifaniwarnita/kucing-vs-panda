@@ -5,13 +5,14 @@
  */
 package kucingvspanda.packet;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author Tifani
  */
-public class ClientPacket implements Packet{
+public class ClientPacket implements Packet, Serializable {
     
     public int identifier;
     public ArrayList<String> payload = new ArrayList<>();;
