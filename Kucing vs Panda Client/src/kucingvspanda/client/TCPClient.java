@@ -7,26 +7,61 @@ package kucingvspanda.client;
 
 import java.net.*; //for socket
 import java.io.*; //for IOException and Input/OutputStream
+import java.util.Observable;
+import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import kucingvspanda.packet.*;
+import kucingvspanda.packet.Identifier;
+import kucingvspanda.packet.ServerPacket;
+import kucingvspanda.packet.model.Room;
+import kucingvspanda.packet.model.RoomInfo;
 
 /**
  *
  * @author FiqieUlya
  */
-public class TCPClient {
+public class TCPClient implements Observer {
+
+    /**
+     * @return the roomsInfo
+     */
+    public static RoomInfo getRoomsInfo() {
+        return roomsInfo;
+    }
+
+    /**
+     * @param aRoomsInfo the roomsInfo to set
+     */
+    public static void setRoomsInfo(RoomInfo aRoomsInfo) {
+        roomsInfo = aRoomsInfo;
+    }
+
+    /**
+     * @return the room
+     */
+    public static Room getRoom() {
+        return room;
+    }
+
+    /**
+     * @param aRoom the room to set
+     */
+    public static void setRoom(Room aRoom) {
+        room = aRoom;
+    }
     private String Name;
-    private ActionPacket actionPacket;
+    //private ActionPacket actionPacket;
     private String serverAddress;
-    private Packet packet;
+    private ServerPacket packet;
     // TCP Components
     private Socket socket;
-    private ObjectInputStream inputStream = null;
+    //private ObjectInputStream inputStream = null;
     private ObjectOutputStream outputStream = null;
+    private static RoomInfo roomsInfo;
+    private static Room room;
     
     public TCPClient(String host, String port) {
-
+        
         initHostName(host, port);
         runClient();// have fun
     }
@@ -34,22 +69,22 @@ public class TCPClient {
     public void initHostName(String host, String port) {
         try {
             //replace host name with your computer name or IP address
-            serverAddress = host;
-            if (serverAddress == null)
+            setServerAddress(host);
+            if (getServerAddress() == null)
                 System.exit(1);
 
-            serverAddress = serverAddress.trim();
-            if (serverAddress.length() == 0)// empty field
+            setServerAddress(getServerAddress().trim());
+            if (getServerAddress().length() == 0)// empty field
             {
                 System.out.println("Server IP Address or Name can't be blank.");
                 initHostName(host,port);
                 return;
             }
             System.out.println("Trying to connect with server...\nServer IP Address:"
-                    + serverAddress);
+                    + getServerAddress());
 
             // create socket
-            InetAddress inetAddress = InetAddress.getByName(serverAddress);
+            InetAddress inetAddress = InetAddress.getByName(getServerAddress());
             if (!inetAddress.isReachable(60000))// 60 sec
             {
                 System.out
@@ -80,8 +115,7 @@ public class TCPClient {
             }
             System.out.println("Trying to connect with server...\nServer Port No:" + portNo);
 
-            socket = new Socket(serverAddress, Integer.parseInt(portNo));
-            inputStream = new ObjectInputStream(socket.getInputStream());
+            socket = new Socket(getServerAddress(), Integer.parseInt(portNo));
             outputStream = new ObjectOutputStream(socket.getOutputStream());
            
         } catch (IOException e) {
@@ -91,7 +125,7 @@ public class TCPClient {
         }
     }
 
-    public void sendChatName() throws IOException {
+   /* public void sendChatName() throws IOException {
         System.out.println("Enter your name:");
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         
@@ -102,11 +136,6 @@ public class TCPClient {
         // title case (get only first 9 chars of chat name)
         name = name.trim();
 
-        if (name.equalsIgnoreCase("All")) {
-            System.out.println("This name is already reserved. Try different one.");
-            sendChatName();
-            return;
-        }
         if (name.length() == 0) {
             System.out.println("Please enter your chat name.");
             sendChatName();
@@ -115,7 +144,7 @@ public class TCPClient {
         actionPacket= new ActionPacket(Identifier.LOGIN,name);
         // sending login packet to the server
         outputStream.writeObject(actionPacket);                
-    }
+    }*/
     
     
     /*public void clientListener(int opcode){
@@ -151,52 +180,54 @@ public class TCPClient {
 
                 }
     }*/
-
-    public void runClient() {
-        try {
-            sendChatName();
-            new ClientSenderThread(socket,Name);
-            while (true) {
-                packet = (Packet) inputStream.readObject();
-                int opcode = packet.getIdentifier();
-                //clientListener(opcode);
-                switch (opcode) {
-                        //a new broadcast message
-                    case Opcode.CLIENT_BROADCAST:
-                        System.out.println("Pesan dari ");
-                        break;
-                    //KONDISI PACKET YANG DI TERIMA DARI SERVER
-//                        
-//                    case Opcode.CLIENT_CONNECTING:
-//                        // this client is connecting
-//                        boolean result = Boolean.valueOf(in.readLine());
-//                        if (result) {
-//                            System.out.println(Name + " is already present. Try different one.");
-//                            runClient();
-//                        }
-//
+public void runClient(){
+    
+}
+//    public void runClient() {
+//        try {
+//            sendChatName();
+//            new ClientSenderThread(socket,Name);
+//            while (true) {
+//                packet =  inputStream.readObject();
+//                int opcode = packet.getIdentifier();
+//                //clientListener(opcode);
+//                switch (opcode) {
+//                        //a new broadcast message
+//                    case Opcode.CLIENT_BROADCAST:
+//                        System.out.println("Pesan dari ");
 //                        break;
+//                    //KONDISI PACKET YANG DI TERIMA DARI SERVER
+////                        
+////                    case Opcode.CLIENT_CONNECTING:
+////                        // this client is connecting
+////                        boolean result = Boolean.valueOf(in.readLine());
+////                        if (result) {
+////                            System.out.println(Name + " is already present. Try different one.");
+////                            runClient();
+////                        }
+////
+////                        break;
+////
+////                    case Opcode.CLIENT_CONNECTED:
+////                        // a new client is connected
+////                        Integer totalClient = Integer.valueOf(in.readLine());
+////                        System.out.println("Total Client:" + totalClient);
+////
+////                        for (int i = 0; i < totalClient; i++) {
+////                            String client = in.readLine();
+////                            System.out.println((i + 1) + ":" + client);
+////                        }
+////                        
+////                        break;
 //
-//                    case Opcode.CLIENT_CONNECTED:
-//                        // a new client is connected
-//                        Integer totalClient = Integer.valueOf(in.readLine());
-//                        System.out.println("Total Client:" + totalClient);
-//
-//                        for (int i = 0; i < totalClient; i++) {
-//                            String client = in.readLine();
-//                            System.out.println((i + 1) + ":" + client);
-//                        }
-//                        
-//                        break;
-
-                }
-            }
-        } catch (IOException e) {
-            System.out.println("Client is closed...");
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(TCPClient.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+//                }
+//            //}
+//        } catch (IOException e) {
+//            System.out.println("Client is closed...");
+//        } catch (ClassNotFoundException ex) {
+//            Logger.getLogger(TCPClient.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
     
     public static void main(String[] args) throws IOException{
         if((args.length< 2)||(args.length>3))
@@ -231,5 +262,86 @@ public class TCPClient {
         
         socket.close(); // Close the socket and its streams
         */
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        int identifier = (int) arg;
+        switch(identifier){
+            case Identifier.LOGIN_SUCCESS : //list<roominfo>
+                //tidak melakukan apapun
+                break;
+            case Identifier.LOGIN_FAILED: //message
+                
+                break;
+            case Identifier.ADD_ROOM_SUCCESS: //roominfo
+                break;
+            case Identifier.ADD_ROOM_FAILED: //message
+                break;
+            case Identifier.PLAY_SUCCESS: //roomname + players + spectators
+                break;
+            case Identifier.NEW_PLAYER: //playername
+                break;
+            case Identifier.UPDATE_PLAYER_COUNT: //roomname 
+                break;
+            case Identifier.PLAY_FAILED: //message
+                break;
+            case Identifier.NEW_SPECTATOR: //playername
+                break;
+            case Identifier.START_GAME: //roomname
+                break;
+            case Identifier.PAWN_PLACED: //roomname + player + x + y
+                break;
+            case Identifier.PLAYER_LEAVE: //roomname + player
+                break;
+            case Identifier.WIN: //roomname + winner
+                break;
+            case Identifier.HIGHSCORE: //highscore list
+                break;
+            case Identifier.BOARD_FULL:
+                break;
+        }
+    }
+
+    /**
+     * @return the Name
+     */
+    public String getName() {
+        return Name;
+    }
+
+    /**
+     * @param Name the Name to set
+     */
+    public void setName(String Name) {
+        this.Name = Name;
+    }
+
+    /**
+     * @return the serverAddress
+     */
+    public String getServerAddress() {
+        return serverAddress;
+    }
+
+    /**
+     * @param serverAddress the serverAddress to set
+     */
+    public void setServerAddress(String serverAddress) {
+        this.serverAddress = serverAddress;
+    }
+
+    /**
+     * @return the packet
+     */
+    public ServerPacket getPacket() {
+        return packet;
+    }
+
+    /**
+     * @param packet the packet to set
+     */
+    public void setPacket(ServerPacket packet) {
+        this.packet = packet;
     }
 }
