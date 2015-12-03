@@ -6,7 +6,6 @@
 package kucingvspanda.packet;
 
 import java.util.ArrayList;
-import jdk.nashorn.internal.ir.IdentNode;
 import kucingvspanda.packet.model.RoomInfo;
 import kucingvspanda.packet.model.RoomModel;
 
@@ -33,9 +32,8 @@ public class ServerPacket {
     }
     
     // Login Failed Packet
-    public void buildLoginFailedPacket(String errorMessage) {
+    public void buildLoginFailedPacket() {
         identifier = Identifier.LOGIN_FAILED;
-        payload = errorMessage;
     }  
     
     public String getErrorMessage() {

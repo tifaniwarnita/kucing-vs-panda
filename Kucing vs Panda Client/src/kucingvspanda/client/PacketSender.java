@@ -75,11 +75,11 @@ public class PacketSender {
         }
     }
     
-    public static void sendExitGamePacket(ObjectOutputStream outputStream) {
-        ClientPacket exitGamePacket = new ClientPacket();
-        exitGamePacket.buildExitGamePacket();
+    public static void sendLeaveGamePacket(ObjectOutputStream outputStream) {
+        ClientPacket leaveGamePacket = new ClientPacket();
+        leaveGamePacket.buildLeaveGamePacket();
         try {
-            outputStream.writeObject(exitGamePacket);
+            outputStream.writeObject(leaveGamePacket);
         } catch (Exception e) {
             System.out.println("Sending exit game packet failed: " + e.toString());
         }

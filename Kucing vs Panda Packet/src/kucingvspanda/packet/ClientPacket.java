@@ -73,8 +73,8 @@ public class ClientPacket implements Packet{
     }
 
     // Exit Game Packet
-    public void buildExitGamePacket() {
-        identifier = Identifier.EXIT_GAME;
+    public void buildLeaveGamePacket() {
+        identifier = Identifier.LEAVE_GAME;
     }
     
     // View Highscore Packet
