@@ -7,18 +7,23 @@ package kucingvspanda.client;
 
 import java.net.*; //for socket
 import java.io.*; //for IOException and Input/OutputStream
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import kucing.vs.panda.packet.*;
+import static kucing.vs.panda.packet.Identifier.*;
 /**
  *
  * @author FiqieUlya
  */
 public class TCPClient {
     private String Name;
+    private ActionPacket actionPacket;
     private String serverAddress;
-
+    private Packet packet;
     // TCP Components
     private Socket socket;
-    private BufferedReader in;
-    private PrintWriter out;
+    private ObjectInputStream inputStream = null;
+    private ObjectOutputStream outputStream = null;
     
     public TCPClient(String host, String port) {
 
@@ -66,8 +71,6 @@ public class TCPClient {
     public void initPortNo(String portNo) {
         try {
 
-            //String portNo = "1234";
-
             portNo = portNo.trim();
             if (portNo.length() == 0)// empty field
             {
@@ -78,9 +81,9 @@ public class TCPClient {
             System.out.println("Trying to connect with server...\nServer Port No:" + portNo);
 
             socket = new Socket(serverAddress, Integer.parseInt(portNo));
-            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            out = new PrintWriter(socket.getOutputStream(), true);
-
+            inputStream = new ObjectInputStream(socket.getInputStream());
+            outputStream = new ObjectOutputStream(socket.getOutputStream());
+           
         } catch (IOException e) {
             System.out.println("IO Exception:\n" + e);
             initPortNo(portNo);
@@ -91,6 +94,7 @@ public class TCPClient {
     public void sendChatName() throws IOException {
         System.out.println("Enter your name:");
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        
         String name = br.readLine();
         if (name == null)
             System.exit(1);
@@ -108,19 +112,11 @@ public class TCPClient {
             sendChatName();
             return;
         }
-        if (name.length() == 1)
-            Name = String.valueOf(name.charAt(0)).toUpperCase();
-        if (name.length() > 1 && name.length() < 10)
-            Name = String.valueOf(name.charAt(0)).toUpperCase()
-                    + name.substring(1).toLowerCase();
-        else if (name.length() > 9)
-            Name = String.valueOf(name.charAt(0)).toUpperCase()
-                    + name.substring(1, 10).toLowerCase();
-
-        // sending opcode first then sending chatName to the server
-        out.println(Opcode.CLIENT_CONNECTING);
-        out.println(Name);
+        actionPacket= new ActionPacket(LOGIN,name);
+        // sending login packet to the server
+        outputStream.writeObject(actionPacket);                
     }
+    
     
     /*public void clientListener(int opcode){
         switch (opcode) {
@@ -161,43 +157,44 @@ public class TCPClient {
             sendChatName();
             new ClientSenderThread(socket,Name);
             while (true) {
-                int opcode = Integer.parseInt(in.readLine());
+                packet = (Packet) inputStream.readObject();
+                int opcode = packet.getIdentifier();
                 //clientListener(opcode);
-                System.out.println("opcode : "+opcode);
                 switch (opcode) {
                         //a new broadcast message
                     case Opcode.CLIENT_BROADCAST:
-                        String name = in.readLine();
-                        String message = in.readLine();
-                        System.out.println("Pesan dari "+name+" : " + message);
+                        System.out.println("Pesan dari ");
                         break;
-                        
-                    case Opcode.CLIENT_CONNECTING:
-                        // this client is connecting
-                        boolean result = Boolean.valueOf(in.readLine());
-                        if (result) {
-                            System.out.println(Name + " is already present. Try different one.");
-                            runClient();
-                        }
-
-                        break;
-
-                    case Opcode.CLIENT_CONNECTED:
-                        // a new client is connected
-                        Integer totalClient = Integer.valueOf(in.readLine());
-                        System.out.println("Total Client:" + totalClient);
-
-                        for (int i = 0; i < totalClient; i++) {
-                            String client = in.readLine();
-                            System.out.println((i + 1) + ":" + client);
-                        }
-                        
-                        break;
+                    //KONDISI PACKET YANG DI TERIMA DARI SERVER
+//                        
+//                    case Opcode.CLIENT_CONNECTING:
+//                        // this client is connecting
+//                        boolean result = Boolean.valueOf(in.readLine());
+//                        if (result) {
+//                            System.out.println(Name + " is already present. Try different one.");
+//                            runClient();
+//                        }
+//
+//                        break;
+//
+//                    case Opcode.CLIENT_CONNECTED:
+//                        // a new client is connected
+//                        Integer totalClient = Integer.valueOf(in.readLine());
+//                        System.out.println("Total Client:" + totalClient);
+//
+//                        for (int i = 0; i < totalClient; i++) {
+//                            String client = in.readLine();
+//                            System.out.println((i + 1) + ":" + client);
+//                        }
+//                        
+//                        break;
 
                 }
             }
         } catch (IOException e) {
             System.out.println("Client is closed...");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(TCPClient.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
