@@ -136,9 +136,8 @@ public class GameFrame extends javax.swing.JFrame {
             }
         });
 
-        roomsScrollPane.setPreferredSize(new java.awt.Dimension(1000, 402));
-
-        roomsListPanel.setPreferredSize(new java.awt.Dimension(1000, 400));
+        roomsScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        roomsScrollPane.setPreferredSize(new java.awt.Dimension(1000, 400));
 
         roomTable.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         roomTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -151,9 +150,9 @@ public class GameFrame extends javax.swing.JFrame {
         ));
         roomTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         roomTable.setFocusable(false);
-        roomTable.setMinimumSize(new java.awt.Dimension(200, 160));
+        roomTable.setMinimumSize(null);
         roomTable.setOpaque(false);
-        roomTable.setPreferredSize(new java.awt.Dimension(800, 400));
+        roomTable.setPreferredSize(null);
         roomTable.setRequestFocusEnabled(false);
         roomTable.setRowHeight(35);
         roomTable.setRowMargin(0);
@@ -183,11 +182,11 @@ public class GameFrame extends javax.swing.JFrame {
         );
         roomsListPanelLayout.setVerticalGroup(
             roomsListPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(roomTable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(roomsListPanelLayout.createSequentialGroup()
                 .addGroup(roomsListPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(playButtonsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(watchButtonsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(watchButtonsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(roomTable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -238,8 +237,8 @@ public class GameFrame extends javax.swing.JFrame {
                                 .addGroup(mainMenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(addRoomButton)
                                     .addComponent(currentPlayerLabel)))
-                            .addComponent(roomsScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 1034, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(311, Short.MAX_VALUE))))
+                            .addComponent(roomsScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 1050, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(295, Short.MAX_VALUE))))
         );
         mainMenuPanelLayout.setVerticalGroup(
             mainMenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -258,8 +257,8 @@ public class GameFrame extends javax.swing.JFrame {
                     .addComponent(noOfPlayersLabel1)
                     .addComponent(roomNameLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(roomsScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 551, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(65, Short.MAX_VALUE))
+                .addComponent(roomsScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(116, Short.MAX_VALUE))
         );
 
         exitButton.getAccessibleContext().setAccessibleDescription("");

@@ -105,6 +105,14 @@ public class RoomController {
         }
     }
    
+    public void removeSpectator(String name) {
+        model.removeSpectator(name);
+        frame.removeSpectatorList(name);
+    }
     
+    public void addSpectator(String name) {
+        model.addSpectator(name);
+        frame.addSpectatorList(name);
+    }
     
 }
