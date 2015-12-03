@@ -21,7 +21,8 @@ public class ServerPacket implements Packet {
         identifier = Identifier.UNKNOWN;
     }
     
-    // Login Success Packet
+    //----------------------------- LOGIN PACKET
+    // Login Success Packet (getRoomList)
     public void buildLoginSuccessPacket(ArrayList<RoomInfo> roomInfoList) {
         identifier = Identifier.LOGIN_SUCCESS;
         payload = roomInfoList;
@@ -36,11 +37,9 @@ public class ServerPacket implements Packet {
         identifier = Identifier.LOGIN_FAILED;
     }  
     
-    public String getErrorMessage() {
-        return (String) payload;
-    }
     
-    // Add Room Success Packet
+    //----------------------------- ADD ROOM PACKET
+    // Add Room Success Packet (getNewRoomInfo)
     public void buildAddRoomSuccessPacket(RoomInfo newRoomInfo) {
         identifier = Identifier.ADD_ROOM_SUCCESS;
         payload = newRoomInfo;
@@ -55,41 +54,41 @@ public class ServerPacket implements Packet {
         identifier = Identifier.ADD_ROOM_FAILED;
     }
     
-    // Play Success Packet
+    
+    //----------------------------- PLAY PACKET
+    // Play Success Packet (getActiveRoomName, getPlayerList, getSpectatorList)
     public void buildPlaySuccessPacket(String roomName, ArrayList<String> players, ArrayList<String> spectators) {
         identifier = Identifier.PLAY_SUCCESS;
-        ArrayList<String> info = new ArrayList<>();
+        ArrayList<Object> info = new ArrayList<>();
         info.add(roomName);
-        ArrayList< ArrayList<String> > listInfo = new ArrayList<>();
-        listInfo.add(info);
-        listInfo.add(players);
-        listInfo.add(spectators);
-        payload = listInfo;
+        info.add(players);
+        info.add(spectators);
+        payload = info;
     }
     
     public String getActiveRoomName() {
-        return (String) ((ArrayList< ArrayList<String> >) payload).get(0).get(Identifier.ROOM_NAME);
+        return (String) ((ArrayList<Object>) payload).get(Identifier.ROOM_NAME);
     }
     
     public ArrayList<String> getPlayerList() {
-        return (ArrayList<String>) ((ArrayList< ArrayList<String> >) payload).get(Identifier.PLAYER_LIST);
+        return (ArrayList<String>) ((ArrayList<Object>) payload).get(Identifier.PLAYER_LIST);
     }
     
     public ArrayList<String> getSpectatorList() {
-        return (ArrayList<String>) ((ArrayList< ArrayList<String> >) payload).get(Identifier.SPECTATOR_LIST);
+        return (ArrayList<String>) ((ArrayList<Object>) payload).get(Identifier.SPECTATOR_LIST);
     }
     
-    // New Player Packet
+    // New Player Packet (getNewPlayerName)
     public void buildNewPlayerPacket(String player) {
         identifier = Identifier.NEW_PLAYER;
         payload = player;
     }
     
     public String getNewPlayerName() {
-        return (String) ((ArrayList<String>)payload).get(Identifier.PLAYER);
+        return (String) payload;
     }
     
-    // Update Player Count Packet
+    // Update Player Count Packet (getUpdatedRoomName)
     public void buildUpdatePlayerCountPacket(String roomName) {
         identifier = Identifier.UPDATE_PLAYER_COUNT;
         payload = roomName;
@@ -100,40 +99,66 @@ public class ServerPacket implements Packet {
     }
     
     // Play Failed Packet
-    public void buildPlayFailedPacket(String errorMessage) {
+    public void buildPlayFailedPacket() {
         identifier = Identifier.PLAY_FAILED;
-        payload = errorMessage;
     }
     
-    // New Spectator Packet
-    public void buildNewSpectatorPacket(String roomName, String player) {
-        identifier = Identifier.NEW_SPECTATOR;
-        ArrayList<String> info = new ArrayList<>();
+    
+    //----------------------------- SPECTATOR PACKET
+    // Spectator Success Packet (getActiveRoomName, getPlayerList, getSpectatorList, getBoard)
+    public void buildSpectatorSuccessPacket(String roomName, ArrayList<String> players, ArrayList<String> spectators, String[][] board) {
+        identifier = Identifier.SPECTATOR_SUCCESS;
+        ArrayList<Object> info = new ArrayList<>();
         info.add(roomName);
-        info.add(player);
+        info.add(players);
+        info.add(spectators);
+        info.add(board);
         payload = info;
+    }
+    
+    public String[][] getBoard() {
+        return (String[][]) ((ArrayList<Object>) payload).get(Identifier.BOARD);
+    }
+    
+    // New Spectator Packet (getNewSpectatorName)
+    public void buildNewSpectatorPacket(String player) {
+        identifier = Identifier.NEW_SPECTATOR;
+        payload = player;
     }
     
     public String getNewSpectatorName() {
-        return (String) ((ArrayList<String>)payload).get(Identifier.PLAYER);
+        return (String) payload;
     }
     
     
+    //----------------------------- BEGIN GAME PACKET
     // Begin Game Packet
-    public void buildBeginGamePacket(String roomName) {
-        identifier = Identifier.BEGIN_GAME;
+    public void buildStartGameSuccessPacket(String roomName) {
+        identifier = Identifier.START_GAME_SUCCESS;
         payload = roomName;
     }
     
-    // Pawn Placed Packet
-    public void buildAddPawnPacket (String roomName, String player, int x, int y) {
+    // Kapan kapan failed
+    
+    
+    //----------------------------- ADD PAWN PACKET
+    // Pawn Placed Packet (getPlayer, getX, getY, getNextPlayer)
+    public void buildAddPawnSuccessPacket (String player, int x, int y, String nextPlayer) {
         identifier = Identifier.ADD_PAWN;
         ArrayList<String> info = new ArrayList<>();
-        info.add(roomName);
         info.add(player);
         info.add(String.valueOf(x));
         info.add(String.valueOf(y));
+        info.add(nextPlayer);
         payload = info;
+    }
+    
+    public String getPlayer() {
+        return (String) ((ArrayList<String>) payload).get(Identifier.PLAYER);
+    }
+    
+    public String getNextPlayer() {
+        return (String) ((ArrayList<String>) payload).get(Identifier.NEXT_PLAYER);
     }
     
     public int getX() {
@@ -144,6 +169,7 @@ public class ServerPacket implements Packet {
         return Integer.parseInt( ((ArrayList<String>)payload).get(Identifier.Y) );
     }
     
+    //----------------------------- ADD PAWN PACKET
     // Player Leave Packet
     public void buildPlayerLeavePacket (String roomName, String player) {
         identifier = Identifier.PLAYER_LEAVE;
@@ -153,20 +179,24 @@ public class ServerPacket implements Packet {
         payload = info;
     }
     
-    // End Game Packet
-    public void buildEndGamePacket (String roomName, String winner) {
-        identifier = Identifier.END_GAME;
+    
+    //----------------------------- END GAME PACKET
+    // End Game Packet (getWinType, getX, getY)
+    public void buildWinPacket (String winType, int x, int y) {
+        identifier = Identifier.ADD_PAWN;
         ArrayList<String> info = new ArrayList<>();
-        info.add(roomName);
-        info.add(winner);
+        info.add(winType);
+        info.add(String.valueOf(x));
+        info.add(String.valueOf(y));
         payload = info;
     }
     
-    public String getWinner() {
-        return (String) payload;
+    public String getWinType() {
+        return (String) ((ArrayList<String>) payload).get(Identifier.WIN_TYPE);
     }
     
-    // Highscore Packet
+    //----------------------------- END GAME PACKET
+    // Highscore Packet (getHighscore)
     public void buildHighScorePacket (ArrayList< ArrayList<String> > highscore) {
         identifier = Identifier.HIGHSCORE;
         payload = highscore;
@@ -175,6 +205,13 @@ public class ServerPacket implements Packet {
     public ArrayList< ArrayList<String> > getHighscore() {
         return (ArrayList< ArrayList<String> >) payload;
     }
+    
+    //----------------------------- CHAT PACKET
+    // Chat Packet (getHighscore)
+    public void sendChat(String message) {
+        identifier = Identifier.MESSAGE;
+        payload = message;
+    } 
 
     @Override
     public int getIdentifier() {
@@ -183,7 +220,7 @@ public class ServerPacket implements Packet {
 
     @Override
     public Object getMessage() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return (String) payload
     }
     
 }

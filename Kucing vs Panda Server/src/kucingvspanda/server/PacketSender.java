@@ -17,7 +17,7 @@ import kucingvspanda.packet.model.RoomInfo;
  */
 public class PacketSender {
     
-    // REPLY: LOGINPACKET
+    //----------------------------- REPLY: LOGINPACKET
     // To: Packet sender
     public static void sendLoginSuccessPacket(ObjectOutputStream outputStream, ArrayList<RoomInfo> roomInfoList) {
         ServerPacket loginSuccessPacket = new ServerPacket();
@@ -41,8 +41,8 @@ public class PacketSender {
     }
     
     
-    // REPLY: ADDROOMPACKET
-    // To: Packet sender + all client with roomname = null
+    //----------------------------- REPLY: ADDROOMPACKET
+    // To: All client with roomname = null
     public static void sendAddRoomSuccessPacket(ObjectOutputStream outputStream, RoomInfo newRoomInfo){
         ServerPacket addRoomSuccessPacket = new ServerPacket();
         addRoomSuccessPacket.buildAddRoomSuccessPacket(newRoomInfo);
@@ -65,7 +65,7 @@ public class PacketSender {
     }
     
     
-    // REPLY: PLAYPACKET
+    //----------------------------- REPLY: PLAYPACKET
     // To: Packet sender
     public static void sendPlaySuccessPacket(ObjectOutputStream outputStream, String roomName, 
             ArrayList<String> players, ArrayList<String> spectators) {
@@ -90,6 +90,85 @@ public class PacketSender {
     }
     
     // To: All client (except players in room)
+    public static void sendUpdatePlayerCountPacket(ObjectOutputStream outputStream, String roomName) {
+        ServerPacket updatePlayerCountPacket = new ServerPacket();
+        updatePlayerCountPacket.buildUpdatePlayerCountPacket(roomName);
+        try {
+            outputStream.writeObject(updatePlayerCountPacket);
+        } catch (Exception e) {
+            System.out.println("Sending update-player-count packet failed: " + e.toString());
+        }
+    }
+    
+    // To: Packet sender
+    public static void sendPlayFailedPacket(ObjectOutputStream outputStream) {
+        ServerPacket playFailedPacket = new ServerPacket();
+        playFailedPacket.buildPlayFailedPacket();
+        try {
+            outputStream.writeObject(playFailedPacket);
+        } catch (Exception e) {
+            System.out.println("Sending play-failed packet failed: " + e.toString());
+        }
+    }
     
     
+    //----------------------------- REPLY: SPECTATOR PACKET
+    // To: Packet sender
+    public static void sendSpectatorSuccessPacket(ObjectOutputStream outputStream, String roomName, 
+            ArrayList<String> players, ArrayList<String> spectators, String[][] board) {
+        ServerPacket spectatorSuccessPacket = new ServerPacket();
+        spectatorSuccessPacket.buildSpectatorSuccessPacket(roomName, players, spectators, board);
+        try {
+            outputStream.writeObject(spectatorSuccessPacket);
+        } catch (Exception e) {
+            System.out.println("Sending spectator-success packet failed: " + e.toString());
+        }
+    }
+    
+    // To: Players in room
+    public static void sendNewSpectatatorPacket(ObjectOutputStream outputStream, String player) {
+        ServerPacket newSpectatorPacket = new ServerPacket();
+        newSpectatorPacket.buildNewSpectatorPacket(player);
+        try {
+            outputStream.writeObject(newSpectatorPacket);
+        } catch (Exception e) {
+            System.out.println("Sending new-spectator packet failed: " + e.toString());
+        }
+    }
+    
+    //----------------------------- REPLY: START GAME PACKET
+    // To: Packet sender + all connected player with roomname = null
+    public static void sendStartGameSuccessPacket(ObjectOutputStream outputStream, String roomName) {
+        ServerPacket startGameSuccessPacket = new ServerPacket();
+        startGameSuccessPacket.buildStartGameSuccessPacket(roomName);
+        try {
+            outputStream.writeObject(startGameSuccessPacket);
+        } catch (Exception e) {
+            System.out.println("Sending start-game-success packet failed: " + e.toString());
+        }
+    }
+    
+    //----------------------------- REPLY: ADD PAWN PACKET
+    // To: All in room
+    public static void sendAddPawnPacketSuccess(ObjectOutputStream outputStream, String player, int x, int y, String nextPlayer) {
+        ServerPacket addPawnSuccessPacket = new ServerPacket();
+        addPawnSuccessPacket.buildAddPawnSuccessPacket(player, x, y, nextPlayer);
+        try {
+            outputStream.writeObject(addPawnSuccessPacket);
+        } catch (Exception e) {
+            System.out.println("Sending add-pawn-success packet failed: " + e.toString());
+        }
+    }
+    
+    //----------------------------- REPLY: ADD PAWN PACKET
+    // To: Packet sender
+    public static void sendHighscorePacket(ObjectOutputStream outputStream, ArrayList< ArrayList<String> > highscore) {
+        ServerPacket highscorePacket = new ServerPacket();
+        highscorePacket.buildHighScorePacket(highscore);
+        try {
+            outputStream.writeObject(highscorePacket);
+        } catch (Exception e) {
+            System.out.println("Sending highscore packet failed: " + e.toString());
+        }
+    }
 }

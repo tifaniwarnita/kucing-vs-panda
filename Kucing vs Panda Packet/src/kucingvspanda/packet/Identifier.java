@@ -27,19 +27,21 @@ public class Identifier {
     
     // FROM SERVER
     public static final int LOGIN_SUCCESS = 10; //list<roominfo>
-    public static final int LOGIN_FAILED = 11; //message
+    public static final int LOGIN_FAILED = 11;
     public static final int ADD_ROOM_SUCCESS = 12; //roominfo
-    public static final int ADD_ROOM_FAILED = 13; //message
+    public static final int ADD_ROOM_FAILED = 13;
     public static final int PLAY_SUCCESS = 14; //roomname + players + spectators
     public static final int NEW_PLAYER = 15; //playername
     public static final int UPDATE_PLAYER_COUNT = 16; //roomname 
     public static final int PLAY_FAILED = 17; //message
-    public static final int NEW_SPECTATOR = 18; //playername
-    public static final int BEGIN_GAME = 19; //roomname
-    public static final int PAWN_PLACED = 20; //roomname + player + x + y
-    public static final int PLAYER_LEAVE = 21; //roomname + player
-    public static final int END_GAME = 21; //roomname + winner
-    public static final int HIGHSCORE = 22; //highscore list
+    public static final int SPECTATOR_SUCCESS = 18; //players + spectators + board (matrix string)
+    public static final int NEW_SPECTATOR = 19; //playername
+    public static final int START_GAME_SUCCESS = 20; //roomname
+    public static final int PAWN_PLACED = 21; //roomname + player + x + y
+    public static final int PLAYER_LEAVE = 22; //roomname + player
+    public static final int WIN = 23; //x + y + win type
+    public static final int BOARD_FULL = 22;
+    public static final int HIGHSCORE = 24; //highscore list
     
     
     
@@ -49,10 +51,13 @@ public class Identifier {
     public static final int NICKNAME = 0;
     public static final int ROOM_NAME = 0;
     public static final int PLAYER = 0;
-    public static final int X = 0;
-    public static final int Y = 1;
+    public static final int WIN_TYPE = 0;
+    public static final int X = 1;
+    public static final int Y = 2;
+    public static final int NEXT_PLAYER = 3;
     public static final int PLAYER_LIST = 1;
     public static final int SPECTATOR_LIST = 2;
+    public static final int BOARD = 3;
     public static final int MESSAGE = 1;
     
     
