@@ -89,8 +89,8 @@ public class ServerPacket implements Packet {
     }
     
     // Update Player Count Packet (getUpdatedRoomName)
-    public void buildUpdatePlayerCountPacket(String roomName) {
-        identifier = Identifier.UPDATE_PLAYER_COUNT;
+    public void buildAddPlayerCountPacket(String roomName) {
+        identifier = Identifier.ADD_PLAYER_COUNT;
         payload = roomName;
     }
     
@@ -144,7 +144,7 @@ public class ServerPacket implements Packet {
     //----------------------------- ADD PAWN PACKET
     // Pawn Placed Packet (getPlayer, getX, getY, getNextPlayer)
     public void buildAddPawnSuccessPacket (String player, int x, int y, String nextPlayer) {
-        identifier = Identifier.ADD_PAWN;
+        identifier = Identifier.PAWN_PLACED;
         ArrayList<String> info = new ArrayList<>();
         info.add(player);
         info.add(String.valueOf(x));
@@ -169,20 +169,28 @@ public class ServerPacket implements Packet {
         return Integer.parseInt( ((ArrayList<String>)payload).get(Identifier.Y) );
     }
     
-    //----------------------------- ADD PAWN PACKET
-    // Player Leave Packet
-    public void buildPlayerLeavePacket (String roomName, String player) {
-        identifier = Identifier.PLAYER_LEAVE;
-        ArrayList<String> info = new ArrayList<>();
-        info.add(roomName);
-        info.add(player);
-        payload = info;
+    //----------------------------- LEAVE GAME PACKET
+    // Leave Game Success Packet (getRoomList)
+    public void buildLeaveGameSuccessPacket(ArrayList<RoomInfo> roomInfoList) {
+        identifier = Identifier.LEAVE_GAME_SUCCESS;
+        payload = roomInfoList;
     }
     
+    // Leave Player Packet (getPlayerName)
+    public void buildLeavePlayerPacket(String player) {
+        identifier = Identifier.PLAYER_LEAVE;
+        payload = player;
+    }
+    
+    // Decrement Player Count Packet (getUpdatedRoomName)
+    public void buildDecPlayerCountPacket(String roomName) {
+        identifier = Identifier.DEC_PLAYER_COUNT;
+        payload = roomName;
+    }
     
     //----------------------------- END GAME PACKET
     // End Game Packet (getWinType, getX, getY)
-    public void buildWinPacket (String winType, int x, int y) {
+    public void buildWinPacket(String winType, int x, int y) {
         identifier = Identifier.ADD_PAWN;
         ArrayList<String> info = new ArrayList<>();
         info.add(winType);
@@ -195,7 +203,12 @@ public class ServerPacket implements Packet {
         return (String) ((ArrayList<String>) payload).get(Identifier.WIN_TYPE);
     }
     
-    //----------------------------- END GAME PACKET
+    // Board Full Packet
+    public void buildBoardFullPacket() {
+        identifier = Identifier.BOARD_FULL;
+    }
+    
+    //----------------------------- HIGHSCORE PACKET
     // Highscore Packet (getHighscore)
     public void buildHighScorePacket (ArrayList< ArrayList<String> > highscore) {
         identifier = Identifier.HIGHSCORE;
@@ -208,7 +221,7 @@ public class ServerPacket implements Packet {
     
     //----------------------------- CHAT PACKET
     // Chat Packet (getHighscore)
-    public void sendChat(String message) {
+    public void buildChatPacket(String message) {
         identifier = Identifier.MESSAGE;
         payload = message;
     } 
@@ -220,7 +233,7 @@ public class ServerPacket implements Packet {
 
     @Override
     public Object getMessage() {
-        return (String) payload
+        return (String) payload;
     }
     
 }

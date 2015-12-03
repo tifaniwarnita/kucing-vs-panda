@@ -90,9 +90,9 @@ public class PacketSender {
     }
     
     // To: All client (except players in room)
-    public static void sendUpdatePlayerCountPacket(ObjectOutputStream outputStream, String roomName) {
+    public static void sendAddPlayerCountPacket(ObjectOutputStream outputStream, String roomName) {
         ServerPacket updatePlayerCountPacket = new ServerPacket();
-        updatePlayerCountPacket.buildUpdatePlayerCountPacket(roomName);
+        updatePlayerCountPacket.buildAddPlayerCountPacket(roomName);
         try {
             outputStream.writeObject(updatePlayerCountPacket);
         } catch (Exception e) {
@@ -160,7 +160,77 @@ public class PacketSender {
         }
     }
     
-    //----------------------------- REPLY: ADD PAWN PACKET
+    //----------------------------- REPLY: LEAVE GAME PACKET
+    // To: Packet sender
+    public static void sendLeaveGameSuccessPacket(ObjectOutputStream outputStream, ArrayList<RoomInfo> roomInfoList) {
+        ServerPacket leaveGameSuccessPacket = new ServerPacket();
+        leaveGameSuccessPacket.buildLeaveGameSuccessPacket(roomInfoList);
+        try {
+            outputStream.writeObject(leaveGameSuccessPacket);
+        } catch (Exception e) {
+            System.out.println("Sending leave-game-success packet failed: " + e.toString());
+        }
+    }
+    
+    // To: All in room
+    public static void sendLeavePlayerPacket(ObjectOutputStream outputStream, String player) {
+        ServerPacket leavePlayerPacket = new ServerPacket();
+        leavePlayerPacket.buildLeavePlayerPacket(player);
+        try {
+            outputStream.writeObject(leavePlayerPacket);
+        } catch (Exception e) {
+            System.out.println("Sending leave-player packet failed: " + e.toString());
+        }
+    }
+    
+    // To: All client with roomname = null
+    public static void sendDecPlayerCountPacket(ObjectOutputStream outputStream, String roomName) {
+        ServerPacket leavePlayerCountPacket = new ServerPacket();
+        leavePlayerCountPacket.buildDecPlayerCountPacket(roomName);
+        try {
+            outputStream.writeObject(leavePlayerCountPacket);
+        } catch (Exception e) {
+            System.out.println("Sending dec-player-count packet failed: " + e.toString());
+        }
+    }
+    
+    
+    //----------------------------- REPLY: WIN PACKET
+    // To: All in room
+    public static void sendWinPacket(ObjectOutputStream outputStream, String winType, int x, int y) {
+        ServerPacket winPacket = new ServerPacket();
+        winPacket.buildWinPacket(winType, x, y);
+        try {
+            outputStream.writeObject(winPacket);
+        } catch (Exception e) {
+            System.out.println("Sending win-packet packet failed: " + e.toString());
+        }
+    }
+    
+    // To: All in room
+    public static void sendBoardFullPacket(ObjectOutputStream outputStream) {
+        ServerPacket boardFullPacket = new ServerPacket();
+        boardFullPacket.buildBoardFullPacket();
+        try {
+            outputStream.writeObject(boardFullPacket);
+        } catch (Exception e) {
+            System.out.println("Sending board-full packet failed: " + e.toString());
+        }
+    }
+    
+    //----------------------------- REPLY: CHAT PACKET
+    // To: All in room
+    public static void sendChatPacket(ObjectOutputStream outputStream, String message) {
+        ServerPacket chatPacket = new ServerPacket();
+        chatPacket.buildChatPacket(message);
+        try {
+            outputStream.writeObject(chatPacket);
+        } catch (Exception e) {
+            System.out.println("Sending chat packet failed: " + e.toString());
+        }
+    }
+    
+    //----------------------------- REPLY: HIGHSCORE PACKET
     // To: Packet sender
     public static void sendHighscorePacket(ObjectOutputStream outputStream, ArrayList< ArrayList<String> > highscore) {
         ServerPacket highscorePacket = new ServerPacket();
@@ -171,4 +241,6 @@ public class PacketSender {
             System.out.println("Sending highscore packet failed: " + e.toString());
         }
     }
+    
+   
 }
