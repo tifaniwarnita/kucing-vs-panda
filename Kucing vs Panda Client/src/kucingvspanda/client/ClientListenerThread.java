@@ -58,7 +58,9 @@ public class ClientListenerThread extends Observable implements Runnable {
                 break;
             case Identifier.NEW_PLAYER: //playername
                 break;
-            case Identifier.UPDATE_PLAYER_COUNT: //roomname 
+            case Identifier.ADD_PLAYER_COUNT: //roomname 
+                break;
+            case Identifier.DEC_PLAYER_COUNT: //roomname 
                 break;
             case Identifier.PLAY_FAILED: //message
                 break;

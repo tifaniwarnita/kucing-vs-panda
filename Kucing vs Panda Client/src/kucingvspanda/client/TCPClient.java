@@ -13,7 +13,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import kucingvspanda.packet.Identifier;
 import kucingvspanda.packet.ServerPacket;
-import kucingvspanda.packet.model.Room;
 import kucingvspanda.packet.model.RoomInfo;
 
 /**
@@ -36,19 +35,8 @@ public class TCPClient implements Observer {
         roomsInfo = aRoomsInfo;
     }
 
-    /**
-     * @return the room
-     */
-    public static Room getRoom() {
-        return room;
-    }
 
-    /**
-     * @param aRoom the room to set
-     */
-    public static void setRoom(Room aRoom) {
-        room = aRoom;
-    }
+
     private String Name;
     //private ActionPacket actionPacket;
     private String serverAddress;
@@ -58,7 +46,7 @@ public class TCPClient implements Observer {
     //private ObjectInputStream inputStream = null;
     private ObjectOutputStream outputStream = null;
     private static RoomInfo roomsInfo;
-    private static Room room;
+
     
     public TCPClient(String host, String port) {
         
@@ -282,7 +270,9 @@ public void runClient(){
                 break;
             case Identifier.NEW_PLAYER: //playername
                 break;
-            case Identifier.UPDATE_PLAYER_COUNT: //roomname 
+            case Identifier.ADD_PLAYER_COUNT: //roomname 
+                break;
+            case Identifier.DEC_PLAYER_COUNT: //roomname 
                 break;
             case Identifier.PLAY_FAILED: //message
                 break;
