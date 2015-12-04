@@ -12,9 +12,6 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
-import kucingvspanda.packet.Identifier;
-import kucingvspanda.packet.ServerPacket;
-import kucingvspanda.packet.models.RoomInfo;
 
 /**
  *
@@ -137,68 +134,7 @@ public class RoomController implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        ServerPacket packet = (ServerPacket) arg;
-        int identifier = (int) packet.getIdentifier();
-        String player;
-        
-        switch(identifier){
-            case Identifier.LOGIN_SUCCESS : //list<roominfo>
-                // Implemented in MainMenuController
-                break;
-            case Identifier.LOGIN_FAILED: //message
-                // Implemented in MainMenuController
-                break;
-            case Identifier.ADD_ROOM_SUCCESS: //roominfo
-                // Implemented in MainMenuController
-                break;
-            case Identifier.ADD_ROOM_FAILED: //message
-                // Implemented in MainMenuController
-                break;
-            case Identifier.PLAY_SUCCESS: //roomname + players + spectators
-                // Implemented in MainMenuController
-                break;
-            case Identifier.NEW_PLAYER: //playername
-                player = packet.getNewPlayerName();
-                addPlayer(player);
-                break;
-            case Identifier.ADD_PLAYER_COUNT: //roomname
-                // Implemented in MainMenuController
-                break;
-            case Identifier.PLAY_FAILED: //message
-                // Implemented in MainMenuController
-                break;
-            case Identifier.SPECTATOR_SUCCESS: //room + players + spectators + board (matrix string)
-                // Implemented in MainMenuController
-                break;
-            case Identifier.NEW_SPECTATOR: //playername
-                player = packet.getNewSpectatorName();
-                addSpectator(player);
-                break;
-            case Identifier.START_GAME_SUCCESS: //roomname
-                if (model.getName().equals(packet.getUpdatedRoomName()))
-                    startGame();
-                break;
-            case Identifier.PAWN_PLACED: //roomname + player + x + y
-                // NOT YET
-                break;
-            case Identifier.LEAVE_GAME_SUCCESS: //roomname + player
-                if (model.getName().equals(packet.getUpdatedRoomName())) //CEK JUGA NAMANYA?
-                    exitGame();
-                break;
-            case Identifier.PLAYER_LEAVE: //playername
-                // Implemented in RoomModel
-                break;
-            case Identifier.DEC_PLAYER_COUNT: //roomname 
-                //roomName = packet.getUpdatedRoomName();
-                //decPlayerCount(roomName);
-                break;
-            case Identifier.WIN: //roomname + winner
-                break;
-            case Identifier.BOARD_FULL:
-                break;
-            case Identifier.HIGHSCORE:
-                break;
-        }
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

@@ -63,13 +63,16 @@ public class MainMenuController implements Observer {
     }
     
     public void watch(int roomNo) {
-        // Sending SpectatorPacket to server
-        //----------------------PacketSender.sendPlayPacket(os, <NAMA ATAU NOMOR ROOMNYA?>);
+        // request RoomModel
+        //anggap sukses yha, sebenernya successWatch ga dipanggil di sini sih
+        successWatch(model.getRooms().get(roomNo));
     }
     
     public void createRoom(String roomName) {
-        // Sending AddRoomPacket to server
-        PacketSender.sendAddRoomPacket(os, roomName);
+        /*request add room to server */
+        //ini tes doang:
+        RoomInfo ri = new RoomInfo(roomName,0,"Waiting");
+        addRoom(ri);
     }
     
     /* RECEIVED */
@@ -104,12 +107,15 @@ public class MainMenuController implements Observer {
         frame.changeScreen("Room");
     }
     
-    public void successWatch(String roomName, ArrayList<String> players, ArrayList<String> spectators, String[][] board) {
+    public void successWatch(String roomName) {
         //ceritanya sih nanti masukannya bukan cuma roomname tapi ada playerlist, spectatorlist, dan String[20][20] juga
-        roomController.setRoomModel(new RoomModel(new RoomInfo(roomName), players, spectators));
+        java.util.List<String> players = new java.util.ArrayList<>(java.util.Arrays.asList("Nilta","Tifa","Fiqie"));
+        java.util.List<String> spectators = new java.util.ArrayList<>(java.util.Arrays.asList("Fiqie","Jess"));
+        String[][] test = new String[20][20];
+        roomController.setRoomModel(new RoomModel(new RoomInfo(roomName),players,spectators));
         roomController.getRoomModel().setRole("Spectator");
         roomController.buildRoom();
-        roomController.getBoardController().buildModel(new BoardModel(board, players));
+        roomController.getBoardController().buildModel(new BoardModel(test,players));
         frame.disableBoard();
         frame.disableStartGameButton();
         frame.hideStartGameLabel();
@@ -151,10 +157,6 @@ public class MainMenuController implements Observer {
         ServerPacket packet = (ServerPacket) arg;
         int identifier = (int) packet.getIdentifier();
         String roomName;
-        ArrayList<String> players;
-        ArrayList<String> spectators;
-        String[][] board;
-        
         switch(identifier){
             case Identifier.LOGIN_SUCCESS : //list<roominfo>
                 ArrayList<RoomInfo> rooms = packet.getRoomList();
@@ -173,8 +175,8 @@ public class MainMenuController implements Observer {
                 break;
             case Identifier.PLAY_SUCCESS: //roomname + players + spectators
                 roomName = packet.getActiveRoomName();
-                players = packet.getPlayerList();
-                spectators = packet.getSpectatorList();
+                ArrayList<String> players = packet.getPlayerList();
+                ArrayList<String> spectators = packet.getSpectatorList();
                 successPlay(roomName, players, spectators);
                 break;
             case Identifier.NEW_PLAYER: //playername
@@ -187,13 +189,6 @@ public class MainMenuController implements Observer {
             case Identifier.PLAY_FAILED: //message
                 errorPlay();
                 break;
-            case Identifier.SPECTATOR_SUCCESS: //room + players + spectators + board (matrix string)
-                roomName = packet.getActiveRoomName();
-                players = packet.getPlayerList();
-                spectators = packet.getSpectatorList();
-                board = packet.getBoard();
-                successWatch(roomName, players, spectators, board);
-                break;
             case Identifier.NEW_SPECTATOR: //playername
                 // Implemented in RoomModel
                 break;
@@ -201,23 +196,19 @@ public class MainMenuController implements Observer {
                 // NOT YET
                 break;
             case Identifier.PAWN_PLACED: //roomname + player + x + y
-                // NOT YET
+                
                 break;
-            case Identifier.LEAVE_GAME_SUCCESS: //roomname + player
-                // MASIH BINGUNG PERLU GA
-                break;
-            case Identifier.PLAYER_LEAVE: //playername
-                // Implemented in RoomModel
+            case Identifier.PLAYER_LEAVE: //roomname + player
                 break;
             case Identifier.DEC_PLAYER_COUNT: //roomname 
-                roomName = packet.getUpdatedRoomName();
-                decPlayerCount(roomName);
+                String updatedRoomName = packet.getUpdatedRoomName();
+                
                 break;
             case Identifier.WIN: //roomname + winner
                 break;
-            case Identifier.BOARD_FULL:
+            case Identifier.HIGHSCORE: //highscore list
                 break;
-            case Identifier.HIGHSCORE:
+            case Identifier.BOARD_FULL:
                 break;
         }
     }
