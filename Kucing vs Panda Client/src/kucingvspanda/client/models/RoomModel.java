@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.DefaultListModel;
 import kucingvspanda.packet.models.RoomInfo;
 
 /**
@@ -18,7 +19,7 @@ import kucingvspanda.packet.models.RoomInfo;
 public class RoomModel {
     private RoomInfo info;
     private List<String> players = new ArrayList<>();
-    private List<String> spectators = new ArrayList<>();
+    private DefaultListModel<String> spectators = new DefaultListModel<>();
     private DefaultTableModel playersTableModel = new DefaultTableModel(new Object[]{"Name", "Icon"},0);
     private String role;
 
@@ -32,8 +33,9 @@ public class RoomModel {
     public RoomModel(RoomInfo info, List<String> players, List<String> spectators) {
         this.info = info;
         this.players = players;
-        this.spectators = spectators;
+        initSpectatorsListModel(spectators);
         initPlayersTableModel();
+        setPlayerCount(players.size());
     }
 
     public String getRole() {
@@ -64,18 +66,18 @@ public class RoomModel {
     }
     
     public void addSpectator(String name) {
-        spectators.add(name);
+        spectators.addElement(name);
     }
     
     public void removeSpectator(String name) {
-        spectators.remove(name);
+        spectators.remove(spectators.indexOf(name));
     }
 
     public DefaultTableModel getPlayersTableModel() {
         return playersTableModel;
     }
     
-    public List<String> getSpectatorList() {
+    public DefaultListModel getSpectatorList() {
         return spectators;
     }
     
@@ -85,6 +87,7 @@ public class RoomModel {
     
     public void setPlayerList(List<String> players) {
         this.players = players;
+        setPlayerCount(players.size());
         initPlayersTableModel();
     }
     
@@ -98,10 +101,19 @@ public class RoomModel {
         }
     }
     
+    public void initSpectatorsListModel(List<String> spectatorList) {
+        for (String spectator : spectatorList) {
+            spectators.addElement(spectator);
+        }
+    }
+    
     public int getPlayerCount() {
         return info.getPlayerCount();
     }
     
+    public void setPlayerCount(int count) {
+        info.setPlayerCount(count);
+    }
     public String getStatus() {
         return info.getStatus();
     }

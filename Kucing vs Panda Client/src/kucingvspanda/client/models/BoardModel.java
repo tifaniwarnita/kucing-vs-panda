@@ -32,6 +32,7 @@ public class BoardModel {
    }
    
    public void setBoardCoordinate(int x, int y, String name) {
+       System.out.println(players.indexOf(name));
        boardTableModel.setValueAt(players.indexOf(name), x, y);
    }
    

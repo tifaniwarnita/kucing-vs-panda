@@ -45,8 +45,8 @@ public class MainMenuController {
     
     public void enterGame(String nickname) {
         //send message to server
-        PacketSender.sendLoginPacket(os, nickname);
-        System.out.println("BERHASIL SEND");
+        //PacketSender.sendLoginPacket(os, nickname);
+        //System.out.println("BERHASIL SEND");
         model.setCurrentPlayer(nickname);
         //anggap sukses yha, sebenernya successLogin bukan dipanggil di sini sih. ini tes doang oke
         java.util.List<RoomInfo> rooms = new java.util.ArrayList<>();
@@ -100,18 +100,19 @@ public class MainMenuController {
     
     public void successPlay(String roomName) {
         //ceritanya sih nanti masukannya bukan cuma roomname tapi ada playerlist dan spectatorlistjuga
-        java.util.List<String> players = new java.util.ArrayList<>(java.util.Arrays.asList("Nilta","Tifa"));
+        java.util.List<String> players = new java.util.ArrayList<>(java.util.Arrays.asList("Nilta","Tifa","Fiqie"));
         java.util.List<String> spectators = new java.util.ArrayList<>(java.util.Arrays.asList("Fiqie","Jess"));
+        String[][] test = new String[20][20];
         roomController.setRoomModel(new RoomModel(new RoomInfo(roomName),players,spectators));
         roomController.getRoomModel().setRole("Player");
         roomController.buildRoom();
-        roomController.getBoardController().buildModel(new BoardModel());
+        roomController.getBoardController().buildModel(new BoardModel(test,players));
         frame.changeScreen("Room");
     }
     
     public void successWatch(String roomName) {
         //ceritanya sih nanti masukannya bukan cuma roomname tapi ada playerlist, spectatorlist, dan String[20][20] juga
-        java.util.List<String> players = new java.util.ArrayList<>(java.util.Arrays.asList("Nilta","Tifa"));
+        java.util.List<String> players = new java.util.ArrayList<>(java.util.Arrays.asList("Nilta","Tifa","Fiqie"));
         java.util.List<String> spectators = new java.util.ArrayList<>(java.util.Arrays.asList("Fiqie","Jess"));
         String[][] test = new String[20][20];
         roomController.setRoomModel(new RoomModel(new RoomInfo(roomName),players,spectators));
@@ -120,6 +121,7 @@ public class MainMenuController {
         roomController.getBoardController().buildModel(new BoardModel(test,players));
         frame.disableBoard();
         frame.disableStartGameButton();
+        frame.hideStartGameLabel();
         frame.changeScreen("Room");
     }
     

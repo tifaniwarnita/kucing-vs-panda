@@ -48,6 +48,7 @@ public class RoomController {
     
     public void requestStartGame() {
         //send message start game
+        startGame();
     }
     
     /* RECEIVED */
@@ -55,8 +56,11 @@ public class RoomController {
         frame.setRoomName(model.getName());
         frame.initPlayerTable(model.getPlayersTableModel());
         frame.initSpectatorList(model.getSpectatorList());
+        frame.disableStartGameButton();
         if (model.isPlayer()) frame.disableBoard();
-        if (model.getPlayerCount() < 3 ) frame.setTurnLabel("Waiting for other players to join...");
+        if (model.getPlayerCount() < 3 ) {
+            frame.setTurnLabel("Waiting for other players to join...");
+        }
         else {
             if (model.isPlayer()) {
                 frame.enableStartGameButton();
@@ -86,13 +90,17 @@ public class RoomController {
         }
     }
     
-    public void startGame(List<String> updatedPlayers) {
-        model.setPlayerList(updatedPlayers);
+    public void startGame() {
+        //model.setPlayerList(updatedPlayers);
         boardController.clearBoard();
         model.setStatus("Playing");
-        frame.enableBoard();
         frame.disableStartGameButton();
-        frame.setTurnLabel("Waiting for "+updatedPlayers.get(0)+"...");
+        frame.hideStartGameLabel();
+        if (model.getPlayerList().get(0).equals(MainMenuModel.getCurrentPlayer())) {
+            frame.enableBoard();
+            frame.setTurnLabel("Your turn!");
+        }
+        else frame.setTurnLabel("Waiting for "+model.getPlayerList().get(0)+"...");
     }
     
     public void endGame() {
@@ -116,12 +124,10 @@ public class RoomController {
    
     public void removeSpectator(String name) {
         model.removeSpectator(name);
-        frame.removeSpectatorList(name);
     }
     
     public void addSpectator(String name) {
         model.addSpectator(name);
-        frame.addSpectatorList(name);
     }
     
 }

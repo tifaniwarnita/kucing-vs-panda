@@ -41,7 +41,9 @@ public class BoardController {
     
     public void sendMove(int x, int y) {
         if (model.isEmpty(x,y)) {
+            System.out.println("Send move");
             //kirim pesan x,y ke server
+            model.setBoardCoordinate(x,y,"Nilta");
             frame.disableBoard();
         }
         else frame.errorMessage("Please select an empty square!");
@@ -73,6 +75,7 @@ public class BoardController {
     
     public void clearBoard() {
         model.getTableModel().setRowCount(0);
+        model.getTableModel().setRowCount(20);
     }
     
 }
