@@ -134,7 +134,9 @@ public class ServerTCP {
     
     // To: All client with roomname = null
     public static void broadCastAddRoom(String roomName){
+        System.out.println(rooms.get(roomName).getName());
         RoomInfo roomInfo = rooms.get(roomName).toRoomInfo();
+        System.out.println(roomInfo.getName());
         for(ClientThread client : clientInfo.values()){
                 PacketSender.sendAddRoomSuccessPacket(client.getOut(), roomInfo);
             
@@ -167,58 +169,59 @@ public class ServerTCP {
     public static void broadCastStartGame(){
         
     }
-   /* 
+   
     // To: All in room
-    public static void addPawn(Room room,String from, int x, int y, String to){
+    public static void broadCastaddPawn(Room room,String from, int x, int y, String to){
         ArrayList<String> players = getAllPlayerInRoom(room);
         for(String player : players){
             ClientThread client = clientInfo.get(player);
-            PacketSender.sendNewSpectatorPacket(client.getOut(), name);
+            PacketSender.sendAddPawnPacketSuccess(client.getOut(), from, x, y, to);
             
         }
     }
+    
+//    // To: All in room
+//    public static void leavePlayer(){
+//        ArrayList<String> players = getAllPlayerInRoom(room);
+//        for(String player : players){
+//            ClientThread client = clientInfo.get(player);
+//            PacketSender.sendNewSpectatorPacket(client.getOut(), name);
+//            
+//        }
+//    }
+    
+//    // To: All client with roomname = null
+//    public static void decPlayerCoun(){
+//        
+//    }
     // To: All in room
-    public static void leavePlayer(){
+    public static void winPacket(Room room, String type, int x, int y){
         ArrayList<String> players = getAllPlayerInRoom(room);
         for(String player : players){
             ClientThread client = clientInfo.get(player);
-            PacketSender.sendNewSpectatorPacket(client.getOut(), name);
-            
-        }
-    }
-    // To: All client with roomname = null
-    public static void decPlayerCoun(){
-        
-    }
-    // To: All in room
-    public static void winPacket(){
-        ArrayList<String> players = getAllPlayerInRoom(room);
-        for(String player : players){
-            ClientThread client = clientInfo.get(player);
-            PacketSender.sendNewSpectatorPacket(client.getOut(), name);
-            
+            PacketSender.sendWinPacket(client.getOut(), type, x, y);
         }
     }
     //To: All in room
-    public static void boardFull(){
+    public static void boardFull(Room room){
         ArrayList<String> players = getAllPlayerInRoom(room);
         for(String player : players){
             ClientThread client = clientInfo.get(player);
-            PacketSender.sendNewSpectatorPacket(client.getOut(), name);
+            PacketSender.sendBoardFullPacket(client.getOut());
             
         }
     }
     
     //To: All in room
-    public static void chatPacket(){
+    public static void chatPacket(Room room, String message, String name){
         ArrayList<String> players = getAllPlayerInRoom(room);
         for(String player : players){
             ClientThread client = clientInfo.get(player);
-            PacketSender.sendNewSpectatorPacket(client.getOut(), name);
+            PacketSender.sendChatPacket(client.getOut(), name, message); 
             
         }
     }
-    */
+    
     public static boolean validateUser(String nama){
         ClientThread check = null;
         check = clientInfo.get(nama);

@@ -220,9 +220,9 @@ public class PacketSender {
     
     //----------------------------- REPLY: CHAT PACKET
     // To: All in room
-    public static void sendChatPacket(ObjectOutputStream outputStream, String message) {
+    public static void sendChatPacket(ObjectOutputStream outputStream, String name, String message) {
         ServerPacket chatPacket = new ServerPacket();
-        chatPacket.buildChatPacket(message);
+        chatPacket.buildChatPacket(name,message);
         try {
             outputStream.writeObject(chatPacket);
         } catch (Exception e) {

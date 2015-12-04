@@ -139,8 +139,8 @@ public class ClientThread implements Runnable {
                         break;
                     case Identifier.WATCH: //roomname + player
                         setRoomName(clientPacket.getRoomName());
+                        //PacketSender.sendSpectatorSuccessPacket(out, roomName, ServerTCP.getListPlayer(roomName), ServerTCP.getListSpectator(roomName), ServerTCP.getRoom(roomName).getGameBoard());
                         
-                        //sending room
                         //out.writeObject(ServerTCP.getRoom(roomName));
                         break;
     
@@ -154,13 +154,11 @@ public class ClientThread implements Runnable {
                         int x,y; 
                         x = clientPacket.getX();
                         y = clientPacket.getY();
-                        
+                        //ServerTCP.addPawn(clientPacket.getRoomName(), name, x, y);
                         // broadcast ke semua (nama, x, y)
                         
                         break;
-                    case Identifier.LEAVE_GAME: //roomname + player
-                        
-                        break;
+       
     
                     case Identifier.VIEW_HIGHSCORE: //roomname + 
                         
