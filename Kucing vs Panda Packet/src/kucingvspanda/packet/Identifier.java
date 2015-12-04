@@ -56,4 +56,6 @@ public class Identifier {
     public static final int SPECTATOR_LIST = 2;
     public static final int BOARD = 3;
     public static final int MESSAGE = 1;
+    public static final int CHAT_SENDER = 0;
+    public static final int CHAT_CONTENT = 1;
 }

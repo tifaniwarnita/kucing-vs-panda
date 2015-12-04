@@ -221,10 +221,21 @@ public class ServerPacket implements Packet, Serializable {
     
     //----------------------------- CHAT PACKET
     // Chat Packet (getHighscore)
-    public void buildChatPacket(String message) {
+    public void buildChatPacket(String sender, String message) {
         identifier = Identifier.MESSAGE;
+        ArrayList<String> info = new ArrayList<>();
+        info.add(sender);
+        info.add(message);
         payload = message;
     } 
+    
+    public String getChatSender(){
+        return (String) ((ArrayList<String>)payload).get(Identifier.CHAT_SENDER);
+    }
+    
+    public String getChatContent(){
+        return (String) ((ArrayList<String>)payload).get(Identifier.CHAT_CONTENT);
+    }
 
     @Override
     public int getIdentifier() {
