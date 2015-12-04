@@ -27,14 +27,39 @@ public class ServerTCP {
 
     // Connection state info
     public static LinkedHashMap<String, ClientThread> clientInfo = new LinkedHashMap<String, ClientThread>();
-    // TCP Components
-    private ServerSocket serverSocket;
-    private static Map<String,Room> rooms = new HashMap<>();
-    private static ArrayList<RoomInfo> roomsInfo= new ArrayList<>();
+
     /**
      * @return the roomsInfo
      */
-    
+    public static ArrayList<RoomInfo> getRoomsInfo() {
+        ArrayList<RoomInfo> temp = new ArrayList<>(); 
+        for(Room room : rooms.values()){
+            temp.add(room.toRoomInfo());
+        }
+        return temp;
+    }
+
+    /**
+     * @param aRoomsInfo the roomsInfo to set
+     */
+    public static void setRoomsInfo(Map<String,RoomInfo> aRoomsInfo) {
+        roomsInfo = aRoomsInfo;
+    }
+    // TCP Components
+    private ServerSocket serverSocket;
+    private static Map<String,Room> rooms = new HashMap<>();
+    private static Map<String,RoomInfo> roomsInfo= new HashMap<>();
+    /**
+     * @return the roomsInfo
+     */
+    public static ArrayList<String> getListPlayer(String roomName){
+        Room room = rooms.get(roomName);
+        return (ArrayList)room.getPlayers();
+    }
+    public static ArrayList<String> getListSpectator(String roomName){
+        Room room = rooms.get(roomName);
+        return (ArrayList)room.getSpectators();
+    }
     public static ArrayList<String> getAllPlayerInRoom(Room room){
         ArrayList<String> people = new ArrayList<>();
         List<String> players = room.getPlayers();
@@ -48,16 +73,9 @@ public class ServerTCP {
         }
         return people; 
     }
-    public static ArrayList<RoomInfo> getRoomsInfo() {
-        return roomsInfo;
-    }
+   
 
-    /**
-     * @param aRoomsInfo the roomsInfo to set
-     */
-    public static void setRoomsInfo(ArrayList<RoomInfo> aRoomsInfo) {
-        roomsInfo = aRoomsInfo;
-    }
+   
     
     
     // Main Constructor
@@ -67,6 +85,7 @@ public class ServerTCP {
     }
     public static void createRoom(String roomName){
         rooms.put(roomName, new Room(roomName));
+        
     }
     public static Map<String,Room> getRooms(){
         return rooms;
@@ -114,11 +133,11 @@ public class ServerTCP {
     /******BROADCAST METHOD******/
     
     // To: All client with roomname = null
-    public static void broadCastAddRoom(RoomInfo roomInfo){
+    public static void broadCastAddRoom(String roomName){
+        RoomInfo roomInfo = rooms.get(roomName).toRoomInfo();
         for(ClientThread client : clientInfo.values()){
-            if(client.getRoomName().equals(null)){
                 PacketSender.sendAddRoomSuccessPacket(client.getOut(), roomInfo);
-            }
+            
         }
     }
     // To:Players in room 
@@ -137,6 +156,7 @@ public class ServerTCP {
     public static void broadCastNewSpectatorPacket(Room room, String name){
         ArrayList<String> players = getAllPlayerInRoom(room);
         for(String player : players){
+            System.out.println("player : "+ player+" dikirim");
             ClientThread client = clientInfo.get(player);
             PacketSender.sendNewSpectatorPacket(client.getOut(), name);
             
