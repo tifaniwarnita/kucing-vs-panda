@@ -26,11 +26,11 @@ import kucingvspanda.packet.models.RoomInfo;
 public class ServerTCP {
 
     // Connection state info
-    private static LinkedHashMap<String, ClientThread> clientInfo = new LinkedHashMap<String, ClientThread>();
+    public static LinkedHashMap<String, ClientThread> clientInfo = new LinkedHashMap<String, ClientThread>();
     // TCP Components
     private ServerSocket serverSocket;
     private static Map<String,Room> rooms = new HashMap<>();
-    private static ArrayList<RoomInfo> roomsInfo;
+    private static ArrayList<RoomInfo> roomsInfo= new ArrayList<>();
     /**
      * @return the roomsInfo
      */
@@ -207,6 +207,13 @@ public class ServerTCP {
         }else{
             return false;   
         }
+    }
+    public static boolean validateRoom(String name){
+        Room room = null;
+        room = rooms.get(name);
+        if(room==null){
+            return true;
+        }else return false;
     }
     
     // *********************************** Main Method ********************
