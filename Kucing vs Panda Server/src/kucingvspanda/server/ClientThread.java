@@ -103,21 +103,18 @@ public class ClientThread implements Runnable {
 //                        break;
                     case Identifier.LOGIN:
 
-                        System.out.println(""+clientPacket.getNickname()+" berhasil login");
+                        
                         //
                         if(ServerTCP.validateUser(clientPacket.getNickname())){
                             PacketSender.sendLoginSuccessPacket(getOut(), ServerTCP.getRoomsInfo());
                             setName(clientPacket.getNickname());
-                            clientInfo.put(clientPacket.getNickname(), this);
+                            ServerTCP.clientInfo.put(clientPacket.getNickname(), this);
+                            System.out.println(""+clientPacket.getNickname()+" berhasil login");
                         }
                         else{
+                            System.out.println(""+clientPacket.getNickname()+" gagal login");
                             PacketSender.sendLoginFailedPacket(getOut());
                         }
-                        //////////////////////clientInfo.put(name, this);
-                        //sending room list
-                        
-                        
-                        //out.writeObject(ServerTCP.getRooms());
                         break;
                     case Identifier.ADD_ROOM: //roomname
                         ServerTCP.createRoom(clientPacket.getRoomName());
