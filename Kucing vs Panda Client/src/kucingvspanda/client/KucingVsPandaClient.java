@@ -43,7 +43,7 @@ public class KucingVsPandaClient {
         }
         
         frame.setVisible(true);
-            
+        frame.setExtendedState(frame.getExtendedState() | javax.swing.JFrame.MAXIMIZED_BOTH);    
     }
     
 }

@@ -50,7 +50,7 @@ public class MainMenuController {
         model.setCurrentPlayer(nickname);
         //anggap sukses yha, sebenernya successLogin bukan dipanggil di sini sih. ini tes doang oke
         java.util.List<RoomInfo> rooms = new java.util.ArrayList<>();
-        for (int i=0;i<20;i++) rooms.add(new RoomInfo("Tes",3,"Playing"));
+        for (int i=0;i<10;i++) rooms.add(new RoomInfo("Tes",3,"Playing"));
         successLogin(rooms);
     }
    
