@@ -28,8 +28,8 @@ import kucingvspanda.packet.*;
 public class ClientThread implements Runnable {
     // TCP Components
     private Socket socket;
-    private ObjectInputStream in;
-    private ObjectOutputStream out;
+    private ObjectInputStream in=null;
+    private ObjectOutputStream out=null;
     private String name;
     private ClientPacket clientPacket;
     ///////////////private MessagePacket message;
@@ -38,7 +38,7 @@ public class ClientThread implements Runnable {
     // seperate thread
     private Thread thread;
     
-    ////////////private HashMap<String, ClientThread> clientInfo = new HashMap<String, ClientThread>();
+    private HashMap<String, ClientThread> clientInfo = new HashMap<String, ClientThread>();
 
     // boolean variable to check that client is running or not
     private volatile boolean isRunning = true;
@@ -92,6 +92,7 @@ public class ClientThread implements Runnable {
     public void run() {
         try {
             while (isRunning) {
+                System.out.println("running");
                 clientPacket= (ClientPacket) in.readObject();
                 opcode = clientPacket.getIdentifier();// getting opcode first from client
                 switch (opcode) {
@@ -103,11 +104,12 @@ public class ClientThread implements Runnable {
                     case Identifier.LOGIN:
                         //ngirim list
                         //put new entry in clientInfo hashmap
-
+                        System.out.println("BERHASIL login");
+                        System.out.println(""+clientPacket.getNickname()+" berhasil login");
                         setName(clientPacket.getNickname());
                         //////////////////////clientInfo.put(name, this);
                         //sending room list
-                        
+                        PacketSender.sendLoginSuccessPacket(getOut(), ServerTCP.getRoomsInfo());
                         
                         //out.writeObject(ServerTCP.getRooms());
                         break;
@@ -118,20 +120,20 @@ public class ClientThread implements Runnable {
                         //ServerTCP.addRoom(room); //HARUSNYA ROOM yang dikirim
                         break;
                     case Identifier.PLAY: //roomname + player
-                        roomName= clientPacket.getRoomName();
+                        setRoomName(clientPacket.getRoomName());
                         
                         //sending room
                         //out.writeObject(ServerTCP.getRoom(roomName));
                         break;
                     case Identifier.WATCH: //roomname + player
-                        roomName = clientPacket.getRoomName();
+                        setRoomName(clientPacket.getRoomName());
                         
                         //sending room
                         //out.writeObject(ServerTCP.getRoom(roomName));
                         break;
     
                     case Identifier.START_GAME: //roomname
-                        roomName = clientPacket.getRoomName();
+                        setRoomName(clientPacket.getRoomName());
                         
                         //sending room
                         
@@ -186,7 +188,7 @@ public class ClientThread implements Runnable {
             }
 
             // clsoe all connections
-            out.close();
+            getOut().close();
             in.close();
             socket.close();
         } catch (IOException e) {
@@ -194,5 +196,33 @@ public class ClientThread implements Runnable {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ClientThread.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    /**
+     * @return the roomName
+     */
+    public String getRoomName() {
+        return roomName;
+    }
+
+    /**
+     * @param roomName the roomName to set
+     */
+    public void setRoomName(String roomName) {
+        this.roomName = roomName;
+    }
+
+    /**
+     * @return the out
+     */
+    public ObjectOutputStream getOut() {
+        return out;
+    }
+
+    /**
+     * @param out the out to set
+     */
+    public void setOut(ObjectOutputStream out) {
+        this.out = out;
     }
 }
