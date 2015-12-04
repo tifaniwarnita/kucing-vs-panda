@@ -21,6 +21,8 @@ public class BoardModel {
    }
    public BoardModel(String[][] board, java.util.List<String> players) {
        this.players = players;
+       boardTableModel.setRowCount(20);
+       boardTableModel.setColumnCount(20);
        for (int i=0;i<20;i++) {
            for (int j=0;j<20;j++) {
                if (board[i][j]!=null) {

@@ -68,8 +68,8 @@ public class GameFrame extends javax.swing.JFrame {
         roomPanel = new javax.swing.JPanel();
         //
         boardPanel = new javax.swing.JPanel();
-        startGameLabel = new javax.swing.JLabel();
         boardTable = new javax.swing.JTable();
+        startGameLabel = new javax.swing.JLabel();
         playerScrollPane = new javax.swing.JScrollPane();
         playerTable = new javax.swing.JTable();
         spectatorScrollPane = new javax.swing.JScrollPane();
@@ -323,30 +323,56 @@ public class GameFrame extends javax.swing.JFrame {
         boardPanel.setMaximumSize(new java.awt.Dimension(700, 700));
         boardPanel.setMinimumSize(new java.awt.Dimension(700, 700));
         boardPanel.setPreferredSize(new java.awt.Dimension(700, 700));
-        boardPanel.setLayout(new javax.swing.OverlayLayout(boardPanel));
 
-        startGameLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        startGameLabel.setText("Click Start Game To Begin!");
-        startGameLabel.setAlignmentX(0.5F);
-        boardPanel.add(startGameLabel);
-
+        boardTable.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         boardTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        boardTable.setAutoscrolls(false);
+        boardTable.setColumnSelectionAllowed(false);
         boardTable.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         boardTable.setEnabled(false);
-        boardTable.setFillsViewportHeight(true);
-        boardTable.setFocusable(false);
-        boardTable.setIntercellSpacing(new java.awt.Dimension(0, 0));
+        boardTable.setGridColor(new java.awt.Color(102, 102, 102));
         boardTable.setMinimumSize(new java.awt.Dimension(700, 700));
         boardTable.setPreferredSize(new java.awt.Dimension(700, 700));
         boardTable.setRequestFocusEnabled(false);
         boardTable.setRowHeight(35);
+        boardTable.setRowSelectionAllowed(false);
         boardTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         boardTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 boardTableMouseClicked(evt);
             }
         });
-        boardPanel.add(boardTable);
+
+        startGameLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        startGameLabel.setText("Click Start Game To Begin!");
+        startGameLabel.setAlignmentX(0.5F);
+
+        javax.swing.GroupLayout boardPanelLayout = new javax.swing.GroupLayout(boardPanel);
+        boardPanel.setLayout(boardPanelLayout);
+        boardPanelLayout.setHorizontalGroup(
+            boardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(boardPanelLayout.createSequentialGroup()
+                .addComponent(boardTable, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(350, 350, 350))
+            .addGroup(boardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(boardPanelLayout.createSequentialGroup()
+                    .addGap(207, 207, 207)
+                    .addComponent(startGameLabel)
+                    .addContainerGap(208, Short.MAX_VALUE)))
+        );
+        boardPanelLayout.setVerticalGroup(
+            boardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(boardPanelLayout.createSequentialGroup()
+                .addComponent(boardTable, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(35, 35, 35))
+            .addGroup(boardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(boardPanelLayout.createSequentialGroup()
+                    .addGap(335, 335, 335)
+                    .addComponent(startGameLabel)
+                    .addContainerGap(336, Short.MAX_VALUE)))
+        );
+
+        boardTable.setGridColor(java.awt.Color.BLACK);
 
         playerScrollPane.setBackground(new java.awt.Color(255, 255, 255));
         playerScrollPane.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -456,7 +482,7 @@ public class GameFrame extends javax.swing.JFrame {
             roomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(roomPanelLayout.createSequentialGroup()
                 .addComponent(boardPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 86, Short.MAX_VALUE)
                 .addGroup(roomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(roomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(playersLabel)
@@ -597,6 +623,11 @@ public class GameFrame extends javax.swing.JFrame {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    javax.swing.UIDefaults defaults = javax.swing.UIManager.getLookAndFeelDefaults();
+                    defaults.put("Table.gridColor", new java.awt.Color (214,217,223));
+                    defaults.put("Table.disabled", false);
+                    defaults.put("Table.showGrid", true);
+                    defaults.put("Table.intercellSpacing", new java.awt.Dimension(1, 1));
                     break;
                 }
             }

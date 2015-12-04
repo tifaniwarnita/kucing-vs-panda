@@ -100,10 +100,11 @@ public class MainMenuController implements Observer {
     
     public void successPlay(String roomName, ArrayList<String> players, ArrayList<String> spectators) {
         //ceritanya sih nanti masukannya bukan cuma roomname tapi ada playerlist dan spectatorlistjuga
+        String[][] empty = new String[20][20];
         roomController.setRoomModel(new RoomModel(new RoomInfo(roomName), players, spectators));
         roomController.getRoomModel().setRole("Player");
         roomController.buildRoom();
-        roomController.getBoardController().buildModel(new BoardModel(players));
+        roomController.getBoardController().buildModel(new BoardModel(empty,players));
         frame.changeScreen("Room");
     }
     

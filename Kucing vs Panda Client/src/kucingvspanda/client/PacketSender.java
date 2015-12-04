@@ -60,6 +60,7 @@ public class PacketSender {
         startGamePacket.buildStartGamePacket();
         try {
             outputStream.writeObject(startGamePacket);
+            System.out.println("send start game");
         } catch (Exception e) {
             System.out.println("Sending start game packet failed: " + e.toString());
         }
