@@ -15,7 +15,9 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import kucingvspanda.client.controllers.BoardController;
 import kucingvspanda.client.controllers.MainMenuController;
+import kucingvspanda.client.controllers.RoomController;
 import kucingvspanda.packet.ServerPacket;
 import kucingvspanda.packet.Identifier;
 import kucingvspanda.packet.models.RoomInfo;
@@ -33,10 +35,12 @@ public class ClientListenerThread extends Observable implements Runnable {
     private ServerPacket packet;
     ArrayList<Observer> observerList = new ArrayList<Observer>();
     
-    public ClientListenerThread(Socket socket, String name, MainMenuController firstObs){
+    public ClientListenerThread(Socket socket, String name, MainMenuController firstObs, RoomController secondObs, BoardController thirdObs){
         this.socket = socket;
         this.name = name;
         this.observerList.add(firstObs);
+        this.observerList.add(secondObs);
+        this.observerList.add(thirdObs);
         System.out.println("Sebelum in");
         System.out.println("Sebelum thread distart");
         thread = new Thread(this);

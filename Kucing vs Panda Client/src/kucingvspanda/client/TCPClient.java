@@ -11,7 +11,9 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import kucingvspanda.client.controllers.BoardController;
 import kucingvspanda.client.controllers.MainMenuController;
+import kucingvspanda.client.controllers.RoomController;
 import kucingvspanda.packet.Identifier;
 import kucingvspanda.packet.ServerPacket;
 import kucingvspanda.packet.models.RoomInfo;
@@ -102,8 +104,8 @@ public class TCPClient {
         return outputStream;
     }
 
-    public void runClient(MainMenuController firstObs){
-        ClientListenerThread clientListener = new ClientListenerThread(socket, name, firstObs);
+    public void runClient(MainMenuController firstObs, RoomController secondObs, BoardController thirdObs){
+        ClientListenerThread clientListener = new ClientListenerThread(socket, name, firstObs, secondObs, thirdObs);
     }
 
     /**

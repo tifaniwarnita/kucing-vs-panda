@@ -59,16 +59,20 @@ public class MainMenuController implements Observer {
     public void play(int roomNo) {
         // Sending PlayPacket to server
         System.out.println("Sending play packet");
-        //----------------------PacketSender.sendPlayPacket(os, <NAMA ATAU NOMOR ROOMNYA?>);
+        String roomName = model.getRooms().get(roomNo);
+        PacketSender.sendPlayPacket(os, roomName);
     }
     
     public void watch(int roomNo) {
         // Sending SpectatorPacket to server
-        //----------------------PacketSender.sendPlayPacket(os, <NAMA ATAU NOMOR ROOMNYA?>);
+        System.out.println("Sending spectator packet");
+        String roomName = model.getRooms().get(roomNo);
+        PacketSender.sendSpectatorPacket(os, roomName);
     }
     
     public void createRoom(String roomName) {
         // Sending AddRoomPacket to server
+        System.out.println("Sending add room2 packet");
         PacketSender.sendAddRoomPacket(os, roomName);
     }
     
@@ -198,10 +202,12 @@ public class MainMenuController implements Observer {
                 // Implemented in RoomModel
                 break;
             case Identifier.START_GAME_SUCCESS: //roomname
-                // NOT YET
+                roomName = packet.getUpdatedRoomName();
+                model.updateRoomStatus(roomName, "Playing");
+                frame.disablePlayButton(model.getRoomNumber(roomName));
                 break;
             case Identifier.PAWN_PLACED: //roomname + player + x + y
-                // NOT YET
+                // Implemented in RoomController
                 break;
             case Identifier.LEAVE_GAME_SUCCESS: //roomname + player
                 // MASIH BINGUNG PERLU GA

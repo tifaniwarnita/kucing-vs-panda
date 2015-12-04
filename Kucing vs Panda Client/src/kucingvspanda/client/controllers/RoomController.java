@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+import kucingvspanda.client.PacketSender;
 import kucingvspanda.packet.Identifier;
 import kucingvspanda.packet.ServerPacket;
 import kucingvspanda.packet.models.RoomInfo;
@@ -47,13 +48,17 @@ public class RoomController implements Observer {
 
     /* REQUESTS */
     public void exitGame() {
-        //send message exit game
+        //Send message exit game
+        System.out.println("Sending leave packet");
+        PacketSender.sendLeaveGamePacket(os);
         frame.changeScreen("MainMenu");
     }
     
     public void requestStartGame() {
         //send message start game
-        startGame();
+        System.out.println("Sending leave packet");
+        PacketSender.sendStartGamePacket(os);
+        //startGame();
     }
     
     /* RECEIVED */
@@ -139,7 +144,8 @@ public class RoomController implements Observer {
     public void update(Observable o, Object arg) {
         ServerPacket packet = (ServerPacket) arg;
         int identifier = (int) packet.getIdentifier();
-        String player;
+        String player, roomName;
+        int x, y;
         
         switch(identifier){
             case Identifier.LOGIN_SUCCESS : //list<roominfo>
@@ -178,21 +184,27 @@ public class RoomController implements Observer {
                 if (model.getName().equals(packet.getUpdatedRoomName()))
                     startGame();
                 break;
-            case Identifier.PAWN_PLACED: //roomname + player + x + y
-                // NOT YET
+            case Identifier.PAWN_PLACED: //player + x + y + nextplayer
+                player = packet.getPlayer();
+                x = packet.getX();
+                y = packet.getY();
+                String nextPlayer = packet.getPlayer();
+                receiveMove(x, y, player, nextPlayer);
                 break;
             case Identifier.LEAVE_GAME_SUCCESS: //roomname + player
-                if (model.getName().equals(packet.getUpdatedRoomName())) //CEK JUGA NAMANYA?
-                    exitGame();
+                frame.changeScreen("MainMenu");
                 break;
             case Identifier.PLAYER_LEAVE: //playername
                 // Implemented in RoomModel
                 break;
             case Identifier.DEC_PLAYER_COUNT: //roomname 
-                //roomName = packet.getUpdatedRoomName();
-                //decPlayerCount(roomName);
+                // Implemented in RoomModel
                 break;
-            case Identifier.WIN: //roomname + winner
+            case Identifier.WIN: //wintype + x + y
+                String winType = packet.getWinType();
+                x = packet.getX();
+                y = packet.getY();
+                //BUAT METHOD WIN~~~~~~
                 break;
             case Identifier.BOARD_FULL:
                 break;
