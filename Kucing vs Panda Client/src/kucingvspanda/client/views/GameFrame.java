@@ -31,9 +31,9 @@ public class GameFrame extends javax.swing.JFrame {
     }
     
     public void setSocketInputOutput(ObjectInputStream in, ObjectOutputStream os) {
-        mainMenuController.setInputOutputStream(in, os);
-        roomController.setInputOutputStream(in, os);
-        boardController.setInputOutputStream(in, os);
+        getMainMenuController().setInputOutputStream(in, os);
+        getRoomController().setInputOutputStream(in, os);
+        getBoardController().setInputOutputStream(in, os);
     }
 
     /**
@@ -87,7 +87,6 @@ public class GameFrame extends javax.swing.JFrame {
         messageTextArea = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1366, 768));
 
         mainPanel.setPreferredSize(new java.awt.Dimension(1366, 768));
         mainPanel.setLayout(new java.awt.CardLayout());
@@ -111,8 +110,6 @@ public class GameFrame extends javax.swing.JFrame {
         });
 
         bg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kucingvspanda/client/views/images/front_page.png"))); // NOI18N
-        bg.setMaximumSize(new java.awt.Dimension(1366, 768));
-        bg.setMinimumSize(new java.awt.Dimension(1366, 768));
 
         javax.swing.GroupLayout loginPanelLayout = new javax.swing.GroupLayout(loginPanel);
         loginPanel.setLayout(loginPanelLayout);
@@ -177,8 +174,6 @@ public class GameFrame extends javax.swing.JFrame {
         roomsListPanel.setAlignmentX(0.0F);
         roomsListPanel.setAlignmentY(0.0F);
         roomsListPanel.setFocusable(false);
-        roomsListPanel.setMinimumSize(null);
-        roomsListPanel.setPreferredSize(null);
         roomsListPanel.setRequestFocusEnabled(false);
 
         roomTable.setFont(new java.awt.Font("Quicksand Bold", 0, 18)); // NOI18N
@@ -304,10 +299,11 @@ public class GameFrame extends javax.swing.JFrame {
                         .addComponent(roomsLabel)))
                 .addGap(17, 17, 17)
                 .addGroup(mainMenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(mainMenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(gameStatusLabel)
-                        .addComponent(roomNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(noOfPlayersLabel))
+                    .addGroup(mainMenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(gameStatusLabel, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(mainMenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(roomNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(noOfPlayersLabel)))
                     .addGroup(mainMenuPanelLayout.createSequentialGroup()
                         .addComponent(addRoomButton, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(1, 1, 1)))
@@ -378,11 +374,8 @@ public class GameFrame extends javax.swing.JFrame {
         playerTable.setFocusable(false);
         playerTable.setGridColor(new java.awt.Color(255, 255, 255));
         playerTable.setIntercellSpacing(new java.awt.Dimension(0, 0));
-        playerTable.setMinimumSize(null);
-        playerTable.setPreferredSize(null);
         playerTable.setRequestFocusEnabled(false);
         playerTable.setRowHeight(35);
-        playerTable.setRowMargin(0);
         playerTable.setRowSelectionAllowed(false);
         playerTable.setShowHorizontalLines(false);
         playerTable.setShowVerticalLines(false);
@@ -540,7 +533,7 @@ public class GameFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void enterButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_enterButtonMouseClicked
-        if (!nicknameField.getText().isEmpty()) mainMenuController.enterGame(nicknameField.getText());
+        if (!nicknameField.getText().isEmpty()) getMainMenuController().enterGame(nicknameField.getText());
         else errorMessage("Please fill in your nickname.");
     }//GEN-LAST:event_enterButtonMouseClicked
 
@@ -551,11 +544,11 @@ public class GameFrame extends javax.swing.JFrame {
             roomName = javax.swing.JOptionPane.showInputDialog(this, "Enter room name");
         }
         if (roomName!=null) {
-            mainMenuController.createRoom(roomName);
+            getMainMenuController().createRoom(roomName);
         }
     }
     private void mainMenuButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mainMenuButtonActionPerformed
-        roomController.exitGame();
+        getRoomController().exitGame();
     }//GEN-LAST:event_mainMenuButtonActionPerformed
 
     private void mainMenuButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainMenuButtonMouseClicked
@@ -566,7 +559,7 @@ public class GameFrame extends javax.swing.JFrame {
         if (boardTable.isEnabled()) {
         int row = boardTable.getSelectedRow();
         int col = boardTable.getSelectedColumn();
-        boardController.sendMove(row, col);
+            getBoardController().sendMove(row, col);
         }
     }//GEN-LAST:event_boardTableMouseClicked
 
@@ -575,7 +568,7 @@ public class GameFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_startGameButtonMouseClicked
 
     private void startGameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startGameButtonActionPerformed
-        roomController.requestStartGame();
+        getRoomController().requestStartGame();
     }//GEN-LAST:event_startGameButtonActionPerformed
 
     private void exitButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exitButtonMouseClicked
@@ -651,13 +644,13 @@ public class GameFrame extends javax.swing.JFrame {
             playButtons.get(i).addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     int no = Integer.parseInt(((javax.swing.JButton)evt.getSource()).getAccessibleContext().getAccessibleDescription());
-                    mainMenuController.play(no);
+                    getMainMenuController().play(no);
                 }
             });
             watchButtons.get(i).addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     int no = Integer.parseInt(((javax.swing.JButton)evt.getSource()).getAccessibleContext().getAccessibleDescription());
-                    mainMenuController.watch(no);
+                    getMainMenuController().watch(no);
                 }
             });
     }
@@ -781,6 +774,18 @@ public class GameFrame extends javax.swing.JFrame {
     private javax.swing.JLabel turnLabel;
     private javax.swing.JPanel watchButtonsPanel;
     // End of variables declaration//GEN-END:variables
+
+    public MainMenuController getMainMenuController() {
+        return mainMenuController;
+    }
+
+    public RoomController getRoomController() {
+        return roomController;
+    }
+
+    public BoardController getBoardController() {
+        return boardController;
+    }
 
 }
 

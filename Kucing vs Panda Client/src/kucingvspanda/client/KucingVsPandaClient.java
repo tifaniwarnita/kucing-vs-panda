@@ -24,6 +24,7 @@ public class KucingVsPandaClient {
         
         tcp = new TCPClient(server, port);
         frame.setSocketInputOutput(tcp.getInputStream(), tcp.getOutputStream());
+        tcp.runClient(frame.getMainMenuController());
         
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
