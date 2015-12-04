@@ -34,7 +34,7 @@ public class ClientThread implements Runnable {
     private ClientPacket clientPacket;
     ///////////////private MessagePacket message;
     ///////////////private RoomInfoPacket room;
-    private String roomName;
+    private String roomName = "";
     // seperate thread
     private Thread thread;
     
@@ -116,17 +116,26 @@ public class ClientThread implements Runnable {
                             PacketSender.sendLoginFailedPacket(getOut());
                         }
                         break;
+                        
                     case Identifier.ADD_ROOM: //roomname
-                        ServerTCP.createRoom(clientPacket.getRoomName());
-                        //broadcast room info list
+                        if(ServerTCP.validateRoom(clientPacket.getRoomName())){
+                            ServerTCP.createRoom(clientPacket.getRoomName());
+                            System.out.println("Berhasil membuat room");
+                            
+                            //PacketSender.sendAddRoomSuccessPacket(out,ServerTCP.getRoomsInfo() );
+                            ServerTCP.broadCastAddRoom(clientPacket.getRoomName());
+                        }else{
+                            System.out.println("Gagal membuat room");
+                            PacketSender.sendAddRoomFailedPacket(out);
+                        }
                         
                         //ServerTCP.addRoom(room); //HARUSNYA ROOM yang dikirim
                         break;
+                        
                     case Identifier.PLAY: //roomname + player
                         setRoomName(clientPacket.getRoomName());
+                        PacketSender.sendPlaySuccessPacket(out, roomName, ServerTCP.getListPlayer(roomName), ServerTCP.getListSpectator(roomName));
                         
-                        //sending room
-                        //out.writeObject(ServerTCP.getRoom(roomName));
                         break;
                     case Identifier.WATCH: //roomname + player
                         setRoomName(clientPacket.getRoomName());

@@ -8,28 +8,29 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.ArrayList;
+import kucingvspanda.packet.models.RoomInfo;
 
 /**
  *
  * @author ASUS X202E
  */
 public class Room {
-    private String roomName;
-    private List<String> players = new ArrayList<>();
-    private List<String> spectators = new ArrayList<>();
+    private String roomName="**";
+    private ArrayList<String> players = new ArrayList<>();
+    private ArrayList<String> spectators = new ArrayList<>();
     private Board gameBoard = new Board();
     private String status="Waiting";
     private int turn=0;
     
     public Room() {
-        roomName = "";
+        roomName = "**";
     }
     
     public Room(String name) {
         this.roomName = name;
     }
     
-    public Room(String roomName, List<String> players, List<String> spectators, Board gameBoard, String status) {
+    public Room(String roomName, ArrayList<String> players, ArrayList<String> spectators, Board gameBoard, String status) {
         this.roomName = roomName;
         this.players = players;
         this.spectators = spectators;
@@ -115,7 +116,7 @@ public class Room {
     /**
      * @param players the players to set
      */
-    public void setPlayers(List<String> players) {
+    public void setPlayers(ArrayList<String> players) {
         this.players = players;
     }
 
@@ -129,7 +130,7 @@ public class Room {
     /**
      * @param spectators the spectators to set
      */
-    public void setSpectators(List<String> spectators) {
+    public void setSpectators(ArrayList<String> spectators) {
         this.spectators = spectators;
     }
 
@@ -167,5 +168,7 @@ public class Room {
     public void setTurn(int turn) {
         this.turn = turn;
     }
-
+    public RoomInfo toRoomInfo() {
+        return new RoomInfo(roomName, players.size(), status);
+    }
 }
