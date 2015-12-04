@@ -9,11 +9,16 @@ package kucingvspanda.client;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
+import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import kucingvspanda.client.controllers.MainMenuController;
 import kucingvspanda.packet.ServerPacket;
 import kucingvspanda.packet.Identifier;
+import kucingvspanda.packet.models.RoomInfo;
 
 /**
  *
@@ -26,59 +31,22 @@ public class ClientListenerThread extends Observable implements Runnable {
     private ObjectInputStream in;
     private boolean isRunning=true;
     private ServerPacket packet;
+    ArrayList<Observer> observerList = new ArrayList<Observer>();
     
-    public ClientListenerThread(Socket socket, String name){
-        try {
-            this.socket = socket;
-            this.name = name;
-
-            in = new ObjectInputStream(socket.getInputStream());
-
-            thread = new Thread(this);
-            thread.start();
-        } catch (IOException e) {
-            System.out.println(e);
-        }
+    public ClientListenerThread(Socket socket, String name, MainMenuController firstObs){
+        this.socket = socket;
+        this.name = name;
+        this.observerList.add(firstObs);
+        System.out.println("Sebelum in");
+        System.out.println("Sebelum thread distart");
+        thread = new Thread(this);
+        thread.start();
+        System.out.println("Thread jalan");
     }
     
     public void receivePacket(ServerPacket packet){
-        int identifier = packet.getIdentifier();
+        notifyObservers(packet);
         setChanged();
-        switch(identifier){
-            case Identifier.LOGIN_SUCCESS : //list<roominfo>
-                
-                break;
-            case Identifier.LOGIN_FAILED: //message
-                break;
-            case Identifier.ADD_ROOM_SUCCESS: //roominfo
-                break;
-            case Identifier.ADD_ROOM_FAILED: //message
-                break;
-            case Identifier.PLAY_SUCCESS: //roomname + players + spectators
-                break;
-            case Identifier.NEW_PLAYER: //playername
-                break;
-            case Identifier.ADD_PLAYER_COUNT: //roomname 
-                break;
-            case Identifier.DEC_PLAYER_COUNT: //roomname 
-                break;
-            case Identifier.PLAY_FAILED: //message
-                break;
-            case Identifier.NEW_SPECTATOR: //playername
-                break;
-            case Identifier.START_GAME: //roomname
-                break;
-            case Identifier.PAWN_PLACED: //roomname + player + x + y
-                break;
-            case Identifier.PLAYER_LEAVE: //roomname + player
-                break;
-            case Identifier.BOARD_FULL: //roomname + winner
-                break;
-            case Identifier.HIGHSCORE: //highscore list
-                break;
-        }
-        // trigger notification
-        notifyObservers(identifier);
     }
     
     public void stopClient()
@@ -91,6 +59,7 @@ public class ClientListenerThread extends Observable implements Runnable {
     @Override
     public void run() {
         try{
+            in = new ObjectInputStream(socket.getInputStream());
             while(isRunning){
               packet = (ServerPacket) in.readObject();
               receivePacket(packet);
@@ -105,4 +74,11 @@ public class ClientListenerThread extends Observable implements Runnable {
         }
     }
     
+    @Override
+    public void notifyObservers(Object arg) {
+        for (Observer obj : observerList) {
+            obj.update(this, arg);
+        }
+        clearChanged();
+    }
 }

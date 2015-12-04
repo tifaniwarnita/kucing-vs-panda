@@ -7,6 +7,8 @@ package kucingvspanda.client.controllers;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Observable;
+import java.util.Observer;
 import kucingvspanda.client.models.*;
 import kucingvspanda.client.views.GameFrame;
 
@@ -14,7 +16,7 @@ import kucingvspanda.client.views.GameFrame;
  *
  * @author ASUS X202E
  */
-public class BoardController {
+public class BoardController implements Observer {
     private final GameFrame frame;
     private BoardModel model;
     private ObjectInputStream in;
@@ -76,6 +78,11 @@ public class BoardController {
     public void clearBoard() {
         model.getTableModel().setRowCount(0);
         model.getTableModel().setRowCount(20);
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

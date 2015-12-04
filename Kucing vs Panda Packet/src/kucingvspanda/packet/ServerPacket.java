@@ -5,6 +5,7 @@
  */
 package kucingvspanda.packet;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import kucingvspanda.packet.models.RoomInfo;
 
@@ -12,7 +13,7 @@ import kucingvspanda.packet.models.RoomInfo;
  *
  * @author Tifani
  */
-public class ServerPacket implements Packet {
+public class ServerPacket implements Packet, Serializable {
     private int identifier;
     private Object payload;
     

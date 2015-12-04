@@ -10,12 +10,14 @@ import kucingvspanda.client.views.*;
 import kucingvspanda.client.models.*;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  *
  * @author ASUS X202E
  */
-public class RoomController {
+public class RoomController implements Observer {
     private RoomModel model;
     private final GameFrame frame;
     private final BoardController boardController;
@@ -128,6 +130,11 @@ public class RoomController {
     
     public void addSpectator(String name) {
         model.addSpectator(name);
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }
