@@ -180,6 +180,8 @@ public class MainMenuController implements Observer {
                 players = packet.getPlayerList();
                 spectators = packet.getSpectatorList();
                 successPlay(roomName, players, spectators);
+                System.out.println("play success");
+                System.out.println("player 1:" + players.get(0));
                 break;
             case Identifier.NEW_PLAYER: //playername
                 // Implemented in RoomModel
@@ -202,6 +204,7 @@ public class MainMenuController implements Observer {
                 // Implemented in RoomModel
                 break;
             case Identifier.START_GAME_SUCCESS: //roomname
+                System.out.println("START GAME SUCCESS");
                 roomName = packet.getUpdatedRoomName();
                 model.updateRoomStatus(roomName, "Playing");
                 frame.disablePlayButton(model.getRoomNumber(roomName));
