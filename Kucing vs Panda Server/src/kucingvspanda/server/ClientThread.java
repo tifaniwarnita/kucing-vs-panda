@@ -102,14 +102,20 @@ public class ClientThread implements Runnable {
 //                        //sendBroadcastMessage(name,Message);
 //                        break;
                     case Identifier.LOGIN:
-                        //ngirim list
-                        //put new entry in clientInfo hashmap
-                        System.out.println("BERHASIL login");
+
                         System.out.println(""+clientPacket.getNickname()+" berhasil login");
-                        setName(clientPacket.getNickname());
+                        //
+                        if(ServerTCP.validateUser(clientPacket.getNickname())){
+                            PacketSender.sendLoginSuccessPacket(getOut(), ServerTCP.getRoomsInfo());
+                            setName(clientPacket.getNickname());
+                            clientInfo.put(clientPacket.getNickname(), this);
+                        }
+                        else{
+                            PacketSender.sendLoginFailedPacket(getOut());
+                        }
                         //////////////////////clientInfo.put(name, this);
                         //sending room list
-                        PacketSender.sendLoginSuccessPacket(getOut(), ServerTCP.getRoomsInfo());
+                        
                         
                         //out.writeObject(ServerTCP.getRooms());
                         break;

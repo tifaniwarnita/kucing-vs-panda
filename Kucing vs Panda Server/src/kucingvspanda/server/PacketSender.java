@@ -126,7 +126,7 @@ public class PacketSender {
     }
     
     // To: Players in room
-    public static void sendNewSpectatatorPacket(ObjectOutputStream outputStream, String player) {
+    public static void sendNewSpectatorPacket(ObjectOutputStream outputStream, String player) {
         ServerPacket newSpectatorPacket = new ServerPacket();
         newSpectatorPacket.buildNewSpectatorPacket(player);
         try {

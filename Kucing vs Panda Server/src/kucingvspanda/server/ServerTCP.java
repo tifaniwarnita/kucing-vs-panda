@@ -17,6 +17,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import kucingvspanda.packet.ClientPacket;
 import kucingvspanda.packet.models.RoomInfo;
@@ -26,10 +27,27 @@ public class ServerTCP {
 
     // Connection state info
     private static LinkedHashMap<String, ClientThread> clientInfo = new LinkedHashMap<String, ClientThread>();
-
+    // TCP Components
+    private ServerSocket serverSocket;
+    private static Map<String,Room> rooms = new HashMap<>();
+    private static ArrayList<RoomInfo> roomsInfo;
     /**
      * @return the roomsInfo
      */
+    
+    public static ArrayList<String> getAllPlayerInRoom(Room room){
+        ArrayList<String> people = new ArrayList<>();
+        List<String> players = room.getPlayers();
+        for(String player : players){
+            people.add(player);
+        }
+
+        List<String> spectators = room.getSpectators();
+        for(String spectator : spectators){
+            people.add(spectator);
+        }
+        return people; 
+    }
     public static ArrayList<RoomInfo> getRoomsInfo() {
         return roomsInfo;
     }
@@ -41,10 +59,7 @@ public class ServerTCP {
         roomsInfo = aRoomsInfo;
     }
     
-    // TCP Components
-    private ServerSocket serverSocket;
-    private static Map<String,Room> rooms = new HashMap<>();
-    private static ArrayList<RoomInfo> roomsInfo;
+    
     // Main Constructor
     public ServerTCP() {
 
@@ -96,6 +111,8 @@ public class ServerTCP {
         return clientInfo;
     }
     
+    /******BROADCAST METHOD******/
+    
     // To: All client with roomname = null
     public static void broadCastAddRoom(RoomInfo roomInfo){
         for(ClientThread client : clientInfo.values()){
@@ -104,6 +121,94 @@ public class ServerTCP {
             }
         }
     }
+    // To:Players in room 
+    public static void broadCastNewPlayer(Room room, String name){
+        ArrayList<String>players = getAllPlayerInRoom(room);
+        for(String player : players){
+            ClientThread client = clientInfo.get(player);
+            PacketSender.sendNewPlayerPacket(client.getOut(), name);
+        }
+    }
+    // To: All client (except players in room)
+    public static void broadCastAddPlayerCount(){
+        
+    }
+    // To: Players in room
+    public static void broadCastNewSpectatorPacket(Room room, String name){
+        ArrayList<String> players = getAllPlayerInRoom(room);
+        for(String player : players){
+            ClientThread client = clientInfo.get(player);
+            PacketSender.sendNewSpectatorPacket(client.getOut(), name);
+            
+        }
+    }
+    
+    // To: Packet sender + all connected player with roomname = null
+    public static void broadCastStartGame(){
+        
+    }
+   /* 
+    // To: All in room
+    public static void addPawn(Room room,String from, int x, int y, String to){
+        ArrayList<String> players = getAllPlayerInRoom(room);
+        for(String player : players){
+            ClientThread client = clientInfo.get(player);
+            PacketSender.sendNewSpectatorPacket(client.getOut(), name);
+            
+        }
+    }
+    // To: All in room
+    public static void leavePlayer(){
+        ArrayList<String> players = getAllPlayerInRoom(room);
+        for(String player : players){
+            ClientThread client = clientInfo.get(player);
+            PacketSender.sendNewSpectatorPacket(client.getOut(), name);
+            
+        }
+    }
+    // To: All client with roomname = null
+    public static void decPlayerCoun(){
+        
+    }
+    // To: All in room
+    public static void winPacket(){
+        ArrayList<String> players = getAllPlayerInRoom(room);
+        for(String player : players){
+            ClientThread client = clientInfo.get(player);
+            PacketSender.sendNewSpectatorPacket(client.getOut(), name);
+            
+        }
+    }
+    //To: All in room
+    public static void boardFull(){
+        ArrayList<String> players = getAllPlayerInRoom(room);
+        for(String player : players){
+            ClientThread client = clientInfo.get(player);
+            PacketSender.sendNewSpectatorPacket(client.getOut(), name);
+            
+        }
+    }
+    
+    //To: All in room
+    public static void chatPacket(){
+        ArrayList<String> players = getAllPlayerInRoom(room);
+        for(String player : players){
+            ClientThread client = clientInfo.get(player);
+            PacketSender.sendNewSpectatorPacket(client.getOut(), name);
+            
+        }
+    }
+    */
+    public static boolean validateUser(String nama){
+        ClientThread check = null;
+        check = clientInfo.get(nama);
+        if(check==null){
+            return true;
+        }else{
+            return false;   
+        }
+    }
+    
     // *********************************** Main Method ********************
 
     public static void main(String args[]) {
