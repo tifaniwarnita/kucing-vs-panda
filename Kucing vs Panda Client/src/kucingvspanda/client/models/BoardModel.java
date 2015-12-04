@@ -16,6 +16,9 @@ public class BoardModel {
    public BoardModel() {
        
    }
+   public BoardModel(java.util.List<String> players) {
+       this.players = players;
+   }
    public BoardModel(String[][] board, java.util.List<String> players) {
        this.players = players;
        for (int i=0;i<20;i++) {

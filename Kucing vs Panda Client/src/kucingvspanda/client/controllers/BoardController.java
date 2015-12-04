@@ -11,12 +11,13 @@ import java.util.Observable;
 import java.util.Observer;
 import kucingvspanda.client.models.*;
 import kucingvspanda.client.views.GameFrame;
+import kucingvspanda.packet.ServerPacket;
 
 /**
  *
  * @author ASUS X202E
  */
-public class BoardController implements Observer {
+public class BoardController {
     private final GameFrame frame;
     private BoardModel model;
     private ObjectInputStream in;
@@ -59,20 +60,42 @@ public class BoardController implements Observer {
     }
 
     public void showWinner(int x, int y, String wintype) {
-        /*if (wintype.equals("Horizontal")) {
-            
-        } else if (wintype.equals("Vertical")) {
-            
-        } else {
-            
+        switch (wintype) {
+            case "Horizontal":
+                setWinHorizontal(x,y);
+                break;
+            case "Vertical":
+                setWinVertical(x,y);
+                break;
+            default:
+                setWinDiagonal(x,y);
+                break;
         }
-        frame.showWinner();
-        endGame();
-        */
+        
     }
     
-    public void boardFull() {
-        //open dialog "GAME OVER. Board is full. Restart game in this room?"
+    public void setWinHorizontal(int x, int y) {
+        int winner = (int)model.getTableModel().getValueAt(x,y);
+        for (int i=x;i<x+5;i++) {
+            model.getTableModel().setValueAt(winner+6, i, y);
+        }
+    }
+    
+    public void setWinVertical(int x, int y) {
+        int winner = (int)model.getTableModel().getValueAt(x,y);
+        for (int i=y;i<y+5;i++) {
+            model.getTableModel().setValueAt(winner+6, i, y);
+        }
+    }
+    
+    public void setWinDiagonal(int x, int y) {
+        int winner = (int)model.getTableModel().getValueAt(x,y);
+        int i=x;
+        int j=y;
+        while (i<x+5) {
+            model.getTableModel().setValueAt(winner+6, i, y);
+            i++; j++;
+        }
     }
     
     public void clearBoard() {
@@ -80,9 +103,9 @@ public class BoardController implements Observer {
         model.getTableModel().setRowCount(20);
     }
 
-    @Override
-    public void update(Observable o, Object arg) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    /*@Override
+    public void update(Observable o, Object arg) { ServerPacket packet = (ServerPacket) arg;
+
+    }*/
     
 }

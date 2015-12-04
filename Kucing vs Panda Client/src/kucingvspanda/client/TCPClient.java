@@ -104,8 +104,8 @@ public class TCPClient {
         return outputStream;
     }
 
-    public void runClient(MainMenuController firstObs, RoomController secondObs, BoardController thirdObs){
-        ClientListenerThread clientListener = new ClientListenerThread(socket, name, firstObs, secondObs, thirdObs);
+    public void runClient(MainMenuController firstObs, RoomController secondObs){
+        ClientListenerThread clientListener = new ClientListenerThread(socket, name, firstObs, secondObs);
     }
 
     /**

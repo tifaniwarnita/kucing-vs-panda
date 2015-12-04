@@ -94,17 +94,16 @@ public class MainMenuController implements Observer {
     }
     
     public void successLogin(java.util.List<RoomInfo> roomInfoList) {
-        frame.setCurrentPlayer(model.getCurrentPlayer());
+        frame.setCurrentPlayer(MainMenuModel.getCurrentPlayer());
         buildMainMenu(roomInfoList);
     }
     
     public void successPlay(String roomName, ArrayList<String> players, ArrayList<String> spectators) {
         //ceritanya sih nanti masukannya bukan cuma roomname tapi ada playerlist dan spectatorlistjuga
-        String[][] test = new String[20][20];
         roomController.setRoomModel(new RoomModel(new RoomInfo(roomName), players, spectators));
         roomController.getRoomModel().setRole("Player");
         roomController.buildRoom();
-        roomController.getBoardController().buildModel(new BoardModel(test,players));
+        roomController.getBoardController().buildModel(new BoardModel(players));
         frame.changeScreen("Room");
     }
     
@@ -126,15 +125,16 @@ public class MainMenuController implements Observer {
     
     public void incPlayerCount(String roomName) {
         model.incRoomPlayerCount(roomName);
-        if (model.getRoomPlayerCount(roomName)>=15) {
+        if (model.getRoomPlayerCount(roomName)>=6) {
             frame.disablePlayButton(model.getRoomNumber(roomName));
         }
     }
     
     public void decPlayerCount(String roomName) {
         model.decRoomPlayerCount(roomName);
-        if (model.getRoomPlayerCount(roomName)<=0) {
-            
+        if (model.getRoomPlayerCount(roomName)<3) {
+            model.updateRoomStatus(roomName,"Waiting");
+            frame.enablePlayButton(model.getRoomNumber(roomName));
         }
     }
     
@@ -143,7 +143,7 @@ public class MainMenuController implements Observer {
         frame.updateRoomButtons();
         for (int i=0;i<roomInfoList.size();i++) {
             RoomInfo room = roomInfoList.get(i);
-            if (room.getStatus().equals("Playing") || room.getPlayerCount()>15) {
+            if (room.getStatus().equals("Playing") || room.getPlayerCount()>=6) {
                 frame.disablePlayButton(i);
             }
         }
@@ -165,7 +165,7 @@ public class MainMenuController implements Observer {
                 successLogin(rooms);
                 break;
             case Identifier.LOGIN_FAILED: //message
-                model.setCurrentPlayer("");
+                MainMenuModel.setCurrentPlayer("");
                 errorLogin();
                 break;
             case Identifier.ADD_ROOM_SUCCESS: //roominfo
@@ -220,8 +220,12 @@ public class MainMenuController implements Observer {
                 decPlayerCount(roomName);
                 break;
             case Identifier.WIN: //roomname + winner
+                roomName = packet.getUpdatedRoomName();
+                model.updateRoomStatus(roomName, "Waiting");
                 break;
             case Identifier.BOARD_FULL:
+                roomName = packet.getUpdatedRoomName();
+                model.updateRoomStatus(roomName, "Waiting");
                 break;
             case Identifier.HIGHSCORE:
                 break;

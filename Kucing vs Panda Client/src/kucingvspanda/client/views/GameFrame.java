@@ -8,6 +8,7 @@ package kucingvspanda.client.views;
 import kucingvspanda.client.controllers.*;
 import javax.swing.table.*;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import java.awt.Component;
 import java.io.ObjectInputStream;
@@ -538,10 +539,10 @@ public class GameFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_enterButtonMouseClicked
 
     public void addRoomDialog() {
-        String roomName = javax.swing.JOptionPane.showInputDialog(this, "Enter room name");
+        String roomName = JOptionPane.showInputDialog(this, "Enter room name");
         while (roomName.isEmpty()) {
             errorMessage("Please enter the room name.");
-            roomName = javax.swing.JOptionPane.showInputDialog(this, "Enter room name");
+            roomName = JOptionPane.showInputDialog(this, "Enter room name");
         }
         if (roomName!=null) {
             getMainMenuController().createRoom(roomName);
@@ -716,7 +717,7 @@ public class GameFrame extends javax.swing.JFrame {
     }
 
     public void errorMessage(String message) {
-        javax.swing.JOptionPane.showMessageDialog(this,message,"Oops!",javax.swing.JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this,message,"Oops!",JOptionPane.ERROR_MESSAGE);
     }
     
     public void setCurrentPlayer(String nickname) {
@@ -725,6 +726,13 @@ public class GameFrame extends javax.swing.JFrame {
     
     public void setTurnLabel(String message) {
         turnLabel.setText(message);
+    }
+    
+    public void endGameDialog(String title,String message) {
+        int choice = JOptionPane.showConfirmDialog(this,message,title,JOptionPane.YES_NO_OPTION);
+        if (choice==JOptionPane.NO_OPTION) {
+            roomController.exitGame();
+        }
     }
     
     private final MainMenuController mainMenuController;
