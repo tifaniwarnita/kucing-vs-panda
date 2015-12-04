@@ -101,10 +101,7 @@ public class ClientThread implements Runnable {
 //                        String Message = in.readLine();
 //                        //sendBroadcastMessage(name,Message);
 //                        break;
-                    case Identifier.LOGIN:
-
-                        
-                        //
+                    case Identifier.LOGIN:     
                         if(ServerTCP.validateUser(clientPacket.getNickname())){
                             PacketSender.sendLoginSuccessPacket(getOut(), ServerTCP.getRoomsInfo());
                             setName(clientPacket.getNickname());
@@ -134,19 +131,21 @@ public class ClientThread implements Runnable {
                         
                     case Identifier.PLAY: //roomname + player
                         setRoomName(clientPacket.getRoomName());
+                        ServerTCP.getListPlayer(roomName).add(name);
                         PacketSender.sendPlaySuccessPacket(out, roomName, ServerTCP.getListPlayer(roomName), ServerTCP.getListSpectator(roomName));
-                        
+                        ServerTCP.broadCastNewPlayer(ServerTCP.getRoom(roomName), name);
+                        ServerTCP.broadCastAddPlayerCount(roomName);
                         break;
                     case Identifier.WATCH: //roomname + player
                         setRoomName(clientPacket.getRoomName());
-                        //PacketSender.sendSpectatorSuccessPacket(out, roomName, ServerTCP.getListPlayer(roomName), ServerTCP.getListSpectator(roomName), ServerTCP.getRoom(roomName).getGameBoard());
-                        
-                        //out.writeObject(ServerTCP.getRoom(roomName));
+                        ServerTCP.getListSpectator(roomName).add(name);
+                        PacketSender.sendSpectatorSuccessPacket(out, roomName, ServerTCP.getListPlayer(roomName), ServerTCP.getListSpectator(roomName), ServerTCP.getRoom(roomName).getGameBoard().getBoard());
+                        ServerTCP.broadCastNewSpectatorPacket(ServerTCP.getRoom(roomName), name);
                         break;
     
                     case Identifier.START_GAME: //roomname
                         setRoomName(clientPacket.getRoomName());
-                        
+                        ServerTCP.broadCastStartGame(roomName);
                         //sending room
                         
                         break;

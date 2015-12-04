@@ -14,11 +14,11 @@ public class Board {
    int emptySquares = 400;
    
    public String getPlayerAtCoordinate(int x, int y) {
-       return board[x][y];
+       return getBoard()[x][y];
    }
    
    public void setPlayerAtCoordinate(int x, int y, String name) {
-       board[x][y] = name;
+        getBoard()[x][y] = name;
    }
    
    public boolean checkWin(int x, int y, String name) {
@@ -40,7 +40,7 @@ public class Board {
        int end = (y<16) ? (start+8) : 19;
        int i = start;
        while (i<end || counter<5) {
-           if (board[i][y].equals(board[x][y])) counter++;
+           if (getBoard()[i][y].equals(getBoard()[x][y])) counter++;
            else counter = 0;
            i++;
        }
@@ -53,7 +53,7 @@ public class Board {
        int end = (x<16) ? (start+8) : 19;
        int i = start;
        while (i<end || counter<5) {
-           if (board[x][i].equals(board[x][y])) counter++;
+           if (getBoard()[x][i].equals(getBoard()[x][y])) counter++;
            else counter = 0;
            i++;
        }
@@ -71,7 +71,7 @@ public class Board {
        int xt = xstart;
        int yt = ystart;
        while ((xt<19 && xt<(xstart+8) && yt<19 && yt<(ystart+8)) || counter<5) {
-           if (board[xt][yt].equals(board[x][y])) counter++;
+           if (getBoard()[xt][yt].equals(getBoard()[x][y])) counter++;
            else counter = 0;
            xt++; yt++;
        }
@@ -82,5 +82,19 @@ public class Board {
    public boolean boardFull() {
        return (emptySquares==0);
    }
+
+    /**
+     * @return the board
+     */
+    public String[][] getBoard() {
+        return board;
+    }
+
+    /**
+     * @param board the board to set
+     */
+    public void setBoard(String[][] board) {
+        this.board = board;
+    }
    
 }

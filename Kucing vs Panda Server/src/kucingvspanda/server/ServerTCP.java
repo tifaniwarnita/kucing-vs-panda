@@ -151,8 +151,10 @@ public class ServerTCP {
         }
     }
     // To: All client (except players in room)
-    public static void broadCastAddPlayerCount(){
-        
+    public static void broadCastAddPlayerCount(String roomName){
+        for(ClientThread client: clientInfo.values()){
+            PacketSender.sendAddPlayerCountPacket(client.getOut(), roomName);
+        }
     }
     // To: Players in room
     public static void broadCastNewSpectatorPacket(Room room, String name){
@@ -166,8 +168,10 @@ public class ServerTCP {
     }
     
     // To: Packet sender + all connected player with roomname = null
-    public static void broadCastStartGame(){
-        
+    public static void broadCastStartGame(String roomName){
+        for(ClientThread client: clientInfo.values()){
+            PacketSender.sendStartGameSuccessPacket(client.getOut(), roomName);
+        }
     }
    
     // To: All in room
@@ -190,10 +194,12 @@ public class ServerTCP {
 //        }
 //    }
     
-//    // To: All client with roomname = null
-//    public static void decPlayerCoun(){
-//        
-//    }
+    // To: All client with roomname = null
+    public static void decPlayerCoun(String roomName){
+        for(ClientThread client: clientInfo.values()){
+            PacketSender.sendDecPlayerCountPacket(client.getOut(), roomName);
+        }
+    }
     // To: All in room
     public static void winPacket(Room room, String type, int x, int y){
         ArrayList<String> players = getAllPlayerInRoom(room);

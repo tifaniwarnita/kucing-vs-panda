@@ -144,6 +144,7 @@ public class PacketSender {
         startGameSuccessPacket.buildStartGameSuccessPacket(roomName);
         try {
             outputStream.writeObject(startGameSuccessPacket);
+            System.out.println("berhasil ngirim start");
         } catch (Exception e) {
             System.out.println("Sending start-game-success packet failed: " + e.toString());
         }
