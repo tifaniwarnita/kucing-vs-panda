@@ -66,11 +66,11 @@ public class ClientPacket implements Packet, Serializable {
     }
     
     public int getX() {
-        return Integer.parseInt(payload.get(Identifier.X));
+        return Integer.parseInt(payload.get(Identifier.CLIENT_X));
     }
     
     public int getY() {
-        return Integer.parseInt(payload.get(Identifier.Y));
+        return Integer.parseInt(payload.get(Identifier.CLIENT_Y));
     }
 
     // Exit Game Packet

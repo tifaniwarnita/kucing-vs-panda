@@ -51,6 +51,8 @@ public class Identifier {
     public static final int WIN_TYPE = 0;
     public static final int X = 1;
     public static final int Y = 2;
+    public static final int CLIENT_X = 0;
+    public static final int CLIENT_Y = 1;
     public static final int NEXT_PLAYER = 3;
     public static final int PLAYER_LIST = 1;
     public static final int SPECTATOR_LIST = 2;
