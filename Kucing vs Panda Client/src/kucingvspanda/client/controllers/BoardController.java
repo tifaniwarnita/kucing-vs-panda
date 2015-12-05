@@ -9,6 +9,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Observable;
 import java.util.Observer;
+import kucingvspanda.client.PacketSender;
 import kucingvspanda.client.models.*;
 import kucingvspanda.client.views.GameFrame;
 import kucingvspanda.packet.ServerPacket;
@@ -46,7 +47,7 @@ public class BoardController {
         if (model.isEmpty(x,y)) {
             System.out.println("Send move");
             //kirim pesan x,y ke server
-            model.setBoardCoordinate(x,y,"Nilta");
+            System.out.println(x+","+y);PacketSender.sendAddPawnPacket(os, x, y);
             frame.disableBoard();
         }
         else frame.errorMessage("Please select an empty square!");

@@ -124,7 +124,7 @@ public class RoomController implements Observer {
         }
     }
     
-    public void receiveMove(int x, int y, String player, String nextPlayer) {
+    public void receiveMove(String player, int x, int y, String nextPlayer) {
         boardController.getModel().setBoardCoordinate(x,y,player);
         if (!nextPlayer.equals(MainMenuModel.getCurrentPlayer())) frame.setTurnLabel("Waiting for "+nextPlayer+"...");
         else {
@@ -203,8 +203,9 @@ public class RoomController implements Observer {
                 player = packet.getPlayer();
                 x = packet.getX();
                 y = packet.getY();
-                String nextPlayer = packet.getPlayer();
-                receiveMove(x, y, player, nextPlayer);
+                String nextPlayer = packet.getNextPlayer();
+                System.out.println(player+" "+nextPlayer);
+                receiveMove(player, x, y, nextPlayer);
                 break;
             case Identifier.LEAVE_GAME_SUCCESS: //roomname + player
                 break;
