@@ -26,12 +26,13 @@ public class Board {
        //return false;
        emptySquares--;
        if (!checkHorizontal(x,y)) {
-           //if (!checkVertical(x,y)) {
+           if (!checkVertical(x,y)) {
                //if (!checkDiagonal(x,y)) {
                    return false;
                //}
-           //}
+           }
        }
+       
        return true;
    }
    
@@ -61,6 +62,7 @@ public class Board {
                 if (getBoard()[x][i].equals(getBoard()[x][y])) counter++;
                 else counter = 0;  
             }
+            else counter = 0;
             i++;
        }
        if (counter==5) return true;
@@ -70,18 +72,23 @@ public class Board {
        int counter = 0;
        int xstart = x;
        int ystart = y;
-       while (xstart>0 && xstart>(x-4) && ystart>0 && ystart>(x-4)) {
+       while (xstart>0 && xstart>(x-4) && ystart>0 && ystart>(y-4)) {
            xstart--;
            ystart--;
        }
+       System.out.println("xstart="+xstart);
+       System.out.println("ystart="+ystart);
        int xt = xstart;
        int yt = ystart;
-       while ((xt<19 && xt<(xstart+8) && yt<19 && yt<(ystart+8)) || counter<5) {
+       while ((xt<19 && xt<(xstart+8) && yt<19 && yt<(ystart+8)) && counter<5) {
+           System.out.println("xt"+xt);
+           System.out.println("yt"+yt);
             if (getBoard()[xt][yt]!=null) {
                if (getBoard()[xt][yt].equals(getBoard()[x][y])) counter++;
                 else counter = 0;
-                xt++; yt++;
             }
+            else counter = 0;
+            xt++; yt++;
        }
        if (counter==5) return true;
        else return false;
