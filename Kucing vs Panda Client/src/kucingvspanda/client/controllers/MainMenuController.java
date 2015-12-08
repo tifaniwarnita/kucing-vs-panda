@@ -144,6 +144,7 @@ public class MainMenuController implements Observer {
         frame.updateRoomButtons();
         for (int i=0;i<roomInfoList.size();i++) {
             RoomInfo room = roomInfoList.get(i);
+            System.out.println(i + " " + room.getStatus());
             if (room.getStatus().equals("Playing") || room.getPlayerCount()>=6) {
                 frame.disablePlayButton(i);
             }
