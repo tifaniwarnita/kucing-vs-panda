@@ -23,13 +23,14 @@ public class Board {
    
    public boolean checkWin(int x, int y, String name) {
        setPlayerAtCoordinate(x,y,name);
+       //return false;
        emptySquares--;
        if (!checkHorizontal(x,y)) {
-           if (!checkVertical(x,y)) {
-               if (!checkDiagonal(x,y)) {
+           //if (!checkVertical(x,y)) {
+               //if (!checkDiagonal(x,y)) {
                    return false;
-               }
-           }
+               //}
+           //}
        }
        return true;
    }
@@ -39,8 +40,11 @@ public class Board {
        int start = (y>4) ? (y-4) : 0;
        int end = (y<16) ? (start+8) : 19;
        int i = start;
-       while (i<end || counter<5) {
-           if (getBoard()[i][y].equals(getBoard()[x][y])) counter++;
+       while (i<end && counter<5) { 
+            if (getBoard()[i][y]!=null) {
+                if (getBoard()[i][y].equals(getBoard()[x][y])) counter++;
+                else counter=0;
+            }
            else counter = 0;
            i++;
        }
@@ -52,10 +56,12 @@ public class Board {
        int start = (x>4) ? (x-4) : 0;
        int end = (x<16) ? (start+8) : 19;
        int i = start;
-       while (i<end || counter<5) {
-           if (getBoard()[x][i].equals(getBoard()[x][y])) counter++;
-           else counter = 0;
-           i++;
+       while (i<end && counter<5) {
+            if (getBoard()[x][i]!=null) {
+                if (getBoard()[x][i].equals(getBoard()[x][y])) counter++;
+                else counter = 0;  
+            }
+            i++;
        }
        if (counter==5) return true;
        else return false;
@@ -71,9 +77,11 @@ public class Board {
        int xt = xstart;
        int yt = ystart;
        while ((xt<19 && xt<(xstart+8) && yt<19 && yt<(ystart+8)) || counter<5) {
-           if (getBoard()[xt][yt].equals(getBoard()[x][y])) counter++;
-           else counter = 0;
-           xt++; yt++;
+            if (getBoard()[xt][yt]!=null) {
+               if (getBoard()[xt][yt].equals(getBoard()[x][y])) counter++;
+                else counter = 0;
+                xt++; yt++;
+            }
        }
        if (counter==5) return true;
        else return false;

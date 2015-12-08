@@ -144,7 +144,7 @@ public class ClientThread implements Runnable {
                         break;
     
                     case Identifier.START_GAME: //roomname
-                        setRoomName(clientPacket.getRoomName());
+                        ServerTCP.getRoom(roomName).startGame();
                         ServerTCP.broadCastStartGame(roomName);
                         //sending room
                         
@@ -155,7 +155,15 @@ public class ClientThread implements Runnable {
                         y = clientPacket.getY();
                         //ServerTCP.addPawn(clientPacket.getRoomName(), name, x, y);
                         // broadcast ke semua (nama, x, y)
-                        
+                        ServerTCP.getRooms().get(roomName).setPlayerToBoard(x, y, name);
+                        //if (ServerTCP.getRooms().get(roomName).getGameBoard().checkWin(x, y, name)) {
+                          //  ServerTCP.winPacket(ServerTCP.getRoom(roomName), "horizontal", x, y);
+                        //}
+                        if (ServerTCP.getRooms().get(roomName).getStatus().equals("Win")) {
+                            ServerTCP.winPacket(ServerTCP.getRoom(roomName), "horizontal", x, y);
+                            System.out.println("ADA YANG MENANG");
+                        }
+                        ServerTCP.broadCastaddPawn(ServerTCP.getRoom(roomName),name, x, y);
                         break;
        
     

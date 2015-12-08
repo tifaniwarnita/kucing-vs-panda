@@ -155,6 +155,7 @@ public class PacketSender {
     public static void sendAddPawnPacketSuccess(ObjectOutputStream outputStream, String player, int x, int y, String nextPlayer) {
         ServerPacket addPawnSuccessPacket = new ServerPacket();
         addPawnSuccessPacket.buildAddPawnSuccessPacket(player, x, y, nextPlayer);
+        System.out.println("nextplayer:"+nextPlayer);
         try {
             outputStream.writeObject(addPawnSuccessPacket);
         } catch (Exception e) {

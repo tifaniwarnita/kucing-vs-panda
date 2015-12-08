@@ -43,7 +43,7 @@ public class Room {
     }
     
     public void addPlayer(String pName) {
-        if (getPlayers().size()<15 && !status.equals("Playing")) {
+        if (getPlayers().size()<6 && !status.equals("Playing")&&!players.contains(pName)) {
             getPlayers().add(pName);
             //kirim pesan ke semua di room bahwa player bertambah pName
             //kirim pesan ke semua player yg lagi login bahwa players di roomName bertambah 1
@@ -55,7 +55,7 @@ public class Room {
     }
     
     public void addSpectator(String name) {
-        getSpectators().add(name);
+        if (!getSpectators().contains(name)) getSpectators().add(name);
     }
     
     public void removeSpectator(String name) {
@@ -67,11 +67,13 @@ public class Room {
         //kirim pesan ke semua di room bahwa pName memilih x,y
         if (getGameBoard().checkWin(x,y,pName)) {
             //kirim pesan pName menang ke semua di room
-            endGame();
+            //endGame();
+            setStatus("Win");
         } else if (getGameBoard().boardFull()) {
             //kirim pesan board full ke semua di room
             endGame();
         }
+        changeTurn();
     }
     
     public void startGame() {
@@ -159,6 +161,7 @@ public class Room {
      * @return the turn
      */
     public int getTurn() {
+        System.out.println("turn:"+turn);
         return turn;
     }
 

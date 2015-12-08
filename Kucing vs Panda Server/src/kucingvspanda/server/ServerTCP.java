@@ -97,11 +97,6 @@ public class ServerTCP {
         String port = "1234";
 
         try {
-            // in constractor we are passing port no, back log and bind address whick will be local
-            // host
-            // port no - the specified port, or 0 to use any free port.
-            // backlog - the maximum length of the queue. use default if it is equal or less than 0
-            // bindAddr - the local InetAddress the server will bind to
 
             int portNo = Integer.valueOf(port);
             serverSocket = new ServerSocket(portNo, 0, InetAddress.getLocalHost());
@@ -114,12 +109,11 @@ public class ServerTCP {
             Socket socket = serverSocket.accept();
             System.out.println(serverSocket.getInetAddress().getHostName() + ":"
                     + serverSocket.getLocalPort());
-            new ClientThread(socket);
-                //ClientPacket cp = (ClientPacket) in.readObject();
-                //System.out.println(cp.getIdentifier());
-                
+            new ClientThread(socket); 
             }
+
         } catch (Exception e) {
+            
             System.out.println("IO Exception:" + e);
             System.exit(1);
         }
@@ -146,8 +140,10 @@ public class ServerTCP {
     public static void broadCastNewPlayer(Room room, String name){
         ArrayList<String>players = getAllPlayerInRoom(room);
         for(String player : players){
-            ClientThread client = clientInfo.get(player);
-            PacketSender.sendNewPlayerPacket(client.getOut(), name);
+            if(!player.equals(name)){
+                ClientThread client = clientInfo.get(player);
+                PacketSender.sendNewPlayerPacket(client.getOut(), name);
+            }
         }
     }
     // To: All client (except players in room)
@@ -175,8 +171,9 @@ public class ServerTCP {
     }
    
     // To: All in room
-    public static void broadCastaddPawn(Room room,String from, int x, int y, String to){
+    public static void broadCastaddPawn(Room room,String from, int x, int y){
         ArrayList<String> players = getAllPlayerInRoom(room);
+        String to = players.get(room.getTurn());
         for(String player : players){
             ClientThread client = clientInfo.get(player);
             PacketSender.sendAddPawnPacketSuccess(client.getOut(), from, x, y, to);
@@ -184,16 +181,7 @@ public class ServerTCP {
         }
     }
     
-//    // To: All in room
-//    public static void leavePlayer(){
-//        ArrayList<String> players = getAllPlayerInRoom(room);
-//        for(String player : players){
-//            ClientThread client = clientInfo.get(player);
-//            PacketSender.sendNewSpectatorPacket(client.getOut(), name);
-//            
-//        }
-//    }
-    
+
     // To: All client with roomname = null
     public static void decPlayerCoun(String roomName){
         for(ClientThread client: clientInfo.values()){
