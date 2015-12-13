@@ -936,6 +936,12 @@ class IconRenderer extends DefaultTableCellRenderer {
       iconMap.put(3,"images/block_3.png");
       iconMap.put(4,"images/block_4.png");
       iconMap.put(5,"images/block_5.png");
+      iconMap.put(6,"images/block_0_win.png");
+      iconMap.put(7,"images/block_1_win.png");
+      iconMap.put(8,"images/block_2_win.png");
+      iconMap.put(9,"images/block_3_win.png");
+      iconMap.put(10,"images/block_4_win.png");
+      iconMap.put(11,"images/block_5_win.png");
   }
   public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
       boolean hasFocus, int row, int column) {
