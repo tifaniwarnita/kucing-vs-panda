@@ -652,7 +652,7 @@ public class GameFrame extends javax.swing.JFrame {
         if (boardTable.isEnabled()) {
         int row = boardTable.getSelectedRow();
         int col = boardTable.getSelectedColumn();
-            getBoardController().sendMove(row, col);
+            getBoardController().sendMove(col, row);
         }
     }//GEN-LAST:event_boardTableMouseClicked
 
