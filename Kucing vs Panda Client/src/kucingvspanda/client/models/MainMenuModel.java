@@ -60,18 +60,18 @@ public class MainMenuModel {
         roomTableModel.setValueAt(status,getRoomNumber(roomName),2);
     }
     
-    public Object[] buildObject(RoomInfo room) {
+    
+    
+    public int getRoomPlayerCount(String name) {
+        return ((int)roomTableModel.getValueAt(getRoomNumber(name),1));
+    }
+public Object[] buildObject(RoomInfo room) {
         Object[] o = new Object[3];
         o[0] = room.getName();
         o[1] = room.getPlayerCount();
         o[2] = room.getStatus();
         return o;
     }
-    
-    public int getRoomPlayerCount(String name) {
-        return ((int)roomTableModel.getValueAt(getRoomNumber(name),1));
-    }
-
     public int getRoomNumber(String roomName) {
         return rooms.indexOf(roomName);
     }

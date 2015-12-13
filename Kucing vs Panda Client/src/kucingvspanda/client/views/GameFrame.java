@@ -65,6 +65,12 @@ public class GameFrame extends javax.swing.JFrame {
         roomNameLabel = new javax.swing.JLabel();
         noOfPlayersLabel = new javax.swing.JLabel();
         currentPlayerLabel = new javax.swing.JLabel();
+        highScoreButton = new javax.swing.JButton();
+        highScorePanel = new javax.swing.JPanel();
+        highScoreScrollPane = new javax.swing.JScrollPane();
+        highScoreTable = new javax.swing.JTable();
+        highScoreLabel = new javax.swing.JLabel();
+        mainMenu2Button = new javax.swing.JButton();
         roomPanel = new javax.swing.JPanel();
         //
         boardPanel = new javax.swing.JPanel();
@@ -260,30 +266,41 @@ public class GameFrame extends javax.swing.JFrame {
         currentPlayerLabel.setForeground(new java.awt.Color(142, 130, 180));
         currentPlayerLabel.setText("Hello, !");
 
+        highScoreButton.setText("High Score");
+        highScoreButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                highScoreButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout mainMenuPanelLayout = new javax.swing.GroupLayout(mainMenuPanel);
         mainMenuPanel.setLayout(mainMenuPanelLayout);
         mainMenuPanelLayout.setHorizontalGroup(
             mainMenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(mainMenuPanelLayout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addComponent(exitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(currentPlayerLabel)
-                .addGap(436, 436, 436)
-                .addComponent(roomsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainMenuPanelLayout.createSequentialGroup()
-                .addContainerGap(139, Short.MAX_VALUE)
                 .addGroup(mainMenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, mainMenuPanelLayout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addComponent(exitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(currentPlayerLabel)
+                        .addGap(418, 418, 418)
+                        .addComponent(roomsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(mainMenuPanelLayout.createSequentialGroup()
-                        .addComponent(roomNameLabel)
-                        .addGap(445, 445, 445)
-                        .addComponent(noOfPlayersLabel)
-                        .addGap(43, 43, 43)
-                        .addComponent(gameStatusLabel)
-                        .addGap(204, 204, 204)
-                        .addComponent(addRoomButton))
-                    .addComponent(roomsScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(139, Short.MAX_VALUE)
+                        .addGroup(mainMenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(roomsScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(mainMenuPanelLayout.createSequentialGroup()
+                                .addComponent(roomNameLabel)
+                                .addGap(445, 445, 445)
+                                .addComponent(noOfPlayersLabel)
+                                .addGap(43, 43, 43)
+                                .addComponent(gameStatusLabel)
+                                .addGap(204, 204, 204)
+                                .addGroup(mainMenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(highScoreButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(addRoomButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
                 .addGap(127, 127, 127))
         );
         mainMenuPanelLayout.setVerticalGroup(
@@ -296,9 +313,12 @@ public class GameFrame extends javax.swing.JFrame {
                             .addComponent(exitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(currentPlayerLabel)))
                     .addGroup(mainMenuPanelLayout.createSequentialGroup()
-                        .addGap(33, 33, 33)
-                        .addComponent(roomsLabel)))
-                .addGap(17, 17, 17)
+                        .addGap(24, 24, 24)
+                        .addComponent(roomsLabel))
+                    .addGroup(mainMenuPanelLayout.createSequentialGroup()
+                        .addGap(39, 39, 39)
+                        .addComponent(highScoreButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(26, 26, 26)
                 .addGroup(mainMenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(mainMenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(gameStatusLabel, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -317,6 +337,49 @@ public class GameFrame extends javax.swing.JFrame {
 
         mainPanel.add(mainMenuPanel, "MainMenu");
 
+        highScoreScrollPane.setViewportView(highScoreTable);
+
+        highScoreLabel.setFont(new java.awt.Font("GrilledCheese BTN Toasted", 0, 48)); // NOI18N
+        highScoreLabel.setText("High Score");
+
+        mainMenu2Button.setText("Back to Main Menu");
+        mainMenu2Button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mainMenu2ButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout highScorePanelLayout = new javax.swing.GroupLayout(highScorePanel);
+        highScorePanel.setLayout(highScorePanelLayout);
+        highScorePanelLayout.setHorizontalGroup(
+            highScorePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(highScorePanelLayout.createSequentialGroup()
+                .addGroup(highScorePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(highScorePanelLayout.createSequentialGroup()
+                        .addGap(299, 299, 299)
+                        .addComponent(highScoreScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(highScorePanelLayout.createSequentialGroup()
+                        .addGap(465, 465, 465)
+                        .addComponent(highScoreLabel))
+                    .addGroup(highScorePanelLayout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(mainMenu2Button)))
+                .addContainerGap(367, Short.MAX_VALUE))
+        );
+        highScorePanelLayout.setVerticalGroup(
+            highScorePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, highScorePanelLayout.createSequentialGroup()
+                .addContainerGap(19, Short.MAX_VALUE)
+                .addComponent(mainMenu2Button)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(highScoreLabel)
+                .addGap(32, 32, 32)
+                .addComponent(highScoreScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(71, 71, 71))
+        );
+
+        mainPanel.add(highScorePanel, "card5");
+
         roomPanel.setBackground(new java.awt.Color(204, 255, 204));
         roomPanel.setPreferredSize(new java.awt.Dimension(1366, 768));
 
@@ -327,7 +390,6 @@ public class GameFrame extends javax.swing.JFrame {
         boardTable.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         boardTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         boardTable.setAutoscrolls(false);
-        boardTable.setColumnSelectionAllowed(false);
         boardTable.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         boardTable.setEnabled(false);
         boardTable.setGridColor(new java.awt.Color(102, 102, 102));
@@ -453,6 +515,11 @@ public class GameFrame extends javax.swing.JFrame {
         currentRoomNameLabel.setText("Room Name");
 
         sendMessageButton.setText("Send");
+        sendMessageButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sendMessageButtonActionPerformed(evt);
+            }
+        });
 
         chatLabel.setText("Chat");
 
@@ -464,7 +531,6 @@ public class GameFrame extends javax.swing.JFrame {
         chatTextArea.setColumns(20);
         chatTextArea.setLineWrap(true);
         chatTextArea.setRows(5);
-        chatTextArea.setText("Tifa: Eh ini gimana sih mainnya\nFiqie: ga tau tif cobain aja dlu, tuh pencet tombol startGame deh\nNilta: aku aja deh yg mencet, gimana??");
         chatTextArea.setWrapStyleWord(true);
         chatTextArea.setPreferredSize(null);
         chatScrollPane.setViewportView(chatTextArea);
@@ -610,6 +676,19 @@ public class GameFrame extends javax.swing.JFrame {
         addRoomDialog();
     }//GEN-LAST:event_addRoomButtonMouseClicked
 
+    private void mainMenu2ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mainMenu2ButtonActionPerformed
+        changeScreen("MainMenu");
+    }//GEN-LAST:event_mainMenu2ButtonActionPerformed
+
+    private void highScoreButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_highScoreButtonActionPerformed
+       mainMenuController.openHighScore();
+    }//GEN-LAST:event_highScoreButtonActionPerformed
+
+    private void sendMessageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendMessageButtonActionPerformed
+        roomController.sendChat(messageTextArea.getText());
+        messageTextArea.setText("");
+    }//GEN-LAST:event_sendMessageButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -645,6 +724,12 @@ public class GameFrame extends javax.swing.JFrame {
 
     }
 
+    public void initHighScoreTable(DefaultTableModel model) {
+        highScoreTable.setModel(model);
+        highScoreTable.getColumnModel().getColumn(0).setPreferredWidth(100);
+        highScoreTable.getColumnModel().getColumn(1).setPreferredWidth(500);
+        highScoreTable.getColumnModel().getColumn(2).setPreferredWidth(100);
+    }
     public void initRoomTable(DefaultTableModel model) {
         roomTable.setModel(model);
         roomTable.getColumnModel().getColumn(0).setPreferredWidth(600);
@@ -766,6 +851,10 @@ public class GameFrame extends javax.swing.JFrame {
         }
     }
     
+    public void appendChat(String newchat) {
+        chatTextArea.append(newchat+"\n");
+    }
+    
     private final MainMenuController mainMenuController;
     private final RoomController roomController;
     private final BoardController boardController;
@@ -785,8 +874,14 @@ public class GameFrame extends javax.swing.JFrame {
     private javax.swing.JButton enterButton;
     private javax.swing.JButton exitButton;
     private javax.swing.JLabel gameStatusLabel;
+    private javax.swing.JButton highScoreButton;
+    private javax.swing.JLabel highScoreLabel;
+    private javax.swing.JPanel highScorePanel;
+    private javax.swing.JScrollPane highScoreScrollPane;
+    private javax.swing.JTable highScoreTable;
     private java.awt.List list1;
     private javax.swing.JPanel loginPanel;
+    private javax.swing.JButton mainMenu2Button;
     private javax.swing.JButton mainMenuButton;
     private javax.swing.JPanel mainMenuPanel;
     private javax.swing.JPanel mainPanel;

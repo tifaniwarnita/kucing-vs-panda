@@ -61,6 +61,10 @@ public class RoomController implements Observer {
         //startGame();
     }
     
+    public void sendChat(String message) {
+        //PacketSender.sendChatPacket(os,message);
+    }
+    
     /* RECEIVED */
     public void buildRoom() {
         frame.setRoomName(model.getName());
@@ -155,6 +159,10 @@ public class RoomController implements Observer {
         endGame();
     }
 
+    public void receiveChat(String chat) {
+        frame.appendChat(chat);
+    }
+    
     @Override
     public void update(Observable o, Object arg) {
         ServerPacket packet = (ServerPacket) arg;

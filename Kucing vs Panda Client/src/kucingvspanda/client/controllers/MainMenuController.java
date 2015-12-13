@@ -14,7 +14,7 @@ import kucingvspanda.client.views.*;
 import kucingvspanda.client.models.*;
 import kucingvspanda.packet.Identifier;
 import kucingvspanda.packet.ServerPacket;
-import kucingvspanda.packet.models.RoomInfo;
+import kucingvspanda.packet.models.*;
 
 /**
  *
@@ -24,6 +24,7 @@ public class MainMenuController implements Observer {
     private final GameFrame frame;
     private final MainMenuModel model = new MainMenuModel();
     private final RoomController roomController;
+    private final HighScoreModel hsModel = new HighScoreModel();
     private ObjectInputStream in;
     private ObjectOutputStream os;
     
@@ -31,6 +32,7 @@ public class MainMenuController implements Observer {
         this.frame = frame;
         roomController = new RoomController(frame);
         frame.initRoomTable(model.getTableModel());
+        frame.initHighScoreTable(hsModel.getTableModel());
     }
     
     public void setInputOutputStream(ObjectInputStream in, ObjectOutputStream os) {
@@ -76,6 +78,11 @@ public class MainMenuController implements Observer {
         PacketSender.sendAddRoomPacket(os, roomName);
     }
     
+    public void openHighScore() {
+        System.out.println("Sending open high score packet");
+        //PacketSender.sendOpenHighScorePacket(os);
+    }
+    
     /* RECEIVED */
     
     public void addRoom(RoomInfo room) {
@@ -91,6 +98,11 @@ public class MainMenuController implements Observer {
     
     public void errorLogin() {
         frame.errorMessage("This name is already in use. Please input a different name.");
+    }
+    
+    public void successHighScore(ArrayList<HighScoreInfo> highScoreList) {
+        hsModel.initModel(highScoreList);
+        frame.changeScreen("HighScore");
     }
     
     public void successLogin(java.util.List<RoomInfo> roomInfoList) {
