@@ -19,22 +19,19 @@ public class Board {
    
    public void setPlayerAtCoordinate(int x, int y, String name) {
         getBoard()[x][y] = name;
+        emptySquares--;
    }
    
-   public boolean checkWin(int x, int y, String name) {
-       setPlayerAtCoordinate(x,y,name);
-       emptySquares--;
-       if (!checkHorizontal(x,y)) {
-           if (!checkVertical(x,y)) {
-               if (!checkDiagonalLeft(x,y)) {
-                   if (!checkDiagonalRight(x,y)) {
-                        return false;
-                   }
-               }
-           }
-       }
-       
-       return true;
+   public String checkWin(int x, int y, String name) {
+       if (checkHorizontal(x,y)) {
+           return "Horizontal";
+       } else if (checkVertical(x,y)) {
+           return "Vertical";
+       } else if (checkDiagonalLeft(x,y)) {
+           return "Diagonal Left";
+       } else if (checkDiagonalRight(x,y)) {
+           return "Diagonal Right";
+       } else return null;
    }
    
    private boolean checkHorizontal(int x, int y) {

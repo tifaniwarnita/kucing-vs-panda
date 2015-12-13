@@ -65,10 +65,11 @@ public class Room {
     
     public void setPlayerToBoard(int x, int y, String pName) {
         //kirim pesan ke semua di room bahwa pName memilih x,y
-        if (getGameBoard().checkWin(x,y,pName)) {
-            //kirim pesan pName menang ke semua di room
-            //endGame();
-            setStatus("Win");
+        getGameBoard().setPlayerAtCoordinate(x,y,pName);
+        String win = getGameBoard().checkWin(x,y,pName);
+        if (win!=null) {
+            //kirim pesan menang ke semua di room berisi (pName,x,y,win)
+            setStatus("Waiting");
         } else if (getGameBoard().boardFull()) {
             //kirim pesan board full ke semua di room
             endGame();
