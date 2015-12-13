@@ -221,12 +221,12 @@ public class ServerPacket implements Packet, Serializable {
     
     //----------------------------- CHAT PACKET
     // Chat Packet (getChatSender, getChatContent), send to everyone in same room as packet sender
-    public void buildChatPacket(String sender, String message) {
+    public void buildChatSuccessPacket(String sender, String message) {
         identifier = Identifier.CHAT_SUCCESS;
         ArrayList<String> info = new ArrayList<>();
         info.add(sender);
         info.add(message);
-        payload = message;
+        payload = info;
     } 
     
     public String getChatSender(){

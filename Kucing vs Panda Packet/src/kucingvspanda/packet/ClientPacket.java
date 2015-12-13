@@ -94,8 +94,8 @@ public class ClientPacket implements Packet, Serializable {
     }
     
     // Logout Packet
-    public String buildLogoutPacket() {
-        return payload.get(Identifier.LOGOUT);
+    public void buildLogoutPacket() {
+        identifier = Identifier.LOGOUT;
     }
     
     @Override

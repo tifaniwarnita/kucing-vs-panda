@@ -52,6 +52,7 @@ public class Identifier {
     public static final int ROOM_NAME = 0;
     public static final int PLAYER = 0;
     public static final int WIN_TYPE = 0;
+    public static final int PLAYER_LOGOUT = 1;
     public static final int X = 1;
     public static final int Y = 2;
     public static final int CLIENT_X = 0;
@@ -60,7 +61,7 @@ public class Identifier {
     public static final int PLAYER_LIST = 1;
     public static final int SPECTATOR_LIST = 2;
     public static final int BOARD = 3;
-    public static final int MESSAGE = 1;
+    public static final int MESSAGE = 0;
     public static final int CHAT_SENDER = 0;
     public static final int CHAT_CONTENT = 1;
 }
