@@ -93,6 +93,11 @@ public class ClientPacket implements Packet, Serializable {
         return payload.get(Identifier.MESSAGE);
     }
     
+    // Logout Packet
+    public String buildLogoutPacket() {
+        return payload.get(Identifier.LOGOUT);
+    }
+    
     @Override
     public int getIdentifier() {
         return identifier;

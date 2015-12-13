@@ -211,7 +211,7 @@ public class ServerPacket implements Packet, Serializable {
     //----------------------------- HIGHSCORE PACKET
     // Highscore Packet (getHighscore)
     public void buildHighScorePacket (ArrayList< ArrayList<String> > highscore) {
-        identifier = Identifier.HIGHSCORE;
+        identifier = Identifier.HIGHSCORE_LIST;
         payload = highscore;
     }
     
@@ -220,9 +220,9 @@ public class ServerPacket implements Packet, Serializable {
     }
     
     //----------------------------- CHAT PACKET
-    // Chat Packet (getHighscore)
+    // Chat Packet (getChatSender, getChatContent), send to everyone in same room as packet sender
     public void buildChatPacket(String sender, String message) {
-        identifier = Identifier.MESSAGE;
+        identifier = Identifier.CHAT_SUCCESS;
         ArrayList<String> info = new ArrayList<>();
         info.add(sender);
         info.add(message);
@@ -236,7 +236,18 @@ public class ServerPacket implements Packet, Serializable {
     public String getChatContent(){
         return (String) ((ArrayList<String>)payload).get(Identifier.CHAT_CONTENT);
     }
-
+    
+    //----------------------------- LOGOUT PACKET
+    //Logout Packet (getLogoutPlayer) send to all
+    public void buildLogoutPacket(String playername) {
+        identifier = Identifier.LOGOUT_SUCCESS;
+        payload = playername;
+    }
+    
+    public String getLogoutPlayer() {
+        return (String) payload;
+    }
+    
     @Override
     public int getIdentifier() {
         return identifier;
