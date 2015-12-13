@@ -23,13 +23,14 @@ public class Board {
    
    public boolean checkWin(int x, int y, String name) {
        setPlayerAtCoordinate(x,y,name);
-       //return false;
        emptySquares--;
        if (!checkHorizontal(x,y)) {
            if (!checkVertical(x,y)) {
-               //if (!checkDiagonal(x,y)) {
-                   return false;
-               //}
+               if (!checkDiagonalLeft(x,y)) {
+                   if (!checkDiagonalRight(x,y)) {
+                        return false;
+                   }
+               }
            }
        }
        
@@ -68,7 +69,7 @@ public class Board {
        if (counter==5) return true;
        else return false;
    }
-   private boolean checkDiagonal(int x, int y) {
+   private boolean checkDiagonalLeft(int x, int y) {
        int counter = 0;
        int xstart = x;
        int ystart = y;
@@ -76,19 +77,38 @@ public class Board {
            xstart--;
            ystart--;
        }
-       System.out.println("xstart="+xstart);
-       System.out.println("ystart="+ystart);
        int xt = xstart;
        int yt = ystart;
        while ((xt<19 && xt<(xstart+8) && yt<19 && yt<(ystart+8)) && counter<5) {
-           System.out.println("xt"+xt);
-           System.out.println("yt"+yt);
             if (getBoard()[xt][yt]!=null) {
                if (getBoard()[xt][yt].equals(getBoard()[x][y])) counter++;
                 else counter = 0;
             }
             else counter = 0;
+            
             xt++; yt++;
+       }
+       if (counter==5) return true;
+       else return false;
+   }
+   
+   private boolean checkDiagonalRight(int x, int y) {
+       int counter = 0;
+       int xstart = x;
+       int ystart = y;
+       while (xstart<19 && xstart<(x+4) && ystart>0 && ystart>(y-4)) {
+           xstart++;
+           ystart--;
+       }
+       int xt = xstart;
+       int yt = ystart;
+       while (xt>0 && xt>(xstart-8) && yt<19 && yt<(ystart+8) && counter<5) {
+           if (getBoard()[xt][yt]!=null) {
+               if (getBoard()[xt][yt].equals(getBoard()[x][y])) counter++;
+                else counter = 0;
+            }
+            else counter = 0;
+            xt--; yt++;
        }
        if (counter==5) return true;
        else return false;

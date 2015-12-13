@@ -26,7 +26,7 @@ public class BoardModel {
        for (int i=0;i<20;i++) {
            for (int j=0;j<20;j++) {
                if (board[i][j]!=null) {
-                   boardTableModel.setValueAt(players.indexOf(board[i][j]), i, j);
+                   boardTableModel.setValueAt(players.indexOf(board[i][j]), j, i);
                }
            }
        }
@@ -38,10 +38,10 @@ public class BoardModel {
    
    public void setBoardCoordinate(int x, int y, String name) {
        System.out.println(players.indexOf(name));
-       boardTableModel.setValueAt(players.indexOf(name), x, y);
+       boardTableModel.setValueAt(players.indexOf(name), y, x);
    }
    
     public boolean isEmpty(int x, int y) {
-        return (getTableModel().getValueAt(x,y) == null);
+        return (getTableModel().getValueAt(y,x) == null);
     }
 }

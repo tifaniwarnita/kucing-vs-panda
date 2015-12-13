@@ -68,34 +68,47 @@ public class BoardController {
             case "Vertical":
                 setWinVertical(x,y);
                 break;
-            default:
-                setWinDiagonal(x,y);
+            case "Diagonal Left":
+                setWinDiagonalLeft(x,y);
+                break;
+            case "Diagonal Right":
+                setWinDiagonalRight(x,y);
                 break;
         }
         
     }
     
     public void setWinHorizontal(int x, int y) {
-        int winner = (int)model.getTableModel().getValueAt(x,y);
+        int winner = (int)model.getTableModel().getValueAt(y,x);
         for (int i=x;i<x+5;i++) {
-            model.getTableModel().setValueAt(winner+6, i, y);
+            model.getTableModel().setValueAt(winner+6, y, i);
         }
     }
     
     public void setWinVertical(int x, int y) {
-        int winner = (int)model.getTableModel().getValueAt(x,y);
+        int winner = (int)model.getTableModel().getValueAt(y,x);
         for (int i=y;i<y+5;i++) {
-            model.getTableModel().setValueAt(winner+6, i, y);
+            model.getTableModel().setValueAt(winner+6, i, x);
         }
     }
     
-    public void setWinDiagonal(int x, int y) {
-        int winner = (int)model.getTableModel().getValueAt(x,y);
+    public void setWinDiagonalLeft(int x, int y) {
+        int winner = (int)model.getTableModel().getValueAt(y,x);
         int i=x;
         int j=y;
         while (i<x+5) {
-            model.getTableModel().setValueAt(winner+6, i, y);
+            model.getTableModel().setValueAt(winner+6, j, i);
             i++; j++;
+        }
+    }
+    
+    public void setWinDiagonalRight(int x, int y) {
+        int winner = (int)model.getTableModel().getValueAt(y,x);
+        int i=x;
+        int j=y;
+        while (i<x-5) {
+            model.getTableModel().setValueAt(winner+6, j, i);
+            i--; j++;
         }
     }
     
