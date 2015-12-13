@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.ArrayList;
 import kucingvspanda.packet.models.RoomInfo;
+import kucingvspanda.packet.models.WinInfo;
 
 /**
  *
@@ -66,9 +67,11 @@ public class Room {
     public void setPlayerToBoard(int x, int y, String pName) {
         //kirim pesan ke semua di room bahwa pName memilih x,y
         getGameBoard().setPlayerAtCoordinate(x,y,pName);
-        String win = getGameBoard().checkWin(x,y,pName);
+        WinInfo win = getGameBoard().checkWin(x,y,pName);
         if (win!=null) {
-            //kirim pesan menang ke semua di room berisi (pName,x,y,win)
+            win.setWinner(pName);
+            //kirim pesan berisi WinInfo win
+            System.out.println("x: "+win.getX()+" - y: "+win.getY()+" - wintype: "+win.getWintype()+" - winner: "+win.getWinner());
             setStatus("Waiting");
         } else if (getGameBoard().boardFull()) {
             //kirim pesan board full ke semua di room

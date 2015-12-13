@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package kucingvspanda.server;
+import kucingvspanda.packet.models.WinInfo;
 
 /**
  *
@@ -22,51 +23,59 @@ public class Board {
         emptySquares--;
    }
    
-   public String checkWin(int x, int y, String name) {
-       if (checkHorizontal(x,y)) {
-           return "Horizontal";
-       } else if (checkVertical(x,y)) {
-           return "Vertical";
-       } else if (checkDiagonalLeft(x,y)) {
-           return "Diagonal Left";
-       } else if (checkDiagonalRight(x,y)) {
-           return "Diagonal Right";
-       } else return null;
+   public WinInfo checkWin(int x, int y, String name) {
+       WinInfo win;
+       if ((win = checkHorizontal(x,y)) == null) {
+           if ((win = checkVertical(x,y)) == null) {
+               if ((win = checkDiagonalLeft(x,y)) == null) {
+                   if ((win = checkDiagonalRight(x,y)) == null) return null;
+               }
+           }
+       }
+       return win;
    }
    
-   private boolean checkHorizontal(int x, int y) {
+   private WinInfo checkHorizontal(int x, int y) {
        int counter = 0;
-       int start = (y>4) ? (y-4) : 0;
-       int end = (y<16) ? (start+8) : 19;
+       int start = (x>4) ? (x-4) : 0;
+       int end = (x<16) ? (start+8) : 19;
        int i = start;
-       while (i<end && counter<5) { 
+       int firstx = start;
+       while (i<=end && counter<5) { 
             if (getBoard()[i][y]!=null) {
-                if (getBoard()[i][y].equals(getBoard()[x][y])) counter++;
+                if (getBoard()[i][y].equals(getBoard()[x][y])) {
+                    if (counter==0) firstx = i;
+                    counter++;
+                }
                 else counter=0;
             }
            else counter = 0;
            i++;
        }
-       if (counter==5) return true;
-       else return false;
+       if (counter==5) return new WinInfo(firstx,y,"Horizontal");
+       else return null;
    }
-   private boolean checkVertical(int x, int y) {
+   private WinInfo checkVertical(int x, int y) {
        int counter = 0;
-       int start = (x>4) ? (x-4) : 0;
-       int end = (x<16) ? (start+8) : 19;
+       int start = (y>4) ? (y-4) : 0;
+       int end = (y<16) ? (start+8) : 19;
        int i = start;
-       while (i<end && counter<5) {
+       int firsty = start;
+       while (i<=end && counter<5) {
             if (getBoard()[x][i]!=null) {
-                if (getBoard()[x][i].equals(getBoard()[x][y])) counter++;
-                else counter = 0;  
+                if (getBoard()[x][i].equals(getBoard()[x][y])) {
+                    if (counter==0) firsty = i;
+                    counter++;
+                }
+                else counter=0;
             }
             else counter = 0;
             i++;
        }
-       if (counter==5) return true;
-       else return false;
+       if (counter==5) return new WinInfo(x,firsty,"Vertical");
+       else return null;
    }
-   private boolean checkDiagonalLeft(int x, int y) {
+   private WinInfo checkDiagonalLeft(int x, int y) {
        int counter = 0;
        int xstart = x;
        int ystart = y;
@@ -76,20 +85,28 @@ public class Board {
        }
        int xt = xstart;
        int yt = ystart;
-       while ((xt<19 && xt<(xstart+8) && yt<19 && yt<(ystart+8)) && counter<5) {
+       int firstx = xstart;
+       int firsty = ystart;
+       while ((xt<=19 && xt<=(xstart+8) && yt<=19 && yt<=(ystart+8)) && counter<5) {
             if (getBoard()[xt][yt]!=null) {
-               if (getBoard()[xt][yt].equals(getBoard()[x][y])) counter++;
+               if (getBoard()[xt][yt].equals(getBoard()[x][y])) {
+                   if (counter==0) {
+                       firstx = xt;
+                       firsty = yt;
+                   }
+                   counter++;
+               }
                 else counter = 0;
             }
             else counter = 0;
             
             xt++; yt++;
        }
-       if (counter==5) return true;
-       else return false;
+       if (counter==5) return new WinInfo(firstx,firsty,"Diagonal Left");
+       else return null;
    }
    
-   private boolean checkDiagonalRight(int x, int y) {
+   private WinInfo checkDiagonalRight(int x, int y) {
        int counter = 0;
        int xstart = x;
        int ystart = y;
@@ -99,16 +116,24 @@ public class Board {
        }
        int xt = xstart;
        int yt = ystart;
-       while (xt>0 && xt>(xstart-8) && yt<19 && yt<(ystart+8) && counter<5) {
+       int firstx = xstart;
+       int firsty = ystart;
+       while (xt>=0 && xt>=(xstart-8) && yt<=19 && yt<=(ystart+8) && counter<5) {
            if (getBoard()[xt][yt]!=null) {
-               if (getBoard()[xt][yt].equals(getBoard()[x][y])) counter++;
+               if (getBoard()[xt][yt].equals(getBoard()[x][y])) {
+                   if (counter==0) {
+                       firstx = xt;
+                       firsty = yt;
+                   }
+                   counter++;
+               }
                 else counter = 0;
             }
             else counter = 0;
             xt--; yt++;
        }
-       if (counter==5) return true;
-       else return false;
+       if (counter==5) return new WinInfo(firstx,firsty,"Diagonal Right");
+       else return null;
    }
    
    public boolean boardFull() {
