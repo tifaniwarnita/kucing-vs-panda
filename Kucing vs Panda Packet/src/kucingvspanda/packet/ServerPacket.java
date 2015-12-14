@@ -7,7 +7,9 @@ package kucingvspanda.packet;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import kucingvspanda.packet.models.HighScoreInfo;
 import kucingvspanda.packet.models.RoomInfo;
+import kucingvspanda.packet.models.WinInfo;
 
 /**
  *
@@ -190,17 +192,20 @@ public class ServerPacket implements Packet, Serializable {
     
     //----------------------------- END GAME PACKET
     // End Game Packet (getWinType, getX, getY)
-    public void buildWinPacket(String winType, int x, int y) {
-        identifier = Identifier.ADD_PAWN;
-        ArrayList<String> info = new ArrayList<>();
-        info.add(winType);
-        info.add(String.valueOf(x));
-        info.add(String.valueOf(y));
+    public void buildWinPacket(String roomName, WinInfo win) {
+        identifier = Identifier.WIN;
+        ArrayList<Object> info = new ArrayList<>();
+        info.add(roomName);
+        info.add(win);
         payload = info;
     }
     
-    public String getWinType() {
-        return (String) ((ArrayList<String>) payload).get(Identifier.WIN_TYPE);
+    public WinInfo getWinInfo() {
+        return (WinInfo) ((ArrayList<Object>)payload).get(Identifier.WIN_INFO);
+    }
+    
+    public String getWinRoomName()  {
+        return (String) ((ArrayList<Object>)payload).get(Identifier.ROOM_NAME);
     }
     
     // Board Full Packet
@@ -210,31 +215,24 @@ public class ServerPacket implements Packet, Serializable {
     
     //----------------------------- HIGHSCORE PACKET
     // Highscore Packet (getHighscore)
-    public void buildHighScorePacket (ArrayList< ArrayList<String> > highscore) {
-        identifier = Identifier.HIGHSCORE_LIST;
+    public void buildHighScorePacket (ArrayList< HighScoreInfo > highscore) {
+        identifier = Identifier.HIGHSCORE;
         payload = highscore;
     }
     
-    public ArrayList< ArrayList<String> > getHighscore() {
-        return (ArrayList< ArrayList<String> >) payload;
+    public ArrayList< HighScoreInfo > getHighscore() {
+        return (ArrayList< HighScoreInfo >) payload;
     }
     
     //----------------------------- CHAT PACKET
     // Chat Packet (getChatSender, getChatContent), send to everyone in same room as packet sender
-    public void buildChatSuccessPacket(String sender, String message) {
+    public void buildChatSuccessPacket(String message) {
         identifier = Identifier.CHAT_SUCCESS;
-        ArrayList<String> info = new ArrayList<>();
-        info.add(sender);
-        info.add(message);
-        payload = info;
-    } 
-    
-    public String getChatSender(){
-        return (String) ((ArrayList<String>)payload).get(Identifier.CHAT_SENDER);
+        payload = message;
     }
     
-    public String getChatContent(){
-        return (String) ((ArrayList<String>)payload).get(Identifier.CHAT_CONTENT);
+    public String getChatMessage() {
+        return (String) payload;
     }
     
     //----------------------------- LOGOUT PACKET

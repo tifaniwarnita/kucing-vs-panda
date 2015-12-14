@@ -5,14 +5,20 @@
  */
 package kucingvspanda.packet.models;
 
+import java.io.Serializable;
+
 /**
  *
  * @author ASUS X202E
  */
-public class HighScoreInfo {
-    private String playerName = "";
-    private int score = 0;
+public class HighScoreInfo implements Serializable{
+    private String playerName;
+    private int score;
 
+    public HighScoreInfo(){
+        playerName="";
+        score=0;
+    }
     public String getPlayerName() {
         return playerName;
     }

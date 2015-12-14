@@ -43,7 +43,7 @@ public class Identifier {
     public static final int WIN = 26; //x + y + win type
     public static final int BOARD_FULL = 27;
     // kapan kapan kasih tau player leave game saat kurang dari 3
-    public static final int HIGHSCORE_LIST = 28; //highscore list
+    public static final int HIGHSCORE = 28; //highscore list
     public static final int CHAT_SUCCESS = 29; //message
     public static final int LOGOUT_SUCCESS = 30; //playername
     
@@ -51,7 +51,8 @@ public class Identifier {
     public static final int NICKNAME = 0;
     public static final int ROOM_NAME = 0;
     public static final int PLAYER = 0;
-    public static final int WIN_TYPE = 0;
+    public static final int WIN_INFO = 1;
+    public static final int PLAYER_WIN = 1;
     public static final int PLAYER_LOGOUT = 1;
     public static final int X = 1;
     public static final int Y = 2;

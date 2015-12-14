@@ -5,11 +5,13 @@
  */
 package kucingvspanda.packet.models;
 
+import java.io.Serializable;
+
 /**
  *
  * @author ASUS X202E
  */
-public class WinInfo {
+public class WinInfo implements Serializable {
     private int x;
     private int y;
     private String wintype;
