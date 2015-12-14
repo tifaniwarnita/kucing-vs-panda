@@ -71,6 +71,7 @@ public class RoomController implements Observer {
         frame.initPlayerTable(model.getPlayersTableModel());
         frame.initSpectatorList(model.getSpectatorList());
         frame.disableStartGameButton();
+        frame.clearChat();
         if (model.isPlayer()) frame.disableBoard();
         if (model.getPlayerCount() < 3 ) {
             frame.setTurnLabel("Waiting for other players to join...");
@@ -123,7 +124,10 @@ public class RoomController implements Observer {
         frame.disableBoard();
         if (model.getPlayerCount() < 3 ) frame.setTurnLabel("Waiting for other players to join...");
         else {
-            if (model.isPlayer()) frame.setTurnLabel("Click Start Game to begin new game!");
+            if (model.isPlayer()) {
+                frame.setTurnLabel("Click Start Game to begin new game!");
+                frame.enableStartGameButton();
+            }
             else frame.setTurnLabel("Waiting for game to start...");
         }
     }
@@ -146,6 +150,7 @@ public class RoomController implements Observer {
     }
     
     public void win(String winner) {
+        frame.setTurnLabel(winner+" has won the game!");
         if (MainMenuModel.getCurrentPlayer().equals(winner)) {
             frame.endGameDialog("YOU WIN!","Congratulations, you have won the game! Would you like to play in this room again?");
         } else {
@@ -218,7 +223,7 @@ public class RoomController implements Observer {
             case Identifier.LEAVE_GAME_SUCCESS: //roomname + player
                 break;
             case Identifier.PLAYER_LEAVE: //playername
-                String name = packet.getPlayer();
+                String name = packet.getLogoutPlayer();
                 if (model.getPlayerList().contains(name)) removePlayer(name);
                 else removeSpectator(name);
                 break;
@@ -229,8 +234,8 @@ public class RoomController implements Observer {
                 String winType = packet.getWinInfo().getWintype();
                 x = packet.getWinInfo().getX();
                 y = packet.getWinInfo().getY();
-                //win(winner);
                 boardController.showWinner(x, y, winType);
+                win(packet.getWinInfo().getWinner());
                 break;
             case Identifier.BOARD_FULL:
                 boardFull();

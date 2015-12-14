@@ -378,7 +378,7 @@ public class GameFrame extends javax.swing.JFrame {
                 .addGap(71, 71, 71))
         );
 
-        mainPanel.add(highScorePanel, "card5");
+        mainPanel.add(highScorePanel, "HighScore");
 
         roomPanel.setBackground(new java.awt.Color(204, 255, 204));
         roomPanel.setPreferredSize(new java.awt.Dimension(1366, 768));
@@ -641,7 +641,7 @@ public class GameFrame extends javax.swing.JFrame {
         }
     }
     private void mainMenuButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mainMenuButtonActionPerformed
-        getRoomController().exitGame();
+        roomController.exitGame();
     }//GEN-LAST:event_mainMenuButtonActionPerformed
 
     private void mainMenuButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainMenuButtonMouseClicked
@@ -853,6 +853,10 @@ public class GameFrame extends javax.swing.JFrame {
     
     public void appendChat(String newchat) {
         chatTextArea.append(newchat+"\n");
+    }
+    
+    public void clearChat() {
+        chatTextArea.setText("");
     }
     
     private final MainMenuController mainMenuController;

@@ -106,7 +106,7 @@ public class BoardController {
         int winner = (int)model.getTableModel().getValueAt(y,x);
         int i=x;
         int j=y;
-        while (i<x-5) {
+        while (i>x-5) {
             model.getTableModel().setValueAt(winner+6, j, i);
             i--; j++;
         }
