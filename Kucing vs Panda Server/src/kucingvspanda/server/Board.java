@@ -23,7 +23,7 @@ public class Board {
         emptySquares--;
    }
    
-   public WinInfo checkWin(int x, int y, String name) {
+   public WinInfo checkWin(int x, int y) {
        WinInfo win;
        if ((win = checkHorizontal(x,y)) == null) {
            if ((win = checkVertical(x,y)) == null) {

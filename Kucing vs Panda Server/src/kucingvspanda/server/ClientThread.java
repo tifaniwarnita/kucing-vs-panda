@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import kucingvspanda.packet.*;
+import kucingvspanda.packet.models.WinInfo;
 
 
         
@@ -38,7 +39,7 @@ public class ClientThread implements Runnable {
     // seperate thread
     private Thread thread;
     
-    private HashMap<String, ClientThread> clientInfo = new HashMap<String, ClientThread>();
+    //private HashMap<String, ClientThread> clientInfo = new HashMap<String, ClientThread>();
 
     // boolean variable to check that client is running or not
     private volatile boolean isRunning = true;
@@ -101,12 +102,17 @@ public class ClientThread implements Runnable {
 //                        String Message = in.readLine();
 //                        //sendBroadcastMessage(name,Message);
 //                        break;
+                    case Identifier.LEAVE_GAME:
+                        roomName="";
+                        ServerTCP.broadCastLeavePlayer(ServerTCP.getRoom(roomName), name);
+                        
                     case Identifier.LOGIN:     
                         if(ServerTCP.validateUser(clientPacket.getNickname())){
                             PacketSender.sendLoginSuccessPacket(getOut(), ServerTCP.getRoomsInfo());
                             setName(clientPacket.getNickname());
                             ServerTCP.clientInfo.put(clientPacket.getNickname(), this);
                             System.out.println(""+clientPacket.getNickname()+" berhasil login");
+                            DatabaseHandler.login(name);
                         }
                         else{
                             System.out.println(""+clientPacket.getNickname()+" gagal login");
@@ -150,6 +156,7 @@ public class ClientThread implements Runnable {
                         
                         break;
                     case Identifier.ADD_PAWN: //player + x + y + roomname
+                        
                         int x,y; 
                         x = clientPacket.getX();
                         y = clientPacket.getY();
@@ -159,19 +166,26 @@ public class ClientThread implements Runnable {
                         //if (ServerTCP.getRooms().get(roomName).getGameBoard().checkWin(x, y, name)) {
                           //  ServerTCP.winPacket(ServerTCP.getRoom(roomName), "horizontal", x, y);
                         //}
-                        if (ServerTCP.getRooms().get(roomName).getStatus().equals("Win")) {
-                            ServerTCP.winPacket(ServerTCP.getRoom(roomName), "horizontal", x, y);
+                        WinInfo win = ServerTCP.getRoom(roomName).getGameBoard().checkWin(x, y);
+                        if(win!=null) {
+                            win.setWinner(name);
+                        //if (ServerTCP.getRooms().get(roomName).getStatus().equals("Win")) {
+                            
+                            ServerTCP.winPacket(ServerTCP.getRoom(roomName), win);
+                            DatabaseHandler.addPoints(name, 1);
                             System.out.println("ADA YANG MENANG");
                         }
                         ServerTCP.broadCastaddPawn(ServerTCP.getRoom(roomName),name, x, y);
                         break;
        
     
-                    case Identifier.VIEW_HIGHSCORE: //roomname + 
-                        
+                    case Identifier.VIEW_HIGHSCORE: 
+                        PacketSender.sendHighscorePacket(out, DatabaseHandler.getHighscore());
+                        System.out.println("Ngirim Highscore");
                         break;
                     case Identifier.CHAT:
                         
+                        ServerTCP.broadCastChat(ServerTCP.getRoom(roomName), name, clientPacket.getChatMessage());
                         break;
 //                        loginPacket= (LoginPacket) packet;
 //
@@ -209,7 +223,11 @@ public class ClientThread implements Runnable {
             in.close();
             socket.close();
         } catch (IOException e) {
-            System.out.println(e);
+            ServerTCP.clientInfo.remove(name);
+            ServerTCP.getRoom(roomName).removePlayer(name);
+            ServerTCP.broadCastChat(ServerTCP.getRoom(roomName), name, "has been disconnected... ");
+            
+            System.out.println("nama: "+name+ " keluar "+e);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ClientThread.class.getName()).log(Level.SEVERE, null, ex);
         }

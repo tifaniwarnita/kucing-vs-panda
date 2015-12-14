@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import kucingvspanda.packet.models.HighScoreInfo;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -53,13 +54,13 @@ public class DatabaseHandler {
     }
     
     // Menambahkan skor pada id tertentu
-    public static void addPoints(int id, int points) {
+    public static void addPoints(String name, int points) {
         try {
             Statement stmt = conn.createStatement();
-            String sql = "UPDATE user SET score = score + ? WHERE id=?";
+            String sql = "UPDATE user SET score = score + ? WHERE username=?";
             PreparedStatement dbStatement = conn.prepareStatement(sql);
             dbStatement.setInt(1, points);
-            dbStatement.setInt(2, id);
+            dbStatement.setString(2, name);
             dbStatement.executeUpdate();
         } catch(Exception e) {
             e.printStackTrace();
@@ -67,22 +68,23 @@ public class DatabaseHandler {
     }
     
     // Mengambil highscore dengan rincian <username, score>
-    public static ArrayList< ArrayList<String> > getHighscore() {
-        ArrayList< ArrayList<String> > highscore = new ArrayList<>();
+    public static ArrayList< HighScoreInfo > getHighscore() {
+        ArrayList< HighScoreInfo > highScoreList = new ArrayList<>();
         try {
             String sql = "SELECT * FROM user ORDER BY score DESC";
             PreparedStatement dbStatement = conn.prepareStatement(sql);
             ResultSet rs = dbStatement.executeQuery();
             while (rs.next()) { 
-                ArrayList<String> user = new ArrayList<>();
-                user.add(rs.getString("username"));
-                user.add(String.valueOf(rs.getInt("score")));
-                highscore.add(user);
+                HighScoreInfo highScore = new HighScoreInfo();
+                highScore.setPlayerName(rs.getString("username"));
+                highScore.setScore(rs.getInt("score"));
+               
+                highScoreList.add(highScore);
             } 
         } catch(Exception e) {
             e.printStackTrace();
         }
-        return highscore;
+        return highScoreList;
     }
     
 }

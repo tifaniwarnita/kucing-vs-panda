@@ -10,7 +10,9 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import kucingvspanda.packet.ClientPacket;
 import kucingvspanda.packet.ServerPacket;
+import kucingvspanda.packet.models.HighScoreInfo;
 import kucingvspanda.packet.models.RoomInfo;
+import kucingvspanda.packet.models.WinInfo;
 
 /**
  *
@@ -165,15 +167,15 @@ public class PacketSender {
     
     //----------------------------- REPLY: LEAVE GAME PACKET
     // To: Packet sender
-    public static void sendLeaveGameSuccessPacket(ObjectOutputStream outputStream, ArrayList<RoomInfo> roomInfoList) {
-        ServerPacket leaveGameSuccessPacket = new ServerPacket();
-        leaveGameSuccessPacket.buildLeaveGameSuccessPacket(roomInfoList);
-        try {
-            outputStream.writeObject(leaveGameSuccessPacket);
-        } catch (Exception e) {
-            System.out.println("Sending leave-game-success packet failed: " + e.toString());
-        }
-    }
+//    public static void sendLeaveGameSuccessPacket(ObjectOutputStream outputStream, ArrayList<RoomInfo> roomInfoList) {
+//        ServerPacket leaveGameSuccessPacket = new ServerPacket();
+//        leaveGameSuccessPacket.buildLeaveGameSuccessPacket(roomInfoList);
+//        try {
+//            outputStream.writeObject(leaveGameSuccessPacket);
+//        } catch (Exception e) {
+//            System.out.println("Sending leave-game-success packet failed: " + e.toString());
+//        }
+//    }
     
     // To: All in room
     public static void sendLeavePlayerPacket(ObjectOutputStream outputStream, String player) {
@@ -200,9 +202,10 @@ public class PacketSender {
     
     //----------------------------- REPLY: WIN PACKET
     // To: All in room
-    public static void sendWinPacket(ObjectOutputStream outputStream, String winType, int x, int y) {
+    public static void sendWinPacket(ObjectOutputStream outputStream, String roomName, WinInfo win) {
         ServerPacket winPacket = new ServerPacket();
-        winPacket.buildWinPacket(winType, x, y);
+        
+        winPacket.buildWinPacket(roomName, win);
         try {
             outputStream.writeObject(winPacket);
         } catch (Exception e) {
@@ -225,7 +228,7 @@ public class PacketSender {
     // To: All in room
     public static void sendChatPacket(ObjectOutputStream outputStream, String name, String message) {
         ServerPacket chatPacket = new ServerPacket();
-        chatPacket.buildChatPacket(name,message);
+        chatPacket.buildChatSuccessPacket(name + ": " + message);
         try {
             outputStream.writeObject(chatPacket);
         } catch (Exception e) {
@@ -235,7 +238,7 @@ public class PacketSender {
     
     //----------------------------- REPLY: HIGHSCORE PACKET
     // To: Packet sender
-    public static void sendHighscorePacket(ObjectOutputStream outputStream, ArrayList< ArrayList<String> > highscore) {
+    public static void sendHighscorePacket(ObjectOutputStream outputStream, ArrayList< HighScoreInfo > highscore) {
         ServerPacket highscorePacket = new ServerPacket();
         highscorePacket.buildHighScorePacket(highscore);
         try {

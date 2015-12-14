@@ -67,7 +67,7 @@ public class Room {
     public void setPlayerToBoard(int x, int y, String pName) {
         //kirim pesan ke semua di room bahwa pName memilih x,y
         getGameBoard().setPlayerAtCoordinate(x,y,pName);
-        WinInfo win = getGameBoard().checkWin(x,y,pName);
+        WinInfo win = getGameBoard().checkWin(x,y);
         if (win!=null) {
             win.setWinner(pName);
             //kirim pesan berisi WinInfo win
