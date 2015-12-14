@@ -102,7 +102,7 @@ public class MainMenuController implements Observer {
     
     public void successHighScore(ArrayList<HighScoreInfo> highScoreList) {
         hsModel.initModel(highScoreList);
-        frame.changeScreen("HighScore");
+        frame.changeScreen("card5");
     }
     
     public void successLogin(java.util.List<RoomInfo> roomInfoList) {
