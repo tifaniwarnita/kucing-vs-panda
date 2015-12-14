@@ -80,7 +80,7 @@ public class MainMenuController implements Observer {
     
     public void openHighScore() {
         System.out.println("Sending open high score packet");
-        //PacketSender.sendOpenHighScorePacket(os);
+        PacketSender.sendViewHighscorePacket(os);
     }
     
     /* RECEIVED */
@@ -237,7 +237,7 @@ public class MainMenuController implements Observer {
                 decPlayerCount(roomName);
                 break;
             case Identifier.WIN: //roomname + winner
-                roomName = packet.getUpdatedRoomName();
+                roomName = packet.getWinRoomName();
                 model.updateRoomStatus(roomName, "Waiting");
                 break;
             case Identifier.BOARD_FULL:
@@ -245,6 +245,8 @@ public class MainMenuController implements Observer {
                 model.updateRoomStatus(roomName, "Waiting");
                 break;
             case Identifier.HIGHSCORE:
+                System.out.println("lalal");
+                successHighScore(packet.getHighscore());
                 break;
         }
     }

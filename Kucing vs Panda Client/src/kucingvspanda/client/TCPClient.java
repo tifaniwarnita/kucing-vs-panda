@@ -45,7 +45,7 @@ public class TCPClient {
             if (getServerAddress() == null)
                 System.exit(1);
 
-            setServerAddress(getServerAddress().trim());
+            //setServerAddress(getServerAddress().trim());
             if (getServerAddress().length() == 0)// empty field
             {
                 System.out.println("Server IP Address or Name can't be blank.");

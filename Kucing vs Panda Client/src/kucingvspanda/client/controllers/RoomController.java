@@ -62,7 +62,7 @@ public class RoomController implements Observer {
     }
     
     public void sendChat(String message) {
-        //PacketSender.sendChatPacket(os,message);
+        PacketSender.sendChatPacket(os,message);
     }
     
     /* RECEIVED */
@@ -226,9 +226,9 @@ public class RoomController implements Observer {
                 // Implemented in RoomModel
                 break;
             case Identifier.WIN: //wintype + x + y
-                String winType = packet.getWinType();
-                x = packet.getX();
-                y = packet.getY();
+                String winType = packet.getWinInfo().getWintype();
+                x = packet.getWinInfo().getX();
+                y = packet.getWinInfo().getY();
                 //win(winner);
                 boardController.showWinner(x, y, winType);
                 break;
@@ -237,6 +237,9 @@ public class RoomController implements Observer {
                 break;
             case Identifier.HIGHSCORE:
                 break;
+            case Identifier.CHAT_SUCCESS:
+                receiveChat(packet.getChatMessage());
+                
         }
     }
     
